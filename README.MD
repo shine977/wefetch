@@ -1,14 +1,17 @@
 # wefetch
 
-@(weChat-fetch)
-
 **wefetch** 基于promise,对微信小程序wx.request对象进行了重新设计,支持CommonJS,AMD规范
 
-###install 
-> npm i wefetch -S
+### install 
+```javascript
+npm i wefetch -S
+```
 
 ### usage fro wechat
-> const wefetch = require('wefetch')
+
+```javascript
+const wefetch = require('wefetch')
+```
 
 ```javascript
 wefetch.defaults.baseUrl = 'youdomain'
