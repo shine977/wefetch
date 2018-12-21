@@ -7,7 +7,7 @@
 npm i wefetch -S
 ```
 
-### usage fro wechat
+### usage for wechat
 
 ```javascript
 const wefetch = require('wefetch')
