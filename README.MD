@@ -1,13 +1,13 @@
 # wefetch
 
-**wefetch** 基于promise,对微信小程序wx.request对象进行了重新设计,支持CommonJS,AMD规范
+**wefetch** 基于promise,对微信小程序wx.request对象进行了扩展,支持CommonJS,AMD规范
 
 ### install 
 ```javascript
 npm i wefetch -S
 ```
 
-### usage fro wechat
+### usage for wechat
 
 ```javascript
 const wefetch = require('wefetch')
