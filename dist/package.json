@@ -1,0 +1,24 @@
+{
+  "name": "wefetch",
+  "version": "1.0.3",
+  "description": "Promise based wx.request api for weChat Mini Program,微信小程序请求API 封装",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jonnyshao/wechat-fetch.git"
+  },
+  "keywords": [
+    "weChat-fetch",
+    "wefecth",
+    "wechatfetch"
+  ],
+  "author": "Jonny.Shao",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jonnyshao/wechat-fetch/issues"
+  },
+  "homepage": "https://github.com/jonnyshao/wechat-fetch#readme"
+}
