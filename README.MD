@@ -60,5 +60,18 @@ defaults {
 	formData: false // 是否开户fromData格式
 }
 ```
+### compelete
+
+```javascript
+wefetch.get(url, config, params).then(res => {
+    //....
+}).catch(err => {
+    // ...
+}).finally(() => {
+    // compelete
+})
+
+```
+
 ### Thanks
 [axios](https://github.com/axios/axios)
