@@ -1,3 +1,0 @@
-<view class='interceptor mt20' bindtap="interceptor">
-  <text>请求 && 响应拦截</text>
-</view>

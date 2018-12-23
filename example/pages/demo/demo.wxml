@@ -1,0 +1,34 @@
+<view class='interceptor mt20' bindtap="interceptor_request">
+  <text>interceptor request demo</text>
+</view>
+<view class='interceptor mt20' bindtap="interceptor_response">
+  <text>interceptor reponse demo</text>
+</view>
+<view class='interceptor mt20' bindtap="head">
+  <text>head request demo</text>
+</view>
+<view class='interceptor mt20' bindtap="get">
+  <text>get request demo</text>
+</view>
+<view class='interceptor mt20' bindtap="post">
+  <text>post request demo</text>
+</view>
+<view class='interceptor mt20' bindtap="postJson">
+  <text>postJson request demo</text>
+</view>
+<view class='interceptor mt20' bindtap="put">
+  <text>put request demo</text>
+</view>
+<view class='interceptor mt20' bindtap="delete">
+  <text>delete request demo</text>
+</view>
+<view class='interceptor mt20' bindtap="trace">
+  <text>trace request demo</text>
+</view>
+<view class='interceptor mt20' bindtap="connect">
+  <text>connect request demo</text>
+</view>
+<view class='interceptor mt20' bindtap="options">
+  <text>options request demo</text>
+</view>
+

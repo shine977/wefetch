@@ -1,0 +1,1 @@
+module.exports = require('./dist/wefetch.min.js')

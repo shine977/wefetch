@@ -1,12 +1,15 @@
 {
-  "name": "wefetch",
+  "name": "pages",
   "version": "1.0.0",
   "description": "",
-  "main": "app.js",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "wefetch": "^1.0.5"
+  }
 }

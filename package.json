@@ -1,0 +1,23 @@
+{
+  "name": "wechat-fetch",
+  "version": "1.0.0",
+  "description": "**wefetch** 基于promise,对微信小程序wx.request对象进行了扩展,支持CommonJS,AMD规范",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jonnyshao/wechat-fetch.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jonnyshao/wechat-fetch/issues"
+  },
+  "homepage": "https://github.com/jonnyshao/wechat-fetch#readme",
+  "dependencies": {
+    "wefetch": "^1.0.3"
+  }
+}

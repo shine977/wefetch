@@ -1,6 +1,6 @@
 # wefetch
 
-**wefetch** 基于promise,对微信小程序wx.request对象进行了扩展,支持CommonJS,AMD规范
+**wefetch** Promise based wx.request api for weChat Mini Program.
 
 ### install 
 ```javascript
@@ -10,26 +10,27 @@ npm i wefetch -S
 ### usage for wechat
 
 ```javascript
-const wefetch = require('wefetch')
+const wf = require('wefetch')
 ```
-
+[example](https://github.com/jonnyshao/wechat-fetch/tree/master/exmaple)
+### Demo
 ```javascript
-wefetch.defaults.baseUrl = 'youdomain'
-wefetch.get(url, params, config)
+wf.defaults.baseUrl = 'http://localhost:3000'
+wf.get(url, params, config)
 ```
 
 
 ### reqeust method
 
 ```javascript
-wefetch.get(url, params, config)
-wefetch.post(url, params, config)
-wefetch.head(url, params, config)
-wefetch.put(url, params, config)
-wefetch.get(url, params, config)
-wefetch.trace(url, params, config)
-wefetch.delete(url, params, config)
-wefetch.request(config)
+wf.get(url, params, config)
+wf.post(url, params, config) // application/x-www-form-urlencoded;charset=utf-8
+wf.head(url, params, config)
+wf.put(url, params, config)
+wf.get(url, params, config)
+wf.trace(url, params, config)
+wf.delete(url, params, config)
+wf.postJson(url, params, config) //application/json;charset=utf-8
 ```
 ### create Instance
 ```javascript
@@ -72,6 +73,3 @@ wefetch.get(url, config, params).then(res => {
 })
 
 ```
-
-### Thanks
-[axios](https://github.com/axios/axios)
