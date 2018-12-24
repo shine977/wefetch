@@ -1,28 +1,27 @@
 {
-  "_from": "wefetch",
-  "_id": "wefetch@1.0.3",
+  "_from": "wefetch@^1.0.6",
+  "_id": "wefetch@1.0.6",
   "_inBundle": false,
-  "_integrity": "sha512-MAeMWKyQ38jincEsSH4Ax/mjS2vsJmosi7/m7utMCulA7HG10EC3YvsX22ExBsadam/YCLaySK7sBV2itYMw6g==",
+  "_integrity": "sha512-R/G3rJijZodDr3EiYGllq1KzNqg1RgEN6FRBNBPvexZZp6oj1s78Pqm3UjSdddFA6LC4i0gECnwzh2pJEZ8rCA==",
   "_location": "/wefetch",
   "_phantomChildren": {},
   "_requested": {
-    "type": "tag",
+    "type": "range",
     "registry": true,
-    "raw": "wefetch",
+    "raw": "wefetch@^1.0.6",
     "name": "wefetch",
     "escapedName": "wefetch",
-    "rawSpec": "",
+    "rawSpec": "^1.0.6",
     "saveSpec": null,
-    "fetchSpec": "latest"
+    "fetchSpec": "^1.0.6"
   },
   "_requiredBy": [
-    "#USER",
     "/"
   ],
-  "_resolved": "https://registry.npmjs.org/wefetch/-/wefetch-1.0.3.tgz",
-  "_shasum": "4847bfd9f92a4f712fb2cdf9405c77b44e14c454",
-  "_spec": "wefetch",
-  "_where": "/Users/jonnyshao/github",
+  "_resolved": "https://registry.npmjs.org/wefetch/-/wefetch-1.0.6.tgz",
+  "_shasum": "6c3890d14b5e2282bfed9e5e088305e3bac4ed14",
+  "_spec": "wefetch@^1.0.6",
+  "_where": "C:\\Users\\paat\\Desktop\\wf",
   "author": {
     "name": "Jonny.Shao"
   },
@@ -48,5 +47,5 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "version": "1.0.4"
+  "version": "1.0.6"
 }

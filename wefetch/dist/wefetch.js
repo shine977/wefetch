@@ -21,8 +21,8 @@
           for (var i = 0, l = args.length; i < l; i++) {
               args[i] = arguments[i]
           }
+          return fn.apply(context, args)
       }
-      return fn.apply(context, args)
   }
   var utils = {
       type: (function () {
@@ -92,7 +92,6 @@
       baseUrl: '',
       header:{}
   }
-  console.log(defaults)
   Promise.prototype.finally = function (cb) {
       var p = this.constructor;
       return this.then(function (value) {
@@ -164,7 +163,6 @@
       //     delete config.header[method]
       // })
       if (config.method === 'post') {
-          console.log(config)
           config.header['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8'
       }
       if (config.method === 'postJson') {

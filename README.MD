@@ -39,14 +39,14 @@ const wf = wefetch(config)
 
 ### request Interceptors
 ```javascript
-wefetch.before.use(function (request) {
+wf.before.use(function (request) {
 	// do somthing
 	 return request; // required
 })
 ```
 ### reponse Interceptors
 ```javascript
-wefetch.after.use(function (response) {
+wf.after.use(function (response) {
 	// do something
 
 	return response; // required
@@ -55,16 +55,15 @@ wefetch.after.use(function (response) {
 **defaults params** 
 ``` javascript
 defaults {
-	baseUrl:'', // 初始化为空
-	headers:{} // 采用小程序的默认值
-	createRequest: wx.request, //对象
-	formData: false // 是否开户fromData格式
+	baseUrl:'', // init empty
+	headers:{} // init empty
+	createRequest: wx.request //the wechat mini program api
 }
 ```
 ### compelete
 
 ```javascript
-wefetch.get(url, config, params).then(res => {
+wf.get(url, config, params).then(res => {
     //....
 }).catch(err => {
     // ...
