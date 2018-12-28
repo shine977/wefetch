@@ -12,13 +12,21 @@ npm i wefetch -S
 ```javascript
 const wf = require('wefetch')
 ```
-[example](https://github.com/jonnyshao/wechat-fetch/tree/master/exmaple)
+
 ### Demo
 ```javascript
 wf.defaults.baseUrl = 'http://localhost:3000'
-wf.get(url, params, config)
-```
+wf.get('xxx', {}, {header:{token:xxx}}).then(data=> {
 
+})
+```
+### abort Request
+
+```javascript
+var p = wf.get(url)
+p.task.abort()
+```
+[RequestTaks](https://developers.weixin.qq.com/miniprogram/dev/api/RequestTask.html)
 
 ### reqeust method
 
@@ -32,6 +40,8 @@ wf.trace(url, params, config)
 wf.delete(url, params, config)
 wf.postJson(url, params, config) //application/json;charset=utf-8
 ```
+[wx.request documentatiion](https://developers.weixin.qq.com/miniprogram/dev/api/wx.request.html)
+
 ### create Instance
 ```javascript
 const wf = wefetch(config)
@@ -63,7 +73,7 @@ defaults {
 ### compelete
 
 ```javascript
-wf.get(url, config, params).then(res => {
+wf.get(url).then(res => {
     //....
 }).catch(err => {
     // ...

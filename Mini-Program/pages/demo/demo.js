@@ -1,5 +1,6 @@
-const wf = require('wefetch')
+const wf  = require('wefetch')
 wf.defaults.baseUrl = 'http://localhost:3000'
+console.dir(wx.request)
 const message = ({titel, content}) => {
   wx.showModal({
     title,
@@ -20,6 +21,7 @@ wf.before.use(function (request) {
 })
 // interceptor for response for global
 wf.after.use(function (response) {
+  console.log(response)
    var {title,content} = response.data
    
    if (response.header.title) {
@@ -32,13 +34,13 @@ wf.after.use(function (response) {
     })
     return response;
 })
+var p;
 Page({
 
   /**
    * Page initial data
    */
   data: {
-
   },
   interceptor_request() {
     wf.get('/interceptor/request').then(res => {
@@ -63,7 +65,13 @@ Page({
   },
   // get request
   get () {
-    wf.get('/get',{title:'get Test', content:'this is a get request'})
+     wf.get('/get',{title:'get Test', content:'this is a get request'},{header:{title:'demo'}})
+  },
+  abortGet () {
+    p = wf.get('/abortGet',{content:'this response need wait for 5 seconds', title: 'Abort demo'})
+  },
+  onAbort () {
+    p.task.abort()
   },
   // post request
   post () {

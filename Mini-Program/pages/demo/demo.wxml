@@ -4,6 +4,10 @@
 <view class='interceptor mt20' bindtap="interceptor_response">
   <text>interceptor reponse demo</text>
 </view>
+<view class='interceptor mt20 Abort'>
+  <text bindtap='abortGet'>Abort request demo</text>
+  <view class='cancel' bindtap='onAbort'>Cancel</view>
+</view>
 <view class='interceptor mt20' bindtap="head">
   <text>head request demo</text>
 </view>
@@ -31,4 +35,5 @@
 <view class='interceptor mt20' bindtap="options">
   <text>options request demo</text>
 </view>
+
 

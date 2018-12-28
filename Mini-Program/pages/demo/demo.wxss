@@ -1,0 +1,18 @@
+.mt20{
+  padding-top: 20px;
+  box-sizing:border-box;
+}
+.interceptor{
+  display: flex;
+  justify-content: center;
+  height: 80px;
+  line-height: 80px;
+  border-bottom: 1px solid #d9d9d9;
+  align-items: center;
+}
+.Abort{
+  justify-content: space-evenly;
+}
+.cancel {
+  color: #f40;
+}

@@ -16,6 +16,11 @@ router.get('/interceptor/response', function(req, res, next) {
 router.get('/get', function(req, res, next) {
   res.json(req.query)
 })
+router.get('/abortGet', function (req, res, next) {
+  setTimeout(() => {
+    res.json(req.query)
+  }, 5000)
+})
 router.post('/post', function(req, res, next) {
   res.json(req.body)
 })
