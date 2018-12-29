@@ -101,6 +101,4 @@ wx.request对象
 ```
 
 ### 致开发者
-```
-  欢迎提交各种需求或BUG反馈![猛戳这里](https://github.com/jonnyshao/wechat-fetch/issues)
-```
+欢迎提交各种需求或BUG反馈![猛戳这里](https://github.com/jonnyshao/wechat-fetch/issues)

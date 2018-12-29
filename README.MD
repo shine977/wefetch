@@ -1,4 +1,4 @@
-English | [简体中文](https://github.com/jonnyshao/wechat-fetch/README-zh_CN.md)
+English | [简体中文](https://github.com/jonnyshao/wechat-fetch/blob/master/README-zh_CN.md)
 
 wx.request Object
 -----
@@ -12,12 +12,11 @@ Feature
 ```
 ### donwload
 ```
-	git clone https://github.com/jonnyshao/wechat-fetch.git
-	cd server
-	npm i 
-	npm start 
-
-	open the Mini-Program directory in devtools 
+  git clone https://github.com/jonnyshao/wechat-fetch.git
+  cd server
+  npm i 
+  npm start 
+  open the Mini-Program directory in devtools 
 ```
 [devtools](https://developers.weixin.qq.com/miniprogram/dev/devtools/download.html)
 
@@ -67,8 +66,6 @@ const wf = require('wefetch')
   })
   // execute abort
   p.task.abort()
-  [RequestTask documentation](https://developers.weixin.qq.com/miniprogram/dev/api/RequestTask.html?search-key=request)
-  
   // complete
   wf.get(url).then(() => {
 
@@ -97,35 +94,6 @@ p.task.abort()
 ```
 [RequestTaks](https://developers.weixin.qq.com/miniprogram/dev/api/RequestTask.html)
 
-### reqeust method
-
-```javascript
-wf.get(url, params, config)
-wf.post(url, params, config) // application/x-www-form-urlencoded;charset=utf-8
-wf.head(url, params, config)
-wf.put(url, params, config)
-wf.get(url, params, config)
-wf.trace(url, params, config)
-wf.delete(url, params, config)
-wf.postJson(url, params, config) //application/json;charset=utf-8
-```
-[wx.request documentatiion](https://developers.weixin.qq.com/miniprogram/dev/api/wx.request.html)
-
-
-### request Interceptors
-```javascript
-wf.before.use(function (request) {
-	// do somthing
-	 return request; // required
-})
-```
-### reponse Interceptors
-```javascript
-wf.after.use(function (response) {
-	// do something
-
-	return response; // required
-})
 ```
 ### defaults params
 ```
