@@ -10,7 +10,6 @@ wx.request对象
 ```
   使用简单，基于promise链式调用
   请求拦截、响应拦截
-  API丰富，适用于复杂项目
 ```
 ### 安装
 ```
@@ -65,8 +64,6 @@ wx.request对象
   })
   // 调用abort方法
   p.task.abort()
-  [小程序RequestTask文档](https://developers.weixin.qq.com/miniprogram/dev/api/RequestTask.html?search-key=request)
-  
   // 请求完成事件
   wf.get(url).then(() => {
 
@@ -76,6 +73,7 @@ wx.request对象
     // 请求完成...
   })
 ```
+  [小程序RequestTask文档](https://developers.weixin.qq.com/miniprogram/dev/api/RequestTask.html?search-key=request)
 ### API
 ```
   wf.get(url, params, config)
