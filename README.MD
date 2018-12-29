@@ -15,7 +15,7 @@ Feature
   git clone https://github.com/jonnyshao/wechat-fetch.git
   cd server
   npm i 
-  npm start 
+  npm start  // localhost:3000
   open the Mini-Program directory in devtools 
 ```
 [devtools](https://developers.weixin.qq.com/miniprogram/dev/devtools/download.html)
@@ -94,7 +94,6 @@ p.task.abort()
 ```
 [RequestTaks](https://developers.weixin.qq.com/miniprogram/dev/api/RequestTask.html)
 
-```
 ### defaults params
 ```
   defaults: {
