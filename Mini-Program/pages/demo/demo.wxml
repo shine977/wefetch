@@ -6,7 +6,7 @@
 </view>
 <view class='interceptor mt20 Abort'>
   <text bindtap='abortGet'>Abort request demo</text>
-  <view class='cancel' bindtap='onAbort'>Cancel</view>
+  <view class='cancel' bindtap='onAbort'>abort</view>
 </view>
 <view class='interceptor mt20' bindtap="head">
   <text>head request demo</text>
@@ -20,20 +20,7 @@
 <view class='interceptor mt20' bindtap="postJson">
   <text>postJson request demo</text>
 </view>
-<view class='interceptor mt20' bindtap="put">
-  <text>put request demo</text>
-</view>
-<view class='interceptor mt20' bindtap="delete">
-  <text>delete request demo</text>
-</view>
-<view class='interceptor mt20' bindtap="trace">
-  <text>trace request demo</text>
-</view>
-<view class='interceptor mt20' bindtap="connect">
-  <text>connect request demo</text>
-</view>
-<view class='interceptor mt20' bindtap="options">
-  <text>options request demo</text>
-</view>
+
+
 
 

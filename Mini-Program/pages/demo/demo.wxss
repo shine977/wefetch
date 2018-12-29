@@ -1,18 +1,22 @@
 .mt20{
-  padding-top: 20px;
+  padding-top: 20rpx;
   box-sizing:border-box;
+  height: 60px;
 }
 .interceptor{
   display: flex;
   justify-content: center;
-  height: 80px;
-  line-height: 80px;
-  border-bottom: 1px solid #d9d9d9;
+  height: 60px;
   align-items: center;
+  line-height: 60px;
+  box-sizing:border-box;
+  border-bottom: 1px solid #d9d9d9;
 }
+
 .Abort{
-  justify-content: space-evenly;
+ padding-left: 40px;
 }
 .cancel {
   color: #f40;
+  padding-left: 40px;
 }

@@ -1,6 +1,6 @@
 {
-  "_from": "wefetch@^1.0.6",
-  "_id": "wefetch@1.0.6",
+  "_from": "wefetch@^1.0.7",
+  "_id": "wefetch@1.0.7",
   "_inBundle": false,
   "_integrity": "sha512-R/G3rJijZodDr3EiYGllq1KzNqg1RgEN6FRBNBPvexZZp6oj1s78Pqm3UjSdddFA6LC4i0gECnwzh2pJEZ8rCA==",
   "_location": "/wefetch",
@@ -8,12 +8,12 @@
   "_requested": {
     "type": "range",
     "registry": true,
-    "raw": "wefetch@^1.0.6",
+    "raw": "wefetch@^1.0.7",
     "name": "wefetch",
     "escapedName": "wefetch",
-    "rawSpec": "^1.0.6",
+    "rawSpec": "^1.0.7",
     "saveSpec": null,
-    "fetchSpec": "^1.0.6"
+    "fetchSpec": "^1.0.7"
   },
   "_requiredBy": [
     "/"
@@ -47,5 +47,5 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "version": "1.0.6"
+  "version": "1.0.8"
 }

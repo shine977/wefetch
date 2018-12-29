@@ -1,6 +1,5 @@
 const wf  = require('wefetch')
 wf.defaults.baseUrl = 'http://localhost:3000'
-console.dir(wx.request)
 const message = ({titel, content}) => {
   wx.showModal({
     title,
@@ -34,6 +33,8 @@ wf.after.use(function (response) {
     })
     return response;
 })
+
+// createInstance for request
 var p;
 Page({
 
@@ -68,7 +69,7 @@ Page({
      wf.get('/get',{title:'get Test', content:'this is a get request'},{header:{title:'demo'}})
   },
   abortGet () {
-    p = wf.get('/abortGet',{content:'this response need wait for 5 seconds', title: 'Abort demo'})
+    p = wf.get('/abortGet',{content:'this response need wait for 5 seconds', title: 'Abort demo'},{dataType: 'text'})
   },
   onAbort () {
     p.task.abort()
@@ -80,26 +81,6 @@ Page({
   // postJson request
   postJson () {
     wf.postJson('/postJson',{title:'postJson Test', content:'this is a postJson request'})
-  },
-  // put request
-  put () {
-    wf.put('/put',{title:'put Test', content:'this is a put request'})
-  },
-  // delete request
-  delete () {
-    wf.delete('/delete',{title:'delete Test', content:'this is a delete request'})
-  },
-  // trace request
-  trace () {
-      wf.trace('/trace',{title:'Trace Test', content: 'this is a trace request'})
-  },
-  // connect request
-  connect () {
-      wf.connect('/connect', {title: 'Connect Test', content: 'this is a connect request'})
-  },
-  // options request 
-  options () {
-      wf.options('/options',{title: 'Options Test', content: 'this is a options request'})
   },
   /**
    * Lifecycle function--Called when page load
