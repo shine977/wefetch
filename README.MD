@@ -120,10 +120,10 @@ wf.download({
 Creating an instance
 You can create a new instance of wefetch with a custom config
 ```
-	const instance = wf.create({
-		baseUrl: 'http://your-domain.com/api'
-		//....
-	})
+const instance = wf.create({
+    baseUrl: 'http://your-domain.com/api'
+    //....
+})
 ```
 Instance methods
 ####  instance.request(config)
@@ -141,16 +141,15 @@ Instance methods
 ## Request Config
 ```
 {
-	// `url` is the server URL that will be used for the request
-	url: '/user',
-	// `baseURL` will be prepended to `url`
-	baseUrl:'http://your-domain.com/api',
-	method: 'get', //default
-	// `uploadUrl` and `downloadUrl`,will be prepended to `url`。 if your project have a different request path, you can like this to set it:
-	uploadUrl:'http://your-domain.com/upload',
-	downloadUrl: 'http://your-domain.com/download'，
-	timeout: 0
-
+    // `url` is the server URL that will be used for the request
+    url: '/user',
+    // `baseURL` will be prepended to `url`
+    baseUrl:'http://your-domain.com/api',
+    method: 'get', //default
+    // `uploadUrl` and `downloadUrl`,will be prepended to `url`。 if your project have a different request path, you can like this to set it:
+    uploadUrl:'http://your-domain.com/upload',
+    downloadUrl: 'http://your-domain.com/download'，
+    timeout: 0
 }
 ```
 ## Config Defaults
@@ -197,7 +196,7 @@ p.task.abort()
 ```
 [RequestTaks](https://developers.weixin.qq.com/miniprogram/dev/api/RequestTask.html)
 
-## promisify
+## Promisify for Mini Program API
 ```js
 const chooseImage = wf.promisify(wx.chooseImage)
 // using in wechat Mini Program
