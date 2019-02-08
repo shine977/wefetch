@@ -1,7 +1,7 @@
 /*  
     Promise based wx.request api for  Mini Program
     @Github https://github.com/jonnyshao/wechat-fetch
-    wefetch beta v1.1.0 |(c) 2018 By Jonny Shao
+    wefetch beta v1.1.1 |(c) 2018 By Jonny Shao
 */
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :

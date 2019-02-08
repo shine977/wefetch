@@ -1,111 +1,195 @@
-English | [简体中文](https://github.com/jonnyshao/wechat-fetch/blob/master/README-zh_CN.md)
+English | [简体中文](https://github.com/jonnyshao/wefetch/blob/master/README-zh_CN.md)
 
-wx.request Object
------
-Promise based wx.request api for weChat Mini Program.supported Wechat Mini Program and Mini game.
+# wefetch
 
-Feature
------
-```
-  easy to use, Promise based wx.request api for designed
-  supported Reqeust && Response InterceptorsManagement
-```
-### download
-```
-  git clone https://github.com/jonnyshao/wechat-fetch.git
-  cd server
-  npm i 
-  npm start  // localhost:3000
-  open the platform directory in Mini-Program devtools 
-```
-[devtools](https://developers.weixin.qq.com/miniprogram/dev/devtools/download.html)
+Promise based wx.request and my.request api for the Mini Program.
 
-### install (npm build)
-```javascript
+## Feature
+
+- Make [wx.request](https://developers.weixin.qq.com/miniprogram/en/dev/api/network-request.html#wxrequestobject) from the wechat Mini Program
+- Make [wx.downloadFile](https://developers.weixin.qq.com/miniprogram/en/dev/api/network-file.html#wxdownloadfileobject) from the wechat Mini Program
+- Make [wx.uploadFile](https://developers.weixin.qq.com/miniprogram/en/dev/api/network-file.html#wxuploadfileobject) from the wechat Mini Program
+- Make [my.httpRequest](https://docs.alipay.com/mini/api/network#a-nameco0fvaamyhttprequest) rom the Alipay Mini Program
+- Make [my.uploadFile](https://docs.alipay.com/mini/api/network#a-namey24rltamyuploadfile) from the Alipay Mini Program
+- Make [my.downloadFile](https://docs.alipay.com/mini/api/network#a-nameal4taaamydownloadfile) from the Alipay Mini Program
+- Supports the [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise) API
+- Intercept request and response
+
+## installing
+
+```js
 npm i wefetch -S
 ```
 
-### in Mini Program for usage 
+## Example
 
+Performing a `GET` request
 ```javascript
 const wf = require('wefetch')
+wf.get(url).then(res => {
+// ....
+})
+    
+ wf.get('/get', { 
+     title: 'get Test', 
+     content: 'get' 
+ }, 
+ { header: { demo: 'demo' } 
+ })
+.then(res => {
+    // handle success
+    console.log(res)
+}).catch(error => {
+    // handle error
+    console.log(error)
+}).then( _=> {
+   // always executed
+})
 ```
-### defaults Params
-```javascript
+Performing a `POST` request
+```
+wf.post('/post',{title: 'post test', content: 'post'})
+.then(res => {
+    console.log(res)
+}).catch(err => {
+    console.log(err)
+})
+```
 
-    defaults: {
-        baseUrl: '',
-        createRequest: request api for Mini Program ,
-        header: {
-            'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
-        }，
-        formData: true,  // if it's false, 'Content-type':'application/json;charset=utf-8''
-        dataType: 'json',  // wechat default params
-        responseType: 'text' // wechat default params
-      }
+Performing multiple `concurrent` requests
+```
+const getUserInfo = prams => wf.get('/user/1', params)
+const getUserPermissions = params => wf.get('/user/1/permission', params)
+wf.all([getUserInfo(), getUserPermissions()])
+.then(res => {
+    // both requests are complete
+})
+```
 
+Performing a `upload` request
+```
+// using for wechat Mini Program
+chooseImage().then(res => {
+   wf.upload('/upload', {
+           filePath: res.tempFilePaths[0],
+           name:'file'
+   })
+   .then(res =>{
+     console.log(res)
+    })
+ })
+chooseImage().then(res => {
+   wf.upload({
+       filePath: res.tempFilePaths[0],
+       name:'file'
+   })
+   .then(res =>{
+     console.log(res)
+    })
+ })
+```
+
+Performing a `download` request
+```
+wf.download('/download')
+.then(res => {
+    console.log(res)
+})
+
+wf.download({
+    url:'/download'
+})
+.then(res => {
+    console.log(res)
+})
 
 ```
-### Example
-```javascript
 
-    // you project domain 
-    wf.defaults.baseUrl = 'youdomain'
-    // interceptor request
-    
-    wf.before.use(function (request) {
-    // do something ...
-    
-    return request; // required
-    })
-    
-    // interceptor response
-    
-    wf.after.use(function (response) {
-    // do something ...
-    
-    return response; // required
-    })
-    // get for request 
-    wf.get(url).then(res => {
-    // ....
-    })
-    
-    
-    // post for request, the default header 'Content-Type' dose't is application/json,if you need JSON format,use the wf.postJson function,please
-    wf.post(url, {data: data}, {header: {token: xxx},responseType: 'arraybuffer', dataType: xx}).then(res =>{
-    // ...
-    }).catch((err => {
-    // ...
-    }))
-    
-    // abort the current request, return one Promise request.
-    var p = wf.get(url).then(res => {
-    
-    })
-    // execute abort
-    p.task.abort()
-    // complete
-    wf.get(url).then(() => {
-    
-    }).catch(err => {
-    
-    }).finally(() => {
-    // request complete...
-    })
+##  wefetch API
+####  wf.request(config)
+####  wf.get(url, params, config)
+####  wf.post(url, params, config) 
+####  wf.head(url, params, config)
+####  wf.put(url, params, config)
+####  wf.get(url, params, config)
+####  wf.trace(url, params, config)
+####  wf.delete(url, params, config)
+####  wf.upload(url, params, config)
+####  wf.download(url, params, config)
+####  wf.postJson(url, params, config) //application/json;charset=utf-8
+Creating an instance
+You can create a new instance of wefetch with a custom config
 ```
-### API
+	const instance = wf.create({
+		baseUrl: 'http://your-domain.com/api'
+		//....
+	})
 ```
-  wf.get(url, params, config)
-  wf.post(url, params, config) // application/x-www-form-urlencoded;charset=utf-8
-  wf.head(url, params, config)
-  wf.put(url, params, config)
-  wf.get(url, params, config)
-  wf.trace(url, params, config)
-  wf.delete(url, params, config)
-  wf.postJson(url, params, config) //application/json;charset=utf-8
+Instance methods
+####  instance.request(config)
+####  instance.get(url, params, config)
+####  instance.post(url, params, config) 
+####  instance.head(url, params, config)
+####  instance.put(url, params, config)
+####  instance.get(url, params, config)
+####  instance.trace(url, params, config)
+####  instance.delete(url, params, config)
+####  instance.upload(url, params, config)
+####  instance.download(url, params, config)
+####  instance.postJson(url, params, config) //application/json;charset=utf-8
+
+## Request Config
 ```
-### abort Request
+{
+	// `url` is the server URL that will be used for the request
+	url: '/user',
+	// `baseURL` will be prepended to `url`
+	baseUrl:'http://your-domain.com/api',
+	method: 'get', //default
+	// `uploadUrl` and `downloadUrl`,will be prepended to `url`。 if your project have a different request path, you can like this to set it:
+	uploadUrl:'http://your-domain.com/upload',
+	downloadUrl: 'http://your-domain.com/download'，
+	timeout: 0
+
+}
+```
+## Config Defaults
+
+**Global wefetch defaults**
+```
+wf.defaults.baseUrl = 'http://your-domain.com/api';
+wf.defaults.uploadUrl = 'http://your-domain.com/upload';
+wf.defaults.downloadUrl = 'http://your-domain.com/download';
+```
+**Custom instance defaults**
+```
+const instance = wf.create()
+instance.defaults.baseUrl = 'http://your-domain.com/api';
+instance.defaults.uploadUrl = 'http://your-domain.com/upload';
+instance.defaults.downloadUrl = 'http://your-domain.com/download';
+```
+## Interceptors
+```
+// add a request interceptor
+wf.before.use(request => {
+	// Do something before request is sent
+	return request;
+}, error => {
+	// Do something with request error
+	return Promise.reject(error);
+})
+
+// add a response interceptor
+wf.after.use(response => {
+	// Do something with response data
+	return response;
+}, error => {
+	// Do something with response error
+	return Promise.reject(error)
+})
+```
+
+## abort Request
 
 ```javascript
 var p = wf.get(url)
@@ -113,3 +197,12 @@ p.task.abort()
 ```
 [RequestTaks](https://developers.weixin.qq.com/miniprogram/dev/api/RequestTask.html)
 
+## promisify
+```js
+const chooseImage = wf.promisify(wx.chooseImage)
+// using in wechat Mini Program
+chooseImage().then(res => {
+    // Do something ...
+    console.log(res)
+})
+```

@@ -1,36 +1,15 @@
 {
-  "version": "1.1.0",
-  "_inBundle": false,
-  "_integrity": "sha512-R/G3rJijZodDr3EiYGllq1KzNqg1RgEN6FRBNBPvexZZp6oj1s78Pqm3UjSdddFA6LC4i0gECnwzh2pJEZ8rCA==",
-  "_location": "/wefetch",
-  "_phantomChildren": {},
-  "_requested": {
-    "type": "range",
-    "registry": true,
-    "raw": "wefetch@^1.0.7",
-    "name": "wefetch",
-    "escapedName": "wefetch",
-    "rawSpec": "^1.0.7",
-    "saveSpec": null,
-    "fetchSpec": "^1.0.7"
-  },
-  "_requiredBy": [
-    "/"
-  ],
-  "_resolved": "https://registry.npmjs.org/wefetch/-/wefetch-1.0.6.tgz",
-  "_shasum": "6c3890d14b5e2282bfed9e5e088305e3bac4ed14",
-  "_spec": "wefetch@^1.0.6",
-  "_where": "C:\\Users\\paat\\Desktop\\wf",
+  "version": "1.1.1",
   "author": {
     "name": "Jonny.Shao"
   },
   "bugs": {
-    "url": "https://github.com/jonnyshao/wechat-fetch/issues"
+    "url": "https://github.com/jonnyshao/wefetch/issues"
   },
   "bundleDependencies": false,
   "deprecated": false,
   "description": "Promise based wx.request api for  Mini Program,小程序请求库,基于promise设计",
-  "homepage": "https://github.com/jonnyshao/wechat-fetch#readme",
+  "homepage": "https://github.com/jonnyshao/wefetch#readme",
   "keywords": [
     "weChat-fetch",
     "weChat-request",
@@ -42,7 +21,7 @@
   "name": "wefetch",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jonnyshao/wechat-fetch.git"
+    "url": "git+https://github.com/jonnyshao/wefetch.git"
   },
   "scripts": {},
   "devDependencies": {
