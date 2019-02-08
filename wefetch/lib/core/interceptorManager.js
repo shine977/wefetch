@@ -14,7 +14,6 @@ InterceptorManager.prototype.eject = function (id) {
     }
 };
 InterceptorManager.prototype.forEach = function (fn) {
-    // console.log(this.handles);
     utils.forEach(this.handles, function (h) {
         h && fn(h)
     })

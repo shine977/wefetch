@@ -1,7 +1,7 @@
 /*  
     Promise based wx.request api for  Mini Program
     @Github https://github.com/jonnyshao/wechat-fetch
-    wefetch beta v1.0.9 |(c) 2018 By Jonny Shao
+    wefetch beta v1.1.0 |(c) 2018 By Jonny Shao
 */
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
@@ -38,10 +38,7 @@
     var defaults = {
         createRequest: getPlatform(),
         baseUrl: '', // request url
-        // json: false,
         method: 'get',
-        // downloadUrl: '', // download url
-        // uploadUrl: '', // upload url
         header: {
             'Content-Type': DEFAULT_CONTENT_TYPE
         }
@@ -131,7 +128,6 @@
         }
     };
     InterceptorManager.prototype.forEach = function (fn) {
-        // console.log(this.handles);
         utils.forEach(this.handles, function (h) {
             h && fn(h);
         });
@@ -140,10 +136,10 @@
     function dispatchRequest(config) {
         var request = config.createRequest;
         return request(config).then(function (response) {
-            return response
+            return response;
         }, function (reason) {
             if (reason) {
-                return reason
+                return reason;
             }
         })
     }
@@ -287,6 +283,10 @@
     }
 
     var wf = createInstance(defaults);
+
+    wf.all = function (promises) {
+        return Promise.all(promises)
+    };
 
     wf.create = function (instanceConfig) {
         return createInstance(utils.merge(defaults, instanceConfig))

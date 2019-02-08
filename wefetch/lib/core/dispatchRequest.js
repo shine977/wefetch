@@ -2,10 +2,10 @@
 function dispatchRequest(config) {
     var request = config.createRequest;
     return request(config).then(function (response) {
-        return response
+        return response;
     }, function (reason) {
         if (reason) {
-            return reason
+            return reason;
         }
     })
 }

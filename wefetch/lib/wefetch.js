@@ -27,6 +27,10 @@ function createInstance (defaultConfig){
 
 var wf = createInstance(defaults);
 
+wf.all = function (promises) {
+    return Promise.all(promises)
+};
+
 wf.create = function (instanceConfig) {
     return createInstance(utils.merge(defaults, instanceConfig))
 };

@@ -6,10 +6,7 @@ export var JSON_CONTENT_TYPE = 'application/json;charset=utf-8';
 export var defaults = {
     createRequest: getPlatform(),
     baseUrl: '', // request url
-    // json: false,
     method: 'get',
-    // downloadUrl: '', // download url
-    // uploadUrl: '', // upload url
     header: {
         'Content-Type': DEFAULT_CONTENT_TYPE
     }
