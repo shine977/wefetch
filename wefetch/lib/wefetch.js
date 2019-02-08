@@ -1,0 +1,34 @@
+'use strict';
+import {defaults} from './defaults'
+import utils from './utils'
+import WeFetch from './core/Wefecth'
+import bind from './core/bind'
+import {JSON_CONTENT_TYPE} from "./defaults";
+Promise.prototype.finally = function (cb) {
+    var p = this.constructor;
+    return this.then(function (value) {
+        p.resolve(cb(value)).then(function () {
+            return value
+        })
+    }, function (reason) {
+        p.resolve(cb(value)).then(function () {
+            throw reason
+        })
+    })
+};
+
+function createInstance (defaultConfig){
+    var context = new WeFetch(defaultConfig);
+    var instance = bind(WeFetch.prototype.request, context);
+    utils.extends(instance, WeFetch.prototype, context);
+    utils.extends(instance, context);
+    return instance;
+}
+
+var wf = createInstance(defaults);
+
+wf.create = function (instanceConfig) {
+    return createInstance(utils.merge(defaults, instanceConfig))
+};
+
+export default wf;

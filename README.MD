@@ -10,13 +10,13 @@ Feature
   easy to use, Promise based wx.request api for designed
   supported Reqeust && Response InterceptorsManagement
 ```
-### donwload
+### download
 ```
   git clone https://github.com/jonnyshao/wechat-fetch.git
   cd server
   npm i 
   npm start  // localhost:3000
-  open the Mini-Program directory in devtools 
+  open the platform directory in Mini-Program devtools 
 ```
 [devtools](https://developers.weixin.qq.com/miniprogram/dev/devtools/download.html)
 
@@ -25,55 +25,74 @@ Feature
 npm i wefetch -S
 ```
 
-### usage for wechat Mini Program
+### in Mini Program for usage 
 
 ```javascript
 const wf = require('wefetch')
 ```
-
-### exmaple
+### defaults Params
 ```javascript
-// get for request 
-  wf.get(url).then(res => {
+
+    defaults: {
+        baseUrl: '',
+        createRequest: request api for Mini Program ,
+        header: {
+            'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
+        }，
+        formData: true,  // if it's false, 'Content-type':'application/json;charset=utf-8''
+        dataType: 'json',  // wechat default params
+        responseType: 'text' // wechat default params
+      }
+
+
+```
+### Example
+```javascript
+
+    // you project domain 
+    wf.defaults.baseUrl = 'youdomain'
+    // interceptor request
+    
+    wf.before.use(function (request) {
+    // do something ...
+    
+    return request; // required
+    })
+    
+    // interceptor response
+    
+    wf.after.use(function (response) {
+    // do something ...
+    
+    return response; // required
+    })
+    // get for request 
+    wf.get(url).then(res => {
     // ....
-  })
-
-  // you project domain 
-  wf.defaults.baseUrl = 'youdomain'
-  
-  // interceptor request
-  wf.before.use(function (request) {
-    // do something ...
-    return request;
-  })
-
-  // interceptor response
-  wf.after.use(function (response) {
-    // do something ...
-    return response;
-  })
-
-	// post for reuqest, the default header 'Content-Type' dose't is application/json,if you need JSON format,use the wf.postJson function,please
-  wf.post(url, {data: data}, {header: {token: xxx},responseType: 'arraybuffer', dataType: xx}).then(res =>{
+    })
+    
+    
+    // post for request, the default header 'Content-Type' dose't is application/json,if you need JSON format,use the wf.postJson function,please
+    wf.post(url, {data: data}, {header: {token: xxx},responseType: 'arraybuffer', dataType: xx}).then(res =>{
     // ...
-  }).catch((err => {
+    }).catch((err => {
     // ...
-  }))
-  
-  // abort the current request, return one Promise request.
-  var p = wf.get(url).then(res => {
-
-  })
-  // execute abort
-  p.task.abort()
-  // complete
-  wf.get(url).then(() => {
-
-  }).catch(err => {
-
-  }).finally(() => {
+    }))
+    
+    // abort the current request, return one Promise request.
+    var p = wf.get(url).then(res => {
+    
+    })
+    // execute abort
+    p.task.abort()
+    // complete
+    wf.get(url).then(() => {
+    
+    }).catch(err => {
+    
+    }).finally(() => {
     // request complete...
-  })
+    })
 ```
 ### API
 ```
@@ -94,14 +113,3 @@ p.task.abort()
 ```
 [RequestTaks](https://developers.weixin.qq.com/miniprogram/dev/api/RequestTask.html)
 
-### defaults params
-```
-  defaults: {
-    baseUrl: '',
-    createRequest: wx.request 
-    header: {}，
-    data: {},
-    dataType: 'json',  // wechat default params
-    responseType: 'text' // wechat default params
-  }
-```

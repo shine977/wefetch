@@ -1,4 +1,5 @@
 {
+  "version": "1.0.9",
   "_from": "wefetch@^1.0.7",
   "_id": "wefetch@1.0.7",
   "_inBundle": false,
@@ -30,10 +31,11 @@
   },
   "bundleDependencies": false,
   "deprecated": false,
-  "description": "Promise based wx.request api for weChat Mini Program,微信小程序请求API 封装",
+  "description": "Promise based wx.request api for  Mini Program,小程序请求库,基于promise设计",
   "homepage": "https://github.com/jonnyshao/wechat-fetch#readme",
   "keywords": [
     "weChat-fetch",
+    "weChat-request",
     "wefecth",
     "wechatfetch"
   ],
@@ -44,8 +46,9 @@
     "type": "git",
     "url": "git+https://github.com/jonnyshao/wechat-fetch.git"
   },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "version": "1.0.8"
+  "scripts": {},
+  "devDependencies": {
+    "rollup": "^1.1.2",
+    "rollup-plugin-uglify": "^6.0.2"
+  }
 }
