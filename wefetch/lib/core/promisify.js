@@ -4,10 +4,7 @@ function promisify (api) {
             params[key - 1] = arguments[key];
         }
         return new Promise(function (resolve, reject) {
-            var t = api.apply(undefined, [Object.assign({}, options, { success: resolve, fail: reject })].concat(params));
-            if (t) {
-                Promise.prototype.task = t;
-            }
+            Promise.prototype.task = api.apply(undefined, [Object.assign({}, options, { success: resolve, fail: reject })].concat(params));
         });
     };
 

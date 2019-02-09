@@ -1,4 +1,4 @@
-import utils from '../utils'
+
 function InterceptorManager() {
     this.handles = []
 }
@@ -12,9 +12,10 @@ InterceptorManager.prototype.eject = function (id) {
     if (this.handles[id]) {
         this.handles[id] = null
     }
+    return this.handles.length - 1;
 };
 InterceptorManager.prototype.forEach = function (fn) {
-    utils.forEach(this.handles, function (h) {
+    this.handles.forEach(function (h) {
         h && fn(h)
     })
 };

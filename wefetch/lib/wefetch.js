@@ -3,7 +3,7 @@ import {defaults} from './defaults'
 import utils from './utils'
 import WeFetch from './core/Wefecth'
 import bind from './core/bind'
-import {JSON_CONTENT_TYPE} from "./defaults";
+
 Promise.prototype.finally = function (cb) {
     var p = this.constructor;
     return this.then(function (value) {

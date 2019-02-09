@@ -4,8 +4,9 @@ const banner =
 `/*  
     Promise based wx.request api for  Mini Program
     @Github https://github.com/jonnyshao/wechat-fetch
-    wefetch beta v${pkg.version} |(c) 2018 By Jonny Shao
+    wefetch beta v${pkg.version} |(c) 2018-2019 By Jonny Shao
 */`;
+//../Example/wechat/utils
 module.exports = [
     {
         input: './lib/wefetch.js',

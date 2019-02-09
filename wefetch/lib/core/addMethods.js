@@ -1,39 +1,41 @@
+import check from './checkStatus'
 import utils from "../utils";
 import WeFetch from "./Wefecth";
+import {getUpload, getDownload} from "./platform";
 
-utils.forEach(['options', 'get', 'head', 'post', 'put', 'delete', 'trace', 'connect', 'postJson'], function (method) {
+['options', 'get', 'head', 'post', 'put', 'delete', 'trace', 'connect', 'postJson'].forEach(function (method) {
     WeFetch.prototype[method] = function (url, params, config) {
         return this.request(utils.merge(config || {}, {
             url: url,
             data: params,
+            method: method,
             config: config
         }))
     }
 });
 WeFetch.prototype.download = function (url, params, config) {
-    var temp = {};
-    var args = arguments[0];
-    // temp.header['Content-Type'] = 'image/jpeg'; error
-    temp.header = {
-        'Content-Type' : 'image/jpeg'
-    };
-    temp._is_download_request = true;
-    temp.createRequest = this.promisify(wx.downloadFile);
-    if (utils.type.isObject(args)) {
-        config = utils.merge(temp, args);
-        temp = null;
-        return this.request(utils.merge(config, {
-            url: args.url? args.url: '',
-            filePath: args.filePath,
-            config: config
-        }))
-    } else if (!args) {
-        config = utils.merge(temp);
-        temp = null;
-        return this.request(utils.merge(config,{url: ''}))
+    // init
+    check.is_down = true;
+    params = params || {};
+    config = config || {};
+    var get_download = getDownload();
+    config.createRequest = get_download.promisify;
+
+    // check user is input header param
+    if (config.header) {
+        config.header['Content-Type'] = config.header['Content-Type'] || get_download.type
+    } else {
+        config.header = {'Content-Type': get_download.type}
     }
-    config = utils.merge(temp, config || {});
-    temp = null;
+
+    // wf.download({}) support
+    if (utils.type.isObject(url)) {
+        return this.request(utils.merge(config, url, {
+            url: url.url? url.url: '',
+            filePath: url.filePath
+        }))
+    }
+    // default
     return this.request(utils.merge(config,{
         url: url,
         filePath: params ? params.filePath : undefined,
@@ -42,29 +44,29 @@ WeFetch.prototype.download = function (url, params, config) {
 };
 
 WeFetch.prototype.upload = function (url, params, config) {
-    params = params ? params : {};
-    var temp = {
-        header: {
-            'Content-Type': 'multipart/form-data'
-        }
-    };
-    temp._is_upload_request = true;
-    temp.createRequest = this.promisify(wx.uploadFile);
+    // init
+    check.is_up = true;
+    params = params || {};
+    config = config || {};
+    var get_upload = getUpload();
+    config.createRequest = get_upload.promisify;
+    // check user is input header param
+    if (config.header) {
+        config.header['Content-Type'] = config.header['Content-Type'] || get_upload.type;
+    } else {
+        config.header = {'Content-Type': get_upload.type}
+    }
+
     // upload({}) support
     if (utils.type.isObject(url)) {
-        config = utils.merge(temp, url);
-        temp = null;
-        return this.request(utils.merge(config, {
+        return this.request(utils.merge(config, url, {
             url: url.url? url.url : '',
             method: 'post',
             filePath:url.filePath,
             name: url.name,
-            formData: url.formData,
-            config: config
+            formData: url.formData
         }))
     }
-    config = utils.merge(temp, config || {});
-    temp = null;
     return this.request(utils.merge(config, {
         url: url,
         method: 'post',

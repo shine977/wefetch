@@ -1,7 +1,7 @@
 /*  
     Promise based wx.request api for  Mini Program
     @Github https://github.com/jonnyshao/wechat-fetch
-    wefetch beta v1.1.1 |(c) 2018 By Jonny Shao
+    wefetch beta v1.1.2 |(c) 2018-2019 By Jonny Shao
 */
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
@@ -15,33 +15,77 @@
                 params[key - 1] = arguments[key];
             }
             return new Promise(function (resolve, reject) {
-                var t = api.apply(undefined, [Object.assign({}, options, { success: resolve, fail: reject })].concat(params));
-                if (t) {
-                    Promise.prototype.task = t;
-                }
+                Promise.prototype.task = api.apply(undefined, [Object.assign({}, options, { success: resolve, fail: reject })].concat(params));
             });
         };
 
     }
 
-    var getPlatform = function () {
+    function generatorUpload (o, platform) {
+        return {
+            promisify: promisify(o),
+            type: UPLOAD_CONTENT_TYPE,
+            platform: platform
+        }
+    }
+
+    function generatorDownload(o, platform) {
+        return {
+            promisify: promisify(o),
+            type: DOWNLOAD_CONTENT_TYPE,
+            platform: platform
+        }
+    }
+    function getRequest () {
+        // wechat
         if (wx.request) {
             return promisify(wx.request)
         }
+        // alipay
         if (my.httpRequest) {
             return promisify(my.httpRequest)
         }
-    };
+        // baidu
+        if (swan.request) {
+            return promisify(swan.request)
+        }
+    }
+
+    function getUpload () {
+        if (wx.uploadFile) {
+            return generatorUpload(wx.uploadFile, 'wx')
+        }
+        if (my.uploadFile) {
+            return generatorUpload(my.uploadFile, 'my')
+        }
+        if (swan.uploadFile) {
+            return generatorUpload(swan.uploadFile, 'swan')
+        }
+    }
+
+    function getDownload () {
+        if (wx.downloadFile) {
+            return generatorDownload(wx.downloadFile,'wx')
+        }
+        if (my.downloadFile) {
+            return generatorDownload(my.downloadFile, 'my')
+        }
+
+        if (swan.downloadFile) {
+            return generatorDownload(swan.downloadFile, 'swan')
+        }
+    }
 
     var DEFAULT_CONTENT_TYPE = 'application/x-www-form-urlencoded;charset=utf-8';
+    var UPLOAD_CONTENT_TYPE = 'multipart/form-data';
+    var DOWNLOAD_CONTENT_TYPE = 'image/jpeg';
     var JSON_CONTENT_TYPE = 'application/json;charset=utf-8';
     var defaults = {
-        createRequest: getPlatform(),
-        baseUrl: '', // request url
-        method: 'get',
+        createRequest: getRequest(wx.request),
         header: {
             'Content-Type': DEFAULT_CONTENT_TYPE
-        }
+        },
+        timeout: 0
     };
 
     function bind(fn, context) {
@@ -126,11 +170,17 @@
         if (this.handles[id]) {
             this.handles[id] = null;
         }
+        return this.handles.length - 1;
     };
     InterceptorManager.prototype.forEach = function (fn) {
-        utils.forEach(this.handles, function (h) {
+        this.handles.forEach(function (h) {
             h && fn(h);
         });
+    };
+
+    var checkStatus = {
+        is_up: null,
+        is_down: null
     };
 
     function dispatchRequest(config) {
@@ -149,15 +199,15 @@
             console.error('the request url is undefined');
             return
         }
-        config = utils.merge(defaults, this.defaults, config,{method: 'get'});
+        config = utils.merge(defaults, this.defaults, {method: 'get'}, config);
         if (config.method === 'postJson') {
             config.method = 'post';
             config.header['Content-Type'] = JSON_CONTENT_TYPE;
         }
         if (config.url.indexOf('http') === -1) {
-            if (config.downloadUrl && config._is_download_request) {
+            if (config.downloadUrl && checkStatus.is_down) {
                 config.url = config.downloadUrl + config.url;
-            } else if (config.uploadUrl && config._is_upload_request) {
+            } else if (config.uploadUrl && checkStatus.is_up) {
                 config.url = config.uploadUrl + config.url;
             } else { //(config.baseUrl)
                 config.url = config.baseUrl + config.url;
@@ -175,42 +225,44 @@
         while (chain.length) {
             promise = promise.then(chain.shift(), chain.shift());
         }
+        checkStatus.is_up = null;
+        checkStatus.is_down = null;
         return promise;
     }
 
-    utils.forEach(['options', 'get', 'head', 'post', 'put', 'delete', 'trace', 'connect', 'postJson'], function (method) {
+    ['options', 'get', 'head', 'post', 'put', 'delete', 'trace', 'connect', 'postJson'].forEach(function (method) {
         WeFetch.prototype[method] = function (url, params, config) {
             return this.request(utils.merge(config || {}, {
                 url: url,
                 data: params,
+                method: method,
                 config: config
             }))
         };
     });
     WeFetch.prototype.download = function (url, params, config) {
-        var temp = {};
-        var args = arguments[0];
-        // temp.header['Content-Type'] = 'image/jpeg'; error
-        temp.header = {
-            'Content-Type' : 'image/jpeg'
-        };
-        temp._is_download_request = true;
-        temp.createRequest = this.promisify(wx.downloadFile);
-        if (utils.type.isObject(args)) {
-            config = utils.merge(temp, args);
-            temp = null;
-            return this.request(utils.merge(config, {
-                url: args.url? args.url: '',
-                filePath: args.filePath,
-                config: config
-            }))
-        } else if (!args) {
-            config = utils.merge(temp);
-            temp = null;
-            return this.request(utils.merge(config,{url: ''}))
+        // init
+        checkStatus.is_down = true;
+        params = params || {};
+        config = config || {};
+        var get_download = getDownload();
+        config.createRequest = get_download.promisify;
+
+        // check user is input header param
+        if (config.header) {
+            config.header['Content-Type'] = config.header['Content-Type'] || get_download.type;
+        } else {
+            config.header = {'Content-Type': get_download.type};
         }
-        config = utils.merge(temp, config || {});
-        temp = null;
+
+        // wf.download({}) support
+        if (utils.type.isObject(url)) {
+            return this.request(utils.merge(config, url, {
+                url: url.url? url.url: '',
+                filePath: url.filePath
+            }))
+        }
+        // default
         return this.request(utils.merge(config,{
             url: url,
             filePath: params ? params.filePath : undefined,
@@ -219,29 +271,29 @@
     };
 
     WeFetch.prototype.upload = function (url, params, config) {
-        params = params ? params : {};
-        var temp = {
-            header: {
-                'Content-Type': 'multipart/form-data'
-            }
-        };
-        temp._is_upload_request = true;
-        temp.createRequest = this.promisify(wx.uploadFile);
+        // init
+        checkStatus.is_up = true;
+        params = params || {};
+        config = config || {};
+        var get_upload = getUpload();
+        config.createRequest = get_upload.promisify;
+        // check user is input header param
+        if (config.header) {
+            config.header['Content-Type'] = config.header['Content-Type'] || get_upload.type;
+        } else {
+            config.header = {'Content-Type': get_upload.type};
+        }
+
         // upload({}) support
         if (utils.type.isObject(url)) {
-            config = utils.merge(temp, url);
-            temp = null;
-            return this.request(utils.merge(config, {
+            return this.request(utils.merge(config, url, {
                 url: url.url? url.url : '',
                 method: 'post',
                 filePath:url.filePath,
                 name: url.name,
-                formData: url.formData,
-                config: config
+                formData: url.formData
             }))
         }
-        config = utils.merge(temp, config || {});
-        temp = null;
         return this.request(utils.merge(config, {
             url: url,
             method: 'post',
@@ -254,11 +306,10 @@
 
     function WeFetch(instanceConfig) {
         this.defaults = instanceConfig;
+        this.before = new InterceptorManager();
+        this.after = new InterceptorManager();
     }
     WeFetch.prototype.promisify = promisify;
-    WeFetch.prototype.before = new InterceptorManager();
-    WeFetch.prototype.after = new InterceptorManager();
-
     WeFetch.prototype.request = request;
 
     Promise.prototype.finally = function (cb) {
