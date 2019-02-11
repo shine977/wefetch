@@ -49,7 +49,7 @@ var utils = {
     extends: function (extendObj, copyObj, thisArg) {
         this.forEach(copyObj, function (val, key) {
             if (thisArg && val === 'function') {
-                extendObj[key] = utils.bind(val, thisArg)
+                extendObj[key] = bind(val, thisArg)
             } else {
                 extendObj[key] = val;
             }

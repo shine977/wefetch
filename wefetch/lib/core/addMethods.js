@@ -58,12 +58,14 @@ WeFetch.prototype.upload = function (url, params, config) {
     }
 
     // upload({}) support
+
     if (utils.type.isObject(url)) {
         return this.request(utils.merge(config, url, {
             url: url.url? url.url : '',
             method: 'post',
-            filePath:url.filePath,
+            filePath: url.filePath,
             name: url.name,
+            fileType: url.fileType, // fileType for alipay
             formData: url.formData
         }))
     }
@@ -73,6 +75,7 @@ WeFetch.prototype.upload = function (url, params, config) {
         filePath:params.filePath,
         name: params.name,
         formData: params.formData,
+        fileType: params.fileType,
         config: config,
     }))
 };

@@ -2,7 +2,9 @@ English | [简体中文](https://github.com/jonnyshao/wefetch/blob/master/README
 
 # wefetch
 
+[![platform](https://badgen.net/badge/platform/wechat,alipay,baidu?list=1&color=green)]()
 [![install size](https://packagephobia.now.sh/badge?p=wefetch)](https://packagephobia.now.sh/result?p=wefetch)
+[![npm version](https://badgen.net/npm/v/wefetch?color=green)](https://www.npmjs.com/package/wefetch)
 
 Promise based wx.request and my.request api for the Mini Program.
 

@@ -12,7 +12,7 @@ Promise.prototype.finally = function (cb) {
         })
     }, function (reason) {
         p.resolve(cb(value)).then(function () {
-            throw reason
+            return Promise.reject(reason)
         })
     })
 };

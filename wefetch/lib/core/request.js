@@ -30,7 +30,7 @@ function request (config) {
     });
     this.after.forEach(function (interceptor) {
         chain.push(interceptor.fulfilled, interceptor.rejectd)
-    });
+    })
     while (chain.length) {
         promise = promise.then(chain.shift(), chain.shift())
     }

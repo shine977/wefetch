@@ -1,5 +1,5 @@
 const uglify = require('rollup-plugin-uglify').uglify;
-import pkg from './package.json';
+import pkg from './wefetch/package.json';
 const banner =
 `/*  
     Promise based wx.request api for  Mini Program
@@ -9,9 +9,9 @@ const banner =
 //../Example/wechat/utils
 module.exports = [
     {
-        input: './lib/wefetch.js',
+        input: './wefetch/lib/wefetch.js',
         output: {
-            file: 'dist/wefetch.js',
+            file: './Example/wechat/utils/wefetch.js',
             format: 'umd',
             name: 'wefetch',
             sourcemap: false,
@@ -19,9 +19,9 @@ module.exports = [
         }
     },
     {
-        input: './lib/wefetch.js',
+        input: './wefetch/lib/wefetch.js',
         output: {
-            file: 'dist/wefetch.min.js',
+            file: './Example/wechat/utils/wefetch.min.js',
             format: 'umd',
             name: 'wefetch',
             sourcemap: false,

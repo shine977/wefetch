@@ -5,7 +5,7 @@ export var UPLOAD_CONTENT_TYPE = 'multipart/form-data';
 export var DOWNLOAD_CONTENT_TYPE = 'image/jpeg';
 export var JSON_CONTENT_TYPE = 'application/json;charset=utf-8';
 export var defaults = {
-    createRequest: getRequest(wx.request),
+    createRequest: getRequest(),
     header: {
         'Content-Type': DEFAULT_CONTENT_TYPE
     },
