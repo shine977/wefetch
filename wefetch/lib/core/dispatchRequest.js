@@ -4,9 +4,7 @@ function dispatchRequest(config) {
     return request(config).then(function (response) {
         return response;
     }, function (reason) {
-        if (reason) {
-            return Promise.reject(reason)
-        }
+        return Promise.reject(reason)
     })
 }
 

@@ -2,7 +2,7 @@ English | [简体中文](https://github.com/jonnyshao/wefetch/blob/master/README
 
 # wefetch
 
-[![platform](https://badgen.net/badge/platform/wechat,alipay,baidu?list=1&color=green)]()
+[![platform](https://badgen.net/badge/platform/wechat,alipay,baidu?list=1&color=green)](https://github.com/jonnyshao/wefetch)
 [![install size](https://packagephobia.now.sh/badge?p=wefetch)](https://packagephobia.now.sh/result?p=wefetch)
 [![npm version](https://badgen.net/npm/v/wefetch?color=green)](https://www.npmjs.com/package/wefetch)
 
@@ -158,7 +158,7 @@ Instance methods
 ####  instance.download(url, params, config)
 ####  instance.postJson(url, params, config) //application/json;charset=utf-8
 
-## Request Config
+## Default Config
 ```js
 {
     // `url` is the server URL that will be used for the request
@@ -170,7 +170,7 @@ Instance methods
     // default method `get`
     method: 'get', 
     
-    // `uploadUrl` and `downloadUrl`,will be prepended to `url`。 if your project have a different request path, you can like this to set it:
+    // `uploadUrl` and `downloadUrl` will be prepended to `url`。 if your project have a different request path, you can like this to set it:
     uploadUrl:'http://your-domain.com/upload',
     
     downloadUrl: 'http://your-domain.com/download',

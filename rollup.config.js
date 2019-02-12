@@ -11,7 +11,7 @@ module.exports = [
     {
         input: './wefetch/lib/wefetch.js',
         output: {
-            file: './Example/wechat/utils/wefetch.js',
+            file: './wefetch/dist/wefetch.js',
             format: 'umd',
             name: 'wefetch',
             sourcemap: false,
@@ -21,7 +21,7 @@ module.exports = [
     {
         input: './wefetch/lib/wefetch.js',
         output: {
-            file: './Example/wechat/utils/wefetch.min.js',
+            file: './wefetch/dist/wefetch.min.js',
             format: 'umd',
             name: 'wefetch',
             sourcemap: false,

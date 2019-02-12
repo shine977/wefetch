@@ -1,7 +1,7 @@
 [English](https://github.com/jonnyshao/wefetch) | 简体中文
 
 # wefetch
-[![platform](https://badgen.net/badge/platform/微信,支付宝,小程序?list=1&color=green)]()
+[![platform](https://badgen.net/badge/platform/微信,支付宝,小程序?list=1&color=green)](https://github.com/jonnyshao/wefetch)
 [![install size](https://packagephobia.now.sh/badge?p=wefetch)](https://packagephobia.now.sh/result?p=wefetch)
 [![npm version](https://badgen.net/npm/v/wefetch?color=green)](https://www.npmjs.com/package/wefetch)
 
