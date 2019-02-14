@@ -124,7 +124,7 @@ wf.download({
 })
 
 ```
-### 获取小程序`reqestTask` 对象
+## 获取小程序`requestTask` 对象
 `get` 请求代码示例:
 ```js
     wf.get('/get',{},{eventType: 'get'})
@@ -237,6 +237,8 @@ const instance = wf.create({
     // 仅支付宝小程序支持
     timeout: 0,
     
+    // 在wefetch中，可以注册一个事件对象，用来同步管理小程序的reqeustTask对象，`eventType` 是注册事件时定义的事件类型
+    eventType: ''
     // 默认的 `Content-Type`
     header: {
             'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'

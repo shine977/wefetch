@@ -125,7 +125,8 @@ wf.download({
 })
 
 ```
-### Get the `reqestTask` Object
+## Get the `requestTask` Object
+
 Sample code of get request:
 ```js
     wf.get('/get',{},{eventType: 'get'})
