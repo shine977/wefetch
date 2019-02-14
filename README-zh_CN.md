@@ -20,7 +20,7 @@
 - 百度小程序 [swan.downloadFile](https://smartprogram.baidu.com/docs/develop/api/net_uploadfile/#downloadFile/) API
 - 支持 [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise) API
 - 请求响应与拦截管理
-- 
+- 支持小程序[RequestTask](https://developers.weixin.qq.com/miniprogram/dev/api/wx.request.html) 对象同步管理
 
 ## 安装
 
@@ -124,7 +124,62 @@ wf.download({
 })
 
 ```
+### 获取小程序`reqestTask` 对象
+`get` 请求代码示例:
+```js
+    wf.get('/get',{},{eventType: 'get'})
+    
+    //  取消请求
+    wf.on('get', t => {
+        t.abort()
+    })
+    // 处理多个请求
+    wf.get('/user/info',{},{eventType:'user'})
+    wf.get('/user/permission',{},{eventType: 'user'})
+    wf.on('user', t => {
+        // 当前注册的user事件函数会执行两次，依次类推
+        t.abort()
+    })
+```
+`上传` 请求代码示例:
 
+```js
+// promisify
+const chooseImage = wf.promisify(wx.chooseImage)
+  chooseImage().then(res => {
+    wf.upload('http://your-domain/upload', {
+        filePath: res.tempFilePaths[0],
+        name: 'file',
+    }, { eventType: 'upload'}).then(res => {
+            console.log(res)
+    });
+    wf.on('upload', t => {
+        t.onProgressUpdate((res) => {
+            console.log('upload progress', res.progress)
+            console.log('length of data already uploaded', res.totalBytesSent)
+            console.log('total length of data expected to be uploaded', res.totalBytesExpectedToSend)
+        })
+    })
+});
+// or like this:
+chooseImage().then(res => {
+    wf.upload({
+        url: 'http://your-domain/upload',
+        filePath: res.tempFilePaths[0],
+        name: 'file',
+        eventType: 'upload'
+    }).then(res => {
+        console.log(res)
+    });
+    wf.on('upload', t => {
+        t.onProgressUpdate((res) => {
+            console.log('upload progress', res.progress)
+            console.log('length of data already uploaded', res.totalBytesSent)
+            console.log('total length of data expected to be uploaded', res.totalBytesExpectedToSend)
+        })
+    })
+})
+```
 ##  wefetch API
 ####  wf.request(config)
 ####  wf.get(url, params, config)

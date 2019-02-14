@@ -21,6 +21,7 @@ Promise based wx.request and my.request api for the Mini Program.
 - Make [swan.downloadFile](https://smartprogram.baidu.com/docs/develop/api/net_uploadfile/#downloadFile/) from the Baidu Mini Program
 - Supports the [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise) API
 - Intercept request and response
+- Supports the Mini Program [RequestTask](https://developers.weixin.qq.com/miniprogram/dev/api/wx.request.html) object for config
 
 ## installing
 
@@ -124,7 +125,62 @@ wf.download({
 })
 
 ```
+### Get the `reqestTask` Object
+Sample code of get request:
+```js
+    wf.get('/get',{},{eventType: 'get'})
+    
+    //  abort the request
+    wf.on('get', t => {
+        t.abort()
+    })
+    // Batch Processing the requestTask Object
+    wf.get('/user/info',{},{eventType:'user'})
+    wf.get('/user/permission',{},{eventType: 'user'})
+    wf.on('user', t => {
+        // this current event handle will be execute the two times
+        t.abort()
+    })
+```
+Sample code of upload request:
 
+```js
+// promisify
+const chooseImage = wf.promisify(wx.chooseImage)
+  chooseImage().then(res => {
+    wf.upload('http://your-domain/upload', {
+        filePath: res.tempFilePaths[0],
+        name: 'file',
+    }, { eventType: 'upload'}).then(res => {
+            console.log(res)
+    });
+    wf.on('upload', t => {
+        t.onProgressUpdate((res) => {
+            console.log('upload progress', res.progress)
+            console.log('length of data already uploaded', res.totalBytesSent)
+            console.log('total length of data expected to be uploaded', res.totalBytesExpectedToSend)
+        })
+    })
+});
+// or like this:
+chooseImage().then(res => {
+    wf.upload({
+        url: 'http://your-domain/upload',
+        filePath: res.tempFilePaths[0],
+        name: 'file',
+        eventType: 'upload'
+    }).then(res => {
+        console.log(res)
+    });
+    wf.on('upload', t => {
+        t.onProgressUpdate((res) => {
+            console.log('upload progress', res.progress)
+            console.log('length of data already uploaded', res.totalBytesSent)
+            console.log('total length of data expected to be uploaded', res.totalBytesExpectedToSend)
+        })
+    })
+})
+```
 ##  wefetch API
 ####  wf.request(config)
 ####  wf.get(url, params, config)
@@ -178,6 +234,9 @@ Instance methods
     // support `alipay` platform only
     timeout: 0,
     
+    // if your want to the Mini Program to back the requestTask Object, you can custom the `eventType`
+    // like this wf.on('your eventType', t => {...})
+    eventType: '',
     // default `Content-Type`
     header: {
             'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'

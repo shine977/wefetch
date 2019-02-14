@@ -1,7 +1,7 @@
 /*  
     Promise based wx.request api for  Mini Program
     @Github https://github.com/jonnyshao/wechat-fetch
-    wefetch beta v1.1.4 |(c) 2018-2019 By Jonny Shao
+    wefetch beta v1.2.0 |(c) 2018-2019 By Jonny Shao
 */
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
@@ -9,16 +9,37 @@
     (global = global || self, global.wefetch = factory());
 }(this, function () { 'use strict';
 
+    function Events() {
+        this.listeners = {};
+    }
+
+    Events.prototype.on = function (type, cb) {
+        if (!(type in this.listeners)) {
+            this.listeners[type] = [];
+        }
+        this.listeners[type].push(cb);
+    };
+
+    Events.prototype.emit = function (type, task) {
+        var listener = this.listeners[type];
+        if (listener.length) {
+            listener.forEach(function (h) {
+                h(task);
+            });
+        }
+    };
+
+    var e = new Events();
+
     function promisify (api) {
         return  function (options) {
+            options = options || {};
             for (var len = arguments.length, params = Array(len > 1 ? len - 1 : 0), key = 1; key < len; key++) {
                 params[key - 1] = arguments[key];
             }
             return new Promise(function (resolve, reject) {
-                Promise.prototype.task = api.apply(undefined, [Object.assign({}, options, {
-                    success: resolve,
-                    fail: reject
-                })].concat(params));
+                options.eventType ? e.emit(options.eventType, api.apply(undefined, [Object.assign({}, options, {success: resolve, fail: reject})].concat(params)))
+                    : api.apply(undefined, [Object.assign({}, options, {success: resolve, fail: reject})].concat(params));
             });
         };
 
@@ -313,7 +334,17 @@
         this.defaults = instanceConfig;
         this.before = new InterceptorManager();
         this.after = new InterceptorManager();
+        this.events = {};
+        this.on = function (event, cb) {
+            if (event in this.events) {
+                console.error('You cannot register the same eventType multiple times');
+                return;
+            }
+            e.on(event, cb);
+            this.events[event] = cb;
+        };
     }
+
     WeFetch.prototype.promisify = promisify;
     WeFetch.prototype.request = request;
 
