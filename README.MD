@@ -125,6 +125,27 @@ wf.download({
 })
 
 ```
+## To use async/await 
+> async/await is part of ECMAScript 2017 and is not supported in Mini Program, before we can use it, we need introduce a `regeneratorRuntime` library
+
+```js
+// regeneratorRuntime lib  https://github.com/facebook/regenerator
+
+// es6 write
+async onload () {
+    let res = await wf.get('/get')
+    console.log(res)
+    
+    // do something....
+}
+// Es5 write
+onload: async function () {
+  let res = await wf.get('/get')
+      console.log(res)
+      
+      // do something....
+}
+```
 ## Get the `requestTask` Object
 Sample code of get request:
 ```js

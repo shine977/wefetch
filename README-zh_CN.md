@@ -122,7 +122,28 @@ wf.download({
 .then(res => {
     console.log(res)
 })
+```
+## 使用 async/await 
+> async/await 是ECMAScript 2017部分，截止目前微信小程序还未支持, 在我们使用之前需要引入一个Facebook `regeneratorRuntime`的库 
 
+```js
+// regeneratorRuntime lib  https://github.com/facebook/regenerator/blob/master/packages/regenerator-runtime/runtime.js 引入runtime 文件
+
+// es6 write
+async onload () {
+    let res = await wf.get('/get')
+    console.log(res)
+    
+    // do something....
+}
+
+// Es5 write
+onload: async function () {
+  let res = await wf.get('/get')
+      console.log(res)
+      
+      // do something....
+}
 ```
 ## 获取小程序`requestTask` 对象
 `get` 请求代码示例:
