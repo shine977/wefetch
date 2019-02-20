@@ -27,7 +27,7 @@
 ## 安装
 
 ```js
-npm i wefetch -S
+npm i wefetch
 ```
 
 ## 示例
@@ -35,8 +35,18 @@ npm i wefetch -S
 发送一个 `GET` 请求
 ```js
 const wf = require('wefetch')
+wx.showLoading({
+  title: '加载中...',
+  mask: true
+})
 wf.get(url).then(res => {
 // ....
+}).catch(err => {
+// ...
+})
+// 请求完成执行
+.finally(() => {
+    wx.hideLoading()
 })
     
  wf.get('/get', 

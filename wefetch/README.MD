@@ -5,8 +5,10 @@ English | [简体中文](https://github.com/jonnyshao/wefetch/blob/master/README
 [![platform](https://badgen.net/badge/platform/wechat,alipay,baidu?list=1&color=green)](https://github.com/jonnyshao/wefetch)
 [![install size](https://packagephobia.now.sh/badge?p=wefetch)](https://packagephobia.now.sh/result?p=wefetch)
 [![npm version](https://badgen.net/npm/v/wefetch?color=green)](https://www.npmjs.com/package/wefetch)
+[![gzip](https://badgen.net/badgesize/gzip/https://unpkg.com/wefetch@1.2.1/dist/wefetch.min.js)](https://unpkg.com/wefetch@1.2.1/dist/wefetch.min.js)
+[![downloads](https://badgen.net/npm/dm/wefetch)](https://www.npmtrends.com/wefetch)
 
-Promise based wx.request and my.request api for the Mini Program.
+Promise based api for the Mini Program. Supports the `Wechat` `Alipay` `Baidu` the Mini-program of platform.
 
 ## Feature
 
@@ -26,7 +28,7 @@ Promise based wx.request and my.request api for the Mini Program.
 ## installing
 
 ```js
-npm i wefetch -S
+npm i wefetch
 ```
 
 ## Example
@@ -125,8 +127,28 @@ wf.download({
 })
 
 ```
-## Get the `requestTask` Object
+## To use async/await 
+> async/await is part of ECMAScript 2017 and is not supported in Mini Program, before we can use it, we need introduce a `regeneratorRuntime` library
 
+```js
+// regeneratorRuntime lib  https://github.com/facebook/regenerator
+
+// es6 write
+async onload () {
+    let res = await wf.get('/get')
+    console.log(res)
+    
+    // do something....
+}
+// Es5 write
+onload: async function () {
+  let res = await wf.get('/get')
+      console.log(res)
+      
+      // do something....
+}
+```
+## Get the `requestTask` Object
 Sample code of get request:
 ```js
     wf.get('/get',{},{eventType: 'get'})

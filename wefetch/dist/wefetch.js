@@ -1,7 +1,7 @@
 /*  
     Promise based wx.request api for  Mini Program
     @Github https://github.com/jonnyshao/wechat-fetch
-    wefetch beta v1.2.1 |(c) 2018-2019 By Jonny Shao
+    wefetch beta v1.2.2 |(c) 2018-2019 By Jonny Shao
 */
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
@@ -62,42 +62,61 @@
     }
     function getRequest () {
         // wechat
-        if (wx.request) {
-            return promisify(wx.request)
-        }
-        // alipay
-        if (my.httpRequest) {
-            return promisify(my.httpRequest)
-        }
-        // baidu
-        if (swan.request) {
-            return promisify(swan.request)
-        }
+        try {
+            if (wx.request) {
+                return promisify(wx.request)
+            }
+        } catch (e) {
+            try {
+                if (my.httpRequest) {
+                    return promisify(my.httpRequest)
+                }
+            }catch (e) {
+                if (swan.request) {
+                    return promisify(swan.request)
+                }
+            }
+        }  
     }
 
     function getUpload () {
-        if (wx.uploadFile) {
-            return generatorUpload(wx.uploadFile, 'wx')
+        try{
+            if (wx.uploadFile) {
+                return generatorUpload(wx.uploadFile, 'wx')
+            }
+        }catch(e){
+            try{
+                if (my.uploadFile) {
+                    return generatorUpload(my.uploadFile, 'my')
+                }
+            }catch(e){
+                if (swan.uploadFile) {
+                    return generatorUpload(swan.uploadFile, 'swan')
+                }
+            }
         }
-        if (my.uploadFile) {
-            return generatorUpload(my.uploadFile, 'my')
-        }
-        if (swan.uploadFile) {
-            return generatorUpload(swan.uploadFile, 'swan')
-        }
+        
     }
 
     function getDownload () {
-        if (wx.downloadFile) {
-            return generatorDownload(wx.downloadFile,'wx')
-        }
-        if (my.downloadFile) {
-            return generatorDownload(my.downloadFile, 'my')
+        try{
+            if (wx.downloadFile) {
+                return generatorDownload(wx.downloadFile,'wx')
+            }
+        }catch(e){
+            try{
+                if (my.downloadFile) {
+                    return generatorDownload(my.downloadFile, 'my')
+                }
+            }catch(e){
+                if (swan.downloadFile) {
+                    return generatorDownload(swan.downloadFile, 'swan')
+                }
+            }
         }
 
-        if (swan.downloadFile) {
-            return generatorDownload(swan.downloadFile, 'swan')
-        }
+        
+        
     }
 
     var DEFAULT_CONTENT_TYPE = 'application/x-www-form-urlencoded;charset=utf-8';

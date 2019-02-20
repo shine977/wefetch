@@ -8,7 +8,7 @@ English | [简体中文](https://github.com/jonnyshao/wefetch/blob/master/README
 [![gzip](https://badgen.net/badgesize/gzip/https://unpkg.com/wefetch@1.2.1/dist/wefetch.min.js)](https://unpkg.com/wefetch@1.2.1/dist/wefetch.min.js)
 [![downloads](https://badgen.net/npm/dm/wefetch)](https://www.npmtrends.com/wefetch)
 
-Promise based wx.request and my.request api for the Mini Program.
+Promise based api for the Mini Program. Supports the `Wechat` `Alipay` `Baidu` the Mini-program of platform.
 
 ## Feature
 
@@ -28,7 +28,7 @@ Promise based wx.request and my.request api for the Mini Program.
 ## installing
 
 ```js
-npm i wefetch -S
+npm i wefetch
 ```
 
 ## Example
@@ -36,8 +36,18 @@ npm i wefetch -S
 Performing a `GET` request
 ```js
 const wf = require('wefetch')
+wx.showLoading({
+  title: 'loading',
+  mask: true
+})
 wf.get(url).then(res => {
 // ....
+}).catch(err => {
+// ...
+})
+// request completed
+.finally(() => {
+    wx.hideLoading()
 })
     
  wf.get('/get', 
