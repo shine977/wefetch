@@ -136,10 +136,10 @@ wf.download({
 })
 ```
 ## 使用 async/await 
-> async/await 是ECMAScript 2017部分，截止目前微信小程序还未支持, 在我们使用之前需要引入一个Facebook `regeneratorRuntime`的库 
-
+> async/await 是ECMAScript 2017部分，截止目前微信小程序还未支持, 在我们使用之前需要引入一个Facebook `regeneratorRuntime`的库 ,为了方便使用，已经单独抽离出来
+[wehcat-regenerator-runtime](https://github.com/jonnyshao/wehcat-regenerator-runtime)
 ```js
-// regeneratorRuntime lib  https://github.com/facebook/regenerator/blob/master/packages/regenerator-runtime/runtime.js 引入runtime 文件
+const regeneratorRuntime = require('wehcat-regenerator-runtime');
 
 // es6 write
 async onload () {
