@@ -2,7 +2,7 @@
 
 # wefetch
 [![platform](https://badgen.net/badge/platform/微信,支付宝,百度?list=1&color=green)](https://github.com/jonnyshao/wefetch)
-[![Package Quality](https://npm.packagequality.com/badge/wefetch.png)](https://packagequality.com/#?package=wefetch)
+[![Package Quality](https://npm.packagequality.com/shield/wefetch.svg)](https://packagequality.com/#?package=wefetch)
 [![install size](https://packagephobia.now.sh/badge?p=wefetch)](https://packagephobia.now.sh/result?p=wefetch)
 [![npm version](https://badgen.net/npm/v/wefetch?color=green)](https://www.npmjs.com/package/wefetch)
 [![gzip](https://badgen.net/badgesize/gzip/https://unpkg.com/wefetch@1.2.1/dist/wefetch.min.js)](https://unpkg.com/wefetch@1.2.1/dist/wefetch.min.js)
