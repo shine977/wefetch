@@ -2,6 +2,7 @@
 
 # wefetch
 [![platform](https://badgen.net/badge/platform/微信,支付宝,百度?list=1&color=green)](https://github.com/jonnyshao/wefetch)
+[![Package Quality](https://npm.packagequality.com/badge/wefetch.png)](https://packagequality.com/#?package=wefetch)
 [![install size](https://packagephobia.now.sh/badge?p=wefetch)](https://packagephobia.now.sh/result?p=wefetch)
 [![npm version](https://badgen.net/npm/v/wefetch?color=green)](https://www.npmjs.com/package/wefetch)
 [![gzip](https://badgen.net/badgesize/gzip/https://unpkg.com/wefetch@1.2.1/dist/wefetch.min.js)](https://unpkg.com/wefetch@1.2.1/dist/wefetch.min.js)
@@ -137,6 +138,7 @@ wf.download({
 ```
 ## 使用 async/await 
 > async/await 是ECMAScript 2017部分，截止目前微信小程序还未支持, 在我们使用之前需要引入一个Facebook `regeneratorRuntime`的库 ,为了方便使用，已经单独抽离出来
+
 [wehcat-regenerator-runtime](https://github.com/jonnyshao/wehcat-regenerator-runtime)
 ```js
 const regeneratorRuntime = require('wehcat-regenerator-runtime');
