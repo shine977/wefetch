@@ -10,7 +10,7 @@ English | [简体中文](https://github.com/jonnyshao/wefetch/blob/master/README
 [![downloads](https://badgen.net/npm/dm/wefetch)](https://www.npmtrends.com/wefetch)
 
 
-Promise based api for the Mini Program. Supports the `Wechat` `Alipay` `Baidu` the Mini-program of platform.
+Promise based api for the Mini Program. Supports the `Wechat` 、`Alipay`、`Baidu`、 the Mini-program of platform.
 
 ## Feature
 
