@@ -10,7 +10,7 @@
 
 基于Promise，链式编程。支持微信、支付宝、百度小程序
 
-## 功能&&特色
+## 功能&&特点
 
 - 微信小程序 [wx.request](https://developers.weixin.qq.com/miniprogram/en/dev/api/network-request.html#wxrequestobject) API 
 - 微信小程序 [wx.downloadFile](https://developers.weixin.qq.com/miniprogram/en/dev/api/network-file.html#wxdownloadfileobject) API 
@@ -22,7 +22,7 @@
 - 百度小程序 [swan.uploadFile](https://smartprogram.baidu.com/docs/develop/api/net_uploadfile/#uploadFile/) API 
 - 百度小程序 [swan.downloadFile](https://smartprogram.baidu.com/docs/develop/api/net_uploadfile/#downloadFile/) API
 - 支持 [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise) API
-- 请求响应与拦截管理
+- 请求、响应拦截管理
 - 支持小程序[RequestTask](https://developers.weixin.qq.com/miniprogram/dev/api/wx.request.html) 对象同步管理
 
 ## 安装
@@ -296,7 +296,7 @@ instance.defaults.uploadUrl = 'http://your-domain.com/upload';
 instance.defaults.downloadUrl = 'http://your-domain.com/download';
 ```
 ## 拦截器
-> 拦截器在整个项目中只需注册一次，不同的实例都可以拥有自己的拦截器
+> 全局拦截器在整个项目中只需注册一次，不同的实例都可以拥有自己的拦截器
 ```js
 // 注册一个请求拦截器
 wf.before.use(request => {
