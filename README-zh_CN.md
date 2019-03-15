@@ -79,7 +79,7 @@ wf.post('/post',{title: 'post test', content: 'post'})
 ```
 发送一个 `POSTJSON` 请求
 ```js
-// the request header `Content-Type` property is a 'application/json;charset=uft-8'
+// postJson请求头的 `Content-Type` 是 'application/json;charset=uft-8'
 
 wf.postJson('/postJson')
 .then( res => {
@@ -137,7 +137,7 @@ wf.download({
 })
 ```
 ## 使用 async/await 
-> async/await 是ECMAScript 2017部分，截止目前微信小程序还未支持, 在我们使用之前需要引入一个Facebook `regeneratorRuntime`的库 ,为了方便使用，已经单独抽离出来
+> async/await 是ECMAScript 2017才支持的，截止目前微信小程序还未支持, 在我们使用之前需要引入一个Facebook `regeneratorRuntime`的库 ,为了方便使用，已经单独抽离出来
 
 [wehcat-regenerator-runtime](https://github.com/jonnyshao/wehcat-regenerator-runtime)
 ```js
@@ -228,7 +228,7 @@ chooseImage().then(res => {
 ####  wf.download(url, params, config)
 ####  wf.postJson(url, params, config) //application/json;charset=utf-8
 
-<strong>小程序的上传与下载是单独不同的的api，wx.request这个方法不适用这种操作，请单独调用wf.upload 或 wf.download</strong>
+<strong>小程序的上传与下载是单独不同的的api，wx.request这个方法不包含上传与下载，请单独调用wf.upload 或 wf.download</strong>
 
 创建一个实例
 > 您可以创建实例，并自定义实例的配置
@@ -273,7 +273,7 @@ const instance = wf.create({
     timeout: 0,
     
     // 在wefetch中，可以注册一个事件对象，用来同步管理小程序的reqeustTask对象，`eventType` 是注册事件时定义的事件类型
-    eventType: ''
+    eventType: '',
     // 默认的 `Content-Type`
     header: {
             'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
