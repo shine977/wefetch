@@ -25,7 +25,7 @@ Promise based api for the Mini Program. Supports the `Wechat` 、`Alipay`、`Bai
 - Make [swan.downloadFile](https://smartprogram.baidu.com/docs/develop/api/net_uploadfile/#downloadFile/) from the Baidu Mini Program
 - Supports the [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise) API
 - Intercept request and response
-- Supports the Mini Program [RequestTask](https://developers.weixin.qq.com/miniprogram/dev/api/wx.request.html) object for config
+- Supports the Mini Program [RequestTask](https://developers.weixin.qq.com/miniprogram/dev/api/wx.request.html) object of config
 
 ## installing
 
