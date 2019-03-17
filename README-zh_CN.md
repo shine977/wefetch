@@ -93,7 +93,7 @@ const getUserInfo = prams => wf.get('/user/1', params)
 const getUserPermissions = params => wf.get('/user/1/permission', params)
 wf.all([getUserInfo(), getUserPermissions()])
 .then(res => {
-    // both requests are complete, the res as a Array back
+    // 所有请求完成后，将返回一个数组集合的Response
 })
 ```
 
