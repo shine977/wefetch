@@ -272,7 +272,7 @@ const instance = wf.create({
     // 仅支付宝小程序支持
     timeout: 0,
     
-    // 在wefetch中，可以注册一个事件对象，用来同步管理小程序的reqeustTask对象，`eventType` 是注册事件时定义的事件类型
+    // 在wefetch中，可以注册一个自定义事件，用来同步管理小程序的reqeustTask对象，`eventType` 是注册事件时自定义的事件名称
     eventType: '',
     // 默认的 `Content-Type`
     header: {
