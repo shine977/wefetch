@@ -6,11 +6,11 @@ English | [简体中文](https://github.com/jonnyshao/wefetch/blob/master/README
 [![Package Quality](https://npm.packagequality.com/shield/wefetch.svg)](https://packagequality.com/#?package=wefetch)
 [![install size](https://packagephobia.now.sh/badge?p=wefetch)](https://packagephobia.now.sh/result?p=wefetch)
 [![npm version](https://badgen.net/npm/v/wefetch?color=green)](https://www.npmjs.com/package/wefetch)
-[![gzip](https://badgen.net/badgesize/gzip/https://unpkg.com/wefetch@1.2.1/dist/wefetch.min.js)](https://unpkg.com/wefetch@1.2.1/dist/wefetch.min.js)
+[![gzip](https://badgen.net/badgesize/gzip/https://unpkg.com/wefetch@1.2.3/dist/wefetch.min.js)](https://unpkg.com/wefetch@1.2.3/dist/wefetch.min.js)
 [![downloads](https://badgen.net/npm/dm/wefetch)](https://www.npmtrends.com/wefetch)
 
 
-Promise based api for the Mini Program. Supports the `Wechat` 、`Alipay`、`Baidu` the Mini-program of platform.
+Promise based api for the Mini Program. Supports the `Wechat` 、`Alipay`、`Baidu`  Mini-program of platform.
 
 ## Feature
 
@@ -250,7 +250,7 @@ Instance methods
 ####  instance.download(url, params, config)
 ####  instance.postJson(url, params, config) //application/json;charset=utf-8
 
-## Default Config
+## Config Params
 ```js
 {
     // `url` is the server URL that will be used for the request
@@ -270,7 +270,7 @@ Instance methods
     // support `alipay` platform only
     timeout: 0,
     
-    // if your want to the Mini Program to back the requestTask Object, you can custom the `eventType`
+    // if your want to the Mini Program to return a requestTask Object, you can custom the `eventType`
     // like this wf.on('your eventType', t => {...})
     eventType: '',
     // default `Content-Type`
