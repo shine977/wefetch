@@ -137,7 +137,7 @@ wf.download({
 })
 ```
 ## 使用 async/await 
-> async/await 是ECMAScript 2017才支持的，截止目前微信小程序还未支持, 在我们使用之前需要引入一个Facebook `regeneratorRuntime`的库 ,为了方便使用，已经单独抽离出来
+> async/await 是ECMAScript 2017规范中的，截止目前微信小程序还未支持(2019.03), 在我们使用之前需要引入一个Facebook `regeneratorRuntime`的库 ,为了方便使用，已经单独抽离出来
 
 [wehcat-regenerator-runtime](https://github.com/jonnyshao/wehcat-regenerator-runtime)
 ```js
