@@ -9,7 +9,7 @@ const banner =
 //../Example/wechat/utils
 module.exports = [
     {
-        input: './wefetch/lib/wefetch.js',
+        input: './src/wefetch/lib/wefetch.js',
         output: {
             file: './wefetch/dist/wefetch.js',
             format: 'umd',
@@ -19,7 +19,7 @@ module.exports = [
         }
     },
     {
-        input: './wefetch/lib/wefetch.js',
+        input: './src/wefetch/lib/wefetch.js',
         output: {
             file: './wefetch/dist/wefetch.min.js',
             format: 'umd',
