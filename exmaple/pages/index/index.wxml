@@ -1,0 +1,15 @@
+<view class='example-row'>
+    <text class='example-row-text' bindtap='getRequest'>Get request</text>
+</view>
+<view class='example-row'>
+    <text class='example-row-text' bindtap='postRequest'>Post request</text>
+</view>
+<view class='example-row'>
+    <text class='example-row-text' bindtap='postJsonRequest'>PostJson request</text>
+</view>
+<view class='example-row'>
+    <text class='example-row-text' bindtap='headRequest'>Head request</text>
+</view>
+<view class='example-row'>
+    <text class='example-row-text' bindtap='downlaodRequest'>Downlaod Reqeust</text>
+</view>

@@ -1,0 +1,11 @@
+.example-row{
+    text-align: center;
+    height: 50px;
+    line-height: 50px;
+    box-sizing: border-box;
+    border-bottom: 1px solid #eee;
+    font-size: 14px;
+}
+.example-row-text{
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
+}
