@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/jonnyshao/wefetch#readme",
   "dependencies": {
+    "vant-weapp": "^0.5.12",
     "wefetch": "^1.0.3"
   },
   "devDependencies": {

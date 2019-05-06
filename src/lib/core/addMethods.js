@@ -1,7 +1,7 @@
-import check from './checkStatus'
 import utils from "../utils";
 import WeFetch from "./Wefecth";
-import {getUpload, getDownload} from "./platform";
+import {UPLOAD_CONTENT_TYPE, DOWNLOAD_CONTENT_TYPE} from '../defaults'
+import platform from "./platform";
 
 ['options', 'get', 'head', 'post', 'put', 'delete', 'trace', 'connect', 'postJson'].forEach(function (method) {
     WeFetch.prototype[method] = function (url, params, config) {
@@ -15,46 +15,44 @@ import {getUpload, getDownload} from "./platform";
 });
 WeFetch.prototype.download = function (url, params, config) {
     // init
-    check.is_down = true;
     params = params || {};
     config = config || {};
-    var get_download = getDownload();
-    config.createRequest = get_download.promisify;
+    config.createRequest = platform.getDownload();
 
     // check user is input header param
     if (config.header) {
-        config.header['Content-Type'] = config.header['Content-Type'] || get_download.type
+        config.header['Content-Type'] = config.header['Content-Type'] || DOWNLOAD_CONTENT_TYPE
     } else {
-        config.header = {'Content-Type': get_download.type}
+        config.header = {'Content-Type': DOWNLOAD_CONTENT_TYPE}
     }
 
     // wf.download({}) support
     if (utils.type.isObject(url)) {
         return this.request(utils.merge(config, url, {
             url: url.url? url.url: '',
-            filePath: url.filePath
+            filePath: url.filePath,
+            method: 'download'
         }))
     }
     // default
     return this.request(utils.merge(config,{
         url: url,
         filePath: params ? params.filePath : undefined,
-        config: config
+        config: config,
+        method: 'download'
     }))
 };
 
 WeFetch.prototype.upload = function (url, params, config) {
     // init
-    check.is_up = true;
     params = params || {};
     config = config || {};
-    var get_upload = getUpload();
-    config.createRequest = get_upload.promisify;
+    config.createRequest = platform.getUpload();
     // check user is input header param
     if (config.header) {
-        config.header['Content-Type'] = config.header['Content-Type'] || get_upload.type;
+        config.header['Content-Type'] = config.header['Content-Type'] || UPLOAD_CONTENT_TYPE;
     } else {
-        config.header = {'Content-Type': get_upload.type}
+        config.header = {'Content-Type': UPLOAD_CONTENT_TYPE}
     }
 
     // upload({}) support
@@ -62,7 +60,7 @@ WeFetch.prototype.upload = function (url, params, config) {
     if (utils.type.isObject(url)) {
         return this.request(utils.merge(config, url, {
             url: url.url? url.url : '',
-            method: 'post',
+            method: 'upload',
             filePath: url.filePath,
             name: url.name,
             fileType: url.fileType, // fileType for alipay
@@ -71,11 +69,11 @@ WeFetch.prototype.upload = function (url, params, config) {
     }
     return this.request(utils.merge(config, {
         url: url,
-        method: 'post',
+        method: 'upload',
         filePath:params.filePath,
         name: params.name,
         formData: params.formData,
         fileType: params.fileType,
-        config: config,
+        config: config
     }))
 };

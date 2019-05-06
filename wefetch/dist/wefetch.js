@@ -1,7 +1,7 @@
 /*  
     Promise based wx.request api for  Mini Program
     @Github https://github.com/jonnyshao/wechat-fetch
-    wefetch beta v1.2.2 |(c) 2018-2019 By Jonny Shao
+    wefetch beta v1.2.4 |(c) 2018-2019 By Jonny Shao
 */
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
@@ -45,86 +45,47 @@
 
     }
 
-    function generatorUpload (o, platform) {
-        return {
-            promisify: promisify(o),
-            type: UPLOAD_CONTENT_TYPE,
-            platform: platform
-        }
+    function Platform() {
+        this.platform = null;
     }
-
-    function generatorDownload(o, platform) {
-        return {
-            promisify: promisify(o),
-            type: DOWNLOAD_CONTENT_TYPE,
-            platform: platform
-        }
-    }
-    function getRequest () {
-        // wechat
+    Platform.prototype.getRequest = function () {
         try {
             if (wx.request) {
+                this.platform = 'wechat';
                 return promisify(wx.request)
             }
         } catch (e) {
             try {
                 if (my.httpRequest) {
+                    this.platform = 'ali';
                     return promisify(my.httpRequest)
                 }
             }catch (e) {
                 if (swan.request) {
+                    this.platform = 'swan';
                     return promisify(swan.request)
                 }
             }
-        }  
-    }
-
-    function getUpload () {
-        try{
-            if (wx.uploadFile) {
-                return generatorUpload(wx.uploadFile, 'wx')
-            }
-        }catch(e){
-            try{
-                if (my.uploadFile) {
-                    return generatorUpload(my.uploadFile, 'my')
-                }
-            }catch(e){
-                if (swan.uploadFile) {
-                    return generatorUpload(swan.uploadFile, 'swan')
-                }
-            }
         }
-        
-    }
-
-    function getDownload () {
-        try{
-            if (wx.downloadFile) {
-                return generatorDownload(wx.downloadFile,'wx')
-            }
-        }catch(e){
-            try{
-                if (my.downloadFile) {
-                    return generatorDownload(my.downloadFile, 'my')
-                }
-            }catch(e){
-                if (swan.downloadFile) {
-                    return generatorDownload(swan.downloadFile, 'swan')
-                }
-            }
-        }
-
-        
-        
-    }
+    };
+    Platform.prototype.getUpload = function () {
+        if (this.platform === 'wechat')return promisify(wx.uploadFile);
+        if (this.platform === 'ali')return promisify(my.uploadFile);
+        if (this.platform === 'swan')return promisify(swan.uploadFile);
+    };
+    Platform.prototype.getDownload = function () {
+        if (this.platform === 'wechat')return promisify(wx.downloadFile)
+        if (this.platform === 'ali')return promisify(my.downloadFile)
+        if (this.platform === 'swan')return promisify(swan.downloadFile)
+    };
+    var platform = new Platform();
 
     var DEFAULT_CONTENT_TYPE = 'application/x-www-form-urlencoded;charset=utf-8';
     var UPLOAD_CONTENT_TYPE = 'multipart/form-data';
     var DOWNLOAD_CONTENT_TYPE = 'image/jpeg';
     var JSON_CONTENT_TYPE = 'application/json;charset=utf-8';
     var defaults = {
-        createRequest: getRequest(),
+        createRequest: platform.getRequest(),
         header: {
             'Content-Type': DEFAULT_CONTENT_TYPE
         },
@@ -132,7 +93,7 @@
     };
 
     function bind(fn, context) {
-        return function wf () {
+        return function wf (){
             var args = new Array(arguments.length);
             for (var i = 0, l = args.length; i < l; i++) {
                 args[i] = arguments[i];
@@ -222,11 +183,6 @@
         });
     };
 
-    var checkStatus = {
-        is_up: null,
-        is_down: null
-    };
-
     function dispatchRequest(config) {
         var request = config.createRequest;
         return request(config).then(function (response) {
@@ -247,13 +203,19 @@
             config.header['Content-Type'] = JSON_CONTENT_TYPE;
         }
         if (config.url.indexOf('http') === -1) {
-            if (config.downloadUrl && checkStatus.is_down) {
-                config.url = config.downloadUrl + config.url;
-            } else if (config.uploadUrl && checkStatus.is_up) {
-                config.url = config.uploadUrl + config.url;
-            } else { //(config.baseUrl)
-                config.url = config.baseUrl + config.url;
-            }
+          if (config.downloadUrl && config.method === 'download') {
+            config.url = config.downloadUrl + config.url;
+          } else if (config.uploadUrl && config.method === 'upload') {
+            config.url = config.uploadUrl + config.url;
+          } else { //(config.baseUrl)
+            config.url = config.baseUrl + config.url;
+          }
+        }
+        if (config.method === 'download') {
+            config.method = 'get';
+        }
+        if (config.method === 'upload'){
+            config.method = 'post';
         }
 
         var chain = [dispatchRequest, undefined];
@@ -267,8 +229,6 @@
         while (chain.length) {
             promise = promise.then(chain.shift(), chain.shift());
         }
-        checkStatus.is_up = null;
-        checkStatus.is_down = null;
         return promise;
     }
 
@@ -284,46 +244,44 @@
     });
     WeFetch.prototype.download = function (url, params, config) {
         // init
-        checkStatus.is_down = true;
         params = params || {};
         config = config || {};
-        var get_download = getDownload();
-        config.createRequest = get_download.promisify;
+        config.createRequest = platform.getDownload();
 
         // check user is input header param
         if (config.header) {
-            config.header['Content-Type'] = config.header['Content-Type'] || get_download.type;
+            config.header['Content-Type'] = config.header['Content-Type'] || DOWNLOAD_CONTENT_TYPE;
         } else {
-            config.header = {'Content-Type': get_download.type};
+            config.header = {'Content-Type': DOWNLOAD_CONTENT_TYPE};
         }
 
         // wf.download({}) support
         if (utils.type.isObject(url)) {
             return this.request(utils.merge(config, url, {
                 url: url.url? url.url: '',
-                filePath: url.filePath
+                filePath: url.filePath,
+                method: 'download'
             }))
         }
         // default
         return this.request(utils.merge(config,{
             url: url,
             filePath: params ? params.filePath : undefined,
-            config: config
+            config: config,
+            method: 'download'
         }))
     };
 
     WeFetch.prototype.upload = function (url, params, config) {
         // init
-        checkStatus.is_up = true;
         params = params || {};
         config = config || {};
-        var get_upload = getUpload();
-        config.createRequest = get_upload.promisify;
+        config.createRequest = platform.getUpload();
         // check user is input header param
         if (config.header) {
-            config.header['Content-Type'] = config.header['Content-Type'] || get_upload.type;
+            config.header['Content-Type'] = config.header['Content-Type'] || UPLOAD_CONTENT_TYPE;
         } else {
-            config.header = {'Content-Type': get_upload.type};
+            config.header = {'Content-Type': UPLOAD_CONTENT_TYPE};
         }
 
         // upload({}) support
@@ -331,7 +289,7 @@
         if (utils.type.isObject(url)) {
             return this.request(utils.merge(config, url, {
                 url: url.url? url.url : '',
-                method: 'post',
+                method: 'upload',
                 filePath: url.filePath,
                 name: url.name,
                 fileType: url.fileType, // fileType for alipay
@@ -340,12 +298,12 @@
         }
         return this.request(utils.merge(config, {
             url: url,
-            method: 'post',
+            method: 'upload',
             filePath:params.filePath,
             name: params.name,
             formData: params.formData,
             fileType: params.fileType,
-            config: config,
+            config: config
         }))
     };
 

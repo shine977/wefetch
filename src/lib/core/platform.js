@@ -1,76 +1,36 @@
 import promisify from './promisify'
-import {UPLOAD_CONTENT_TYPE, DOWNLOAD_CONTENT_TYPE} from '../defaults'
 
-function generatorUpload (o, platform) {
-    return {
-        promisify: promisify(o),
-        type: UPLOAD_CONTENT_TYPE,
-        platform: platform
-    }
+function Platform() {
+    this.platform = null;
 }
-
-function generatorDownload(o, platform) {
-    return {
-        promisify: promisify(o),
-        type: DOWNLOAD_CONTENT_TYPE,
-        platform: platform
-    }
-}
-export function getRequest () {
-    // wechat
+Platform.prototype.getRequest = function () {
     try {
         if (wx.request) {
+            this.platform = 'wechat';
             return promisify(wx.request)
         }
     } catch (e) {
         try {
             if (my.httpRequest) {
+                this.platform = 'ali';
                 return promisify(my.httpRequest)
             }
         }catch (e) {
             if (swan.request) {
+                this.platform = 'swan';
                 return promisify(swan.request)
             }
         }
-    }  
-}
-
-export function getUpload () {
-    try{
-        if (wx.uploadFile) {
-            return generatorUpload(wx.uploadFile, 'wx')
-        }
-    }catch(e){
-        try{
-            if (my.uploadFile) {
-                return generatorUpload(my.uploadFile, 'my')
-            }
-        }catch(e){
-            if (swan.uploadFile) {
-                return generatorUpload(swan.uploadFile, 'swan')
-            }
-        }
     }
-    
 }
-
-export function getDownload () {
-    try{
-        if (wx.downloadFile) {
-            return generatorDownload(wx.downloadFile,'wx')
-        }
-    }catch(e){
-        try{
-            if (my.downloadFile) {
-                return generatorDownload(my.downloadFile, 'my')
-            }
-        }catch(e){
-            if (swan.downloadFile) {
-                return generatorDownload(swan.downloadFile, 'swan')
-            }
-        }
-    }
-
-    
-    
+Platform.prototype.getUpload = function () {
+    if (this.platform === 'wechat')return promisify(wx.uploadFile);
+    if (this.platform === 'ali')return promisify(my.uploadFile);
+    if (this.platform === 'swan')return promisify(swan.uploadFile);
 }
+Platform.prototype.getDownload = function () {
+    if (this.platform === 'wechat')return promisify(wx.downloadFile)
+    if (this.platform === 'ali')return promisify(my.downloadFile)
+    if (this.platform === 'swan')return promisify(swan.downloadFile)
+}
+export default new Platform();

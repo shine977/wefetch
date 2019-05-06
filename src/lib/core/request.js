@@ -1,4 +1,3 @@
-import check from './checkStatus'
 import utils from "../utils";
 import {JSON_CONTENT_TYPE} from "../defaults";
 
@@ -14,13 +13,19 @@ function request (config) {
         config.header['Content-Type'] = JSON_CONTENT_TYPE;
     }
     if (config.url.indexOf('http') === -1) {
-        if (config.downloadUrl && check.is_down) {
-            config.url = config.downloadUrl + config.url
-        } else if (config.uploadUrl && check.is_up) {
-            config.url = config.uploadUrl + config.url
-        } else { //(config.baseUrl)
-            config.url = config.baseUrl + config.url
-        }
+      if (config.downloadUrl && config.method === 'download') {
+        config.url = config.downloadUrl + config.url
+      } else if (config.uploadUrl && config.method === 'upload') {
+        config.url = config.uploadUrl + config.url
+      } else { //(config.baseUrl)
+        config.url = config.baseUrl + config.url
+      }
+    }
+    if (config.method === 'download') {
+        config.method = 'get';
+    }
+    if (config.method === 'upload'){
+        config.method = 'post';
     }
 
     var chain = [dispatchRequest, undefined];
@@ -34,8 +39,6 @@ function request (config) {
     while (chain.length) {
         promise = promise.then(chain.shift(), chain.shift())
     }
-    check.is_up = null;
-    check.is_down = null;
     return promise;
 }
 
