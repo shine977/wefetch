@@ -30,7 +30,51 @@
 ```js
 npm i wefetch
 ```
+## wefetch 封装示例
+```js
+const wf = require('wefetch');
 
+class Request {
+    constructor() {
+        // 请求队列
+        this.queue = {};
+        this.baseUrl = 'http://localhost:3000';
+        // 仅支付宝小程序支持
+        this.timeout = 3000;
+    }
+    merge(options) {
+        return { ...options, baseUrl: this.baseUrl }
+
+    }
+    interceptor(instance, url) {
+        instance.before.use(req => {
+            req.header.Authorization = 'type in your token';
+            if (Object.keys(this.queue).length === 0) {
+                wx.showLoading({
+                    title: 'Loading',
+                    mask: true
+                })
+            }
+            this.queue[url] = url;
+            return req;
+        });
+        instance.after.use(res => {
+            delete this.queue[url]
+            if (Object.keys(this.queue).length === 0) {
+                wx.hideLoading()
+            }
+            return res;
+        })
+    }
+    request(options) {
+        const instance = wf.create();
+        this.interceptor(instance, options.url)
+        return instance(this.merge(options));
+    }
+}
+
+module.exports = new Request;
+```
 ## 示例
 
 发送一个 `GET` 请求
