@@ -13,3 +13,6 @@
 <view class='example-row'>
     <text class='example-row-text' bindtap='downlaodRequest'>Downlaod Reqeust</text>
 </view>
+<view class='example-row'>
+    <text class='example-row-text' bindtap='retryRequest'>retry 3 Reqeust</text>
+</view>

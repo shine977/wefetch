@@ -11,7 +11,7 @@ Events.prototype.on = function (type, cb) {
 
 Events.prototype.emit = function (type, task) {
     var listener = this.listeners[type];
-    if (listener.length) {
+    if (listener) {
         listener.forEach(function (h) {
             h(task)
         })

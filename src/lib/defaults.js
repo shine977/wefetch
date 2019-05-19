@@ -9,5 +9,6 @@ export var defaults = {
     header: {
         'Content-Type': DEFAULT_CONTENT_TYPE
     },
+    method: 'get',
     timeout: 0
 };

@@ -1,10 +1,11 @@
-const wf = require('wefetch');
+const wf = require('./wf.js');
 
 class Request {
     constructor() {
         this.queue = {};
         this.baseUrl = 'http://localhost:3000';
         this.timeout = 3000;
+        this.instance = wf.create();
     }
     merge(options) {
         return { ...options, baseUrl: this.baseUrl }
@@ -14,10 +15,21 @@ class Request {
         instance.before.use(req => {
             req.header.Authorization = 'type in your token';
             if (Object.keys(this.queue).length === 0) {
-                wx.showLoading({
-                    title: 'Loading',
-                    mask: true
-                })
+                const type = req.config.eventType
+                if (type) {
+                    wf.onProcess(type, res => {
+                        wx.showLoading({
+                            title: `下载进度:${res.progress}%`,
+                            mask: true
+                        })
+                    })
+                } else {
+                    wx.showLoading({
+                        title: 'Loading',
+                        mask: true
+                    })
+                }
+                
             }
             this.queue[url] = url;
             return req;
@@ -27,13 +39,13 @@ class Request {
             if (Object.keys(this.queue).length === 0) {
                 wx.hideLoading()
             }
+            console.log('instance res', res)
             return res;
         })
     }
     request(options) {
-        const instance = wf.create();
-        this.setInterceptor(instance, options.url)
-        return instance(this.merge(options));
+        this.setInterceptor(this.instance, options.url)
+        return this.instance(this.merge(options));
     }
 }
 

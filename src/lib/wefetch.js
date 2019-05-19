@@ -1,9 +1,9 @@
 'use strict';
 import {defaults} from './defaults'
 import utils from './utils'
-import WeFetch from './core/Wefecth'
+import WeFetch from './core/Wefetch'
 import bind from './core/bind'
-
+import {retry} from './core/functional'
 Promise.prototype.finally = function (cb) {
     var p = this.constructor;
     return this.then(function (value) {
@@ -24,15 +24,13 @@ function createInstance (defaultConfig){
     utils.extends(instance, context);
     return instance;
 }
-
 var wf = createInstance(defaults);
 
 wf.all = function (promises) {
     return Promise.all(promises)
 };
-
+wf.retry = retry;
 wf.create = function (instanceConfig) {
     return createInstance(utils.merge(defaults, instanceConfig))
 };
-
 export default wf;

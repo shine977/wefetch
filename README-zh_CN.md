@@ -2,10 +2,9 @@
 
 # wefetch
 [![platform](https://badgen.net/badge/platform/微信,支付宝,百度?list=1&color=green)](https://github.com/jonnyshao/wefetch)
-[![Package Quality](https://npm.packagequality.com/shield/wefetch.svg)](https://packagequality.com/#?package=wefetch)
 [![install size](https://packagephobia.now.sh/badge?p=wefetch)](https://packagephobia.now.sh/result?p=wefetch)
 [![npm version](https://badgen.net/npm/v/wefetch?color=green)](https://www.npmjs.com/package/wefetch)
-[![gzip](https://badgen.net/badgesize/gzip/https://unpkg.com/wefetch@1.2.1/dist/wefetch.min.js)](https://unpkg.com/wefetch@1.2.1/dist/wefetch.min.js)
+[![gzip](https://badgen.net/badgesize/gzip/https://unpkg.com/wefetch@1.2.5/dist/wefetch.min.js)](https://unpkg.com/wefetch@1.2.5/dist/wefetch.min.js)
 [![downloads](https://badgen.net/npm/dm/wefetch)](https://www.npmtrends.com/wefetch)
 
 基于Promise，链式编程。支持微信、支付宝、百度小程序
@@ -35,17 +34,35 @@ npm i wefetch
 const wf = require('wefetch');
 
 class Request {
+    // init
     constructor() {
         // 请求队列
         this.queue = {};
-        this.baseUrl = 'http://localhost:3000';
+        // 配置请求域名
+        this.baseUrl = 'http://your-domain.com';
         // 仅支付宝小程序支持
         this.timeout = 3000;
+        // 创建 wefetch 实例
+        this.instance = wf.create();
     }
+    // 参数合并
     merge(options) {
         return { ...options, baseUrl: this.baseUrl }
-
     }
+    // 请求失败可设置再次请求
+    // times 为尝试的次数 request为请求方法(必须返回一个Promise对象) timout 可选 默认1秒
+    retry(times,request,timeout){
+      this.instance(times,request,timeout)
+    },
+    // 取消请求 或使用 wf.abort(event,callback)
+    abort(event,callback){
+      this.instance.abort(event,callback)
+    },
+    // 获取上传或下载进度 或使用wf.onProcess(event,handle)
+    onProcess(event,cb){
+      this.instance.onProcess(event,cb)
+    }
+    // 设置拦截器
     interceptor(instance, url) {
         instance.before.use(req => {
             req.header.Authorization = 'type in your token';
@@ -66,10 +83,10 @@ class Request {
             return res;
         })
     }
+    // 执行 wefetch 实例
     request(options) {
-        const instance = wf.create();
-        this.interceptor(instance, options.url)
-        return instance(this.merge(options));
+        this.interceptor(this.instance, options.url)
+        return this.instance(this.merge(options));
     }
 }
 
@@ -96,10 +113,10 @@ wf.get(url).then(res => {
     
  wf.get('/get', 
  { 
-     title: 'get Test', 
-     content: 'get' 
- }, 
- { 
+     data: {
+       title: 'get Test', 
+            content: 'get'
+     },
      header: { demo: 'demo' } 
  })
 .then(res => {
@@ -114,7 +131,7 @@ wf.get(url).then(res => {
 ```
 发送一个 `POST` 请求
 ```js
-wf.post('/post',{title: 'post test', content: 'post'})
+wf.post('/post',{data: { title: 'post test', content: 'post' }})
 .then(res => {
     console.log(res)
 }).catch(err => {
@@ -157,6 +174,7 @@ chooseImage().then(res => {
  })
 chooseImage().then(res => {
    wf.upload({
+       url: '/upload',
        filePath: res.tempFilePaths[0],
        name:'file'
    })
@@ -213,8 +231,8 @@ onload: async function () {
         t.abort()
     })
     // 处理多个请求
-    wf.get('/user/info',{},{eventType:'user'})
-    wf.get('/user/permission',{},{eventType: 'user'})
+    wf.get('/user/info',{ config: {eventType:'user'}},)
+    wf.get('/user/permission',{ config: {eventType: 'user'}},)
     wf.on('user', t => {
         // 当前注册的user事件函数会执行两次，依次类推
         t.abort()
@@ -229,8 +247,9 @@ const chooseImage = wf.promisify(wx.chooseImage)
     wf.upload('http://your-domain/upload', {
         filePath: res.tempFilePaths[0],
         name: 'file',
-    }, { eventType: 'upload'}).then(res => {
-            console.log(res)
+        config: { eventType: 'upload'}
+    }).then(res => {
+        console.log(res)
     });
     wf.on('upload', t => {
         t.onProgressUpdate((res) => {
@@ -246,7 +265,7 @@ chooseImage().then(res => {
         url: 'http://your-domain/upload',
         filePath: res.tempFilePaths[0],
         name: 'file',
-        eventType: 'upload'
+        config: {eventType: 'upload'}
     }).then(res => {
         console.log(res)
     });
@@ -261,16 +280,16 @@ chooseImage().then(res => {
 ```
 ##  wefetch API
 ####  wf.request(config)
-####  wf.get(url, params, config)
-####  wf.post(url, params, config) 
-####  wf.head(url, params, config)
-####  wf.put(url, params, config)
-####  wf.get(url, params, config)
-####  wf.trace(url, params, config)
-####  wf.delete(url, params, config)
-####  wf.upload(url, params, config)
-####  wf.download(url, params, config)
-####  wf.postJson(url, params, config) //application/json;charset=utf-8
+####  wf.get(url, {,data,config}) 
+####  wf.post(url, {,data,config}) 
+####  wf.head(url, {,data,config})
+####  wf.put(url, {,data,config})
+####  wf.get(url, {,data,config})
+####  wf.trace(url, {,data,config})
+####  wf.delete(url, {,data,config})
+####  wf.upload(url, {,data,config}) or wf.upload(config)
+####  wf.download(url, {,data,config}) or wf.download(config)
+####  wf.postJson(url, {,data,config}) //application/json;charset=utf-8
 
 <strong>小程序的上传与下载是单独不同的的api，wx.request这个方法不包含上传与下载，请单独调用wf.upload 或 wf.download</strong>
 
@@ -284,16 +303,16 @@ const instance = wf.create({
 ```
 实例中的方法
 ####  instance.request(config)
-####  instance.get(url, params, config)
-####  instance.post(url, params, config) 
-####  instance.head(url, params, config)
-####  instance.put(url, params, config)
-####  instance.get(url, params, config)
-####  instance.trace(url, params, config)
-####  instance.delete(url, params, config)
-####  instance.upload(url, params, config)
-####  instance.download(url, params, config)
-####  instance.postJson(url, params, config) //application/json;charset=utf-8
+####  instance.get(url, {,data,config}) 
+####  instance.post(url, {,data,config}) 
+####  instance.head(url, {,data,config})
+####  instance.put(url, {,data,config})
+####  instance.get(url, {,data,config})
+####  instance.trace(url, {,data,config})
+####  instance.delete(url, {,data,config})
+####  instance.upload(url, {,data,config}) or instance.upload(config)
+####  instance.download(url, {,data,config}) or instance.download(config)
+####  instance.postJson(url, {,data,config}) //application/json;charset=utf-8
 
 ## 请求参数配置
 ```js

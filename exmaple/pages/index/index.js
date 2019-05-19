@@ -1,4 +1,11 @@
 const { get, post, postJson, head, download} = require('../../api/index.js')
+const wf = require('../../api/wf.js')
+
+wf.defaults.baseUrl = 'http://localhost:3000'
+wf.before.use(req => {
+    return req
+})
+wf.get('/get', { data: { title: '标题' },header:{title: 'this is a title'} })
 //获取应用实例
 const app = getApp()
 
@@ -15,30 +22,58 @@ Page({
       url: '../logs/logs'
     })
   },
+  // get 请求
   getRequest(){
-      get({title: 'this is a get request'}).then(() =>{
-          console.log('get request')
-      })
+    //   get({title: 'this is a get request'},{eventType:'get'}).then(() =>{
+    //       console.log('get request')
+    //   })
+    wf.get('/get',{data:{title: 'title'},config:{eventTyep: 'get'}})
   },
+  // post 请求
   postRequest(){
       post({ title: 'this is a post request' }).then(() =>{
           console.log('post request')
       })
   },
+  // postJson 请求
   postJsonRequest() {
-      postJson({ title: 'this is a postJson Request'}).then(() => {
-          console.log('postJson request')
-      })
+      return new Promise((resolve,reject) => {
+          postJson({ title: 'this is a postJson Request' },{
+                  eventType: 'postJson',
+              }).then(res => {
+              console.log('postJsonRequest')
+            //   失败重新建立连接
+              reject(res)
+          })
+          wf.on('postJson', t => {
+              console.log(t)
+          })
+      })    
   },
+  // head 请求
   headRequest() {
       head({title: 'this is a head Request'}).then(() => {
           console.log('head Request')
       })
   },
+  // 下载
   downlaodRequest() {
-      download().then((res) => {
+      download({}, { eventType: 'download'}).then((res) => {
           console.log('download request')
           console.log(res)
+      })
+      wf.onProcess('download',res => {
+          console.log('下载进度', res.progress)
+          console.log('已经下载的数据长度', res.totalBytesWritten)
+          console.log('预期需要下载的数据总长度', res.totalBytesExpectedToWrite)
+      })
+  },
+  // retry 请求
+  retryRequest(){
+      wf.retry(3, this.postJsonRequest,2000).then(data => {
+          console.log(data)
+      }).catch(err => {
+          console.log(err)
       })
   },
   onLoad: function () {

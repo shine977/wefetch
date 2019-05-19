@@ -5,7 +5,7 @@ English | [简体中文](https://github.com/jonnyshao/wefetch/blob/master/README
 [![platform](https://badgen.net/badge/platform/wechat,alipay,baidu?list=1&color=green)](https://github.com/jonnyshao/wefetch)
 [![install size](https://packagephobia.now.sh/badge?p=wefetch)](https://packagephobia.now.sh/result?p=wefetch)
 [![npm version](https://badgen.net/npm/v/wefetch?color=green)](https://www.npmjs.com/package/wefetch)
-[![gzip](https://badgen.net/badgesize/gzip/https://unpkg.com/wefetch@1.2.1/dist/wefetch.min.js)](https://unpkg.com/wefetch@1.2.1/dist/wefetch.min.js)
+[![gzip](https://badgen.net/badgesize/gzip/https://unpkg.com/wefetch@1.2.5/dist/wefetch.min.js)](https://unpkg.com/wefetch@1.2.5/dist/wefetch.min.js)
 [![downloads](https://badgen.net/npm/dm/wefetch)](https://www.npmtrends.com/wefetch)
 
 Promise based api for the Mini Program. Supports the `Wechat` `Alipay` `Baidu` the Mini-program of platform.
@@ -42,10 +42,10 @@ wf.get(url).then(res => {
     
  wf.get('/get', 
  { 
-     title: 'get Test', 
-     content: 'get' 
- }, 
- { 
+     data:{
+       title: 'get Test', 
+      content: 'get' 
+     },
      header: { demo: 'demo' } 
  })
 .then(res => {
@@ -60,7 +60,7 @@ wf.get(url).then(res => {
 ```
 Performing a `POST` request
 ```js
-wf.post('/post',{title: 'post test', content: 'post'})
+wf.post('/post',{data: {title: 'post test', content: 'post'}})
 .then(res => {
     console.log(res)
 }).catch(err => {
@@ -103,6 +103,7 @@ chooseImage().then(res => {
  })
 chooseImage().then(res => {
    wf.upload({
+       url: '/upload',
        filePath: res.tempFilePaths[0],
        name:'file'
    })
@@ -153,15 +154,15 @@ onload: async function () {
 ## Get the `requestTask` Object
 Sample code of get request:
 ```js
-    wf.get('/get',{},{eventType: 'get'})
+    wf.get('/get',{config: {eventType: 'get'}})
     
     //  abort the request
     wf.on('get', t => {
         t.abort()
     })
     // Batch Processing the requestTask Object
-    wf.get('/user/info',{},{eventType:'user'})
-    wf.get('/user/permission',{},{eventType: 'user'})
+    wf.get('/user/info',{ config: { eventType:'user' }})
+    wf.get('/user/permission',{ config: { eventType: 'user' }})
     wf.on('user', t => {
         // this current event handle will be execute the two times
         t.abort()
@@ -176,7 +177,10 @@ const chooseImage = wf.promisify(wx.chooseImage)
     wf.upload('http://your-domain/upload', {
         filePath: res.tempFilePaths[0],
         name: 'file',
-    }, { eventType: 'upload'}).then(res => {
+        config: {
+          eventType: 'upload'
+        }
+    }).then(res => {
             console.log(res)
     });
     wf.on('upload', t => {
@@ -193,7 +197,9 @@ chooseImage().then(res => {
         url: 'http://your-domain/upload',
         filePath: res.tempFilePaths[0],
         name: 'file',
-        eventType: 'upload'
+        config: {
+          eventType: 'upload'
+        }
     }).then(res => {
         console.log(res)
     });
@@ -208,16 +214,16 @@ chooseImage().then(res => {
 ```
 ##  wefetch API
 ####  wf.request(config)
-####  wf.get(url, params, config)
-####  wf.post(url, params, config) 
-####  wf.head(url, params, config)
-####  wf.put(url, params, config)
-####  wf.get(url, params, config)
-####  wf.trace(url, params, config)
-####  wf.delete(url, params, config)
-####  wf.upload(url, params, config)
-####  wf.download(url, params, config)
-####  wf.postJson(url, params, config) //application/json;charset=utf-8
+####  wf.get(url, {,data,config}) 
+####  wf.post(url, {,data,config}) 
+####  wf.head(url, {,data,config})
+####  wf.put(url, {,data,config})
+####  wf.get(url, {,data,config})
+####  wf.trace(url, {,data,config})
+####  wf.delete(url, {,data,config})
+####  wf.upload(url, {,data,config}) or wf.upload(config)
+####  wf.download(url, {,data,config}) or wf.download(config)
+####  wf.postJson(url, {,data,config}) //application/json;charset=utf-8
 Creating an instance
 You can create a new instance of wefetch with a custom config
 ```js
@@ -228,16 +234,16 @@ const instance = wf.create({
 ```
 Instance methods
 ####  instance.request(config)
-####  instance.get(url, params, config)
-####  instance.post(url, params, config) 
-####  instance.head(url, params, config)
-####  instance.put(url, params, config)
-####  instance.get(url, params, config)
-####  instance.trace(url, params, config)
-####  instance.delete(url, params, config)
-####  instance.upload(url, params, config)
-####  instance.download(url, params, config)
-####  instance.postJson(url, params, config) //application/json;charset=utf-8
+####  instance.get(url, {,data,config}) 
+####  instance.post(url, {,data,config}) 
+####  instance.head(url, {,data,config})
+####  instance.put(url, {,data,config})
+####  instance.get(url, {,data,config})
+####  instance.trace(url, {,data,config})
+####  instance.delete(url, {,data,config})
+####  instance.upload(url, {,data,config}) or instance.upload(config)
+####  instance.download(url, {,data,config}) or instance.download(config)
+####  instance.postJson(url, {,data,config}) //application/json;charset=utf-8
 
 ## Default Config
 ```js

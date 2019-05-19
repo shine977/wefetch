@@ -1,13 +1,14 @@
 import utils from "../utils";
+import platform from './platform.js'
 import {JSON_CONTENT_TYPE} from "../defaults";
 
 import dispatchRequest from "./dispatchRequest";
 function request (config) {
-    if (config.url === undefined || config.url === null) {
-        console.error('the request url is undefined');
-        return
+    if (typeof config === 'string') {
+      config = arguments[1] || {};
+      config.url = arguments[0]
     }
-    config = utils.merge(this.defaults, {method: 'get'}, config);
+    config = utils.mergeConfig(this.defaults, config);
     if (config.method === 'postJson') {
         config.method = 'post';
         config.header['Content-Type'] = JSON_CONTENT_TYPE;
@@ -23,12 +24,14 @@ function request (config) {
     }
     if (config.method === 'download') {
         config.method = 'get';
+        config.createRequest = platform.getDownload()
     }
     if (config.method === 'upload'){
         config.method = 'post';
+        config.createRequest = platform.getUpload()
     }
-
     var chain = [dispatchRequest, undefined];
+    config.config = config.config || {};
     var promise = Promise.resolve(config);
     this.before.forEach(function (interceptor) {
         chain.unshift(interceptor.fulfilled, interceptor.rejected)
