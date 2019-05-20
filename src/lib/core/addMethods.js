@@ -6,7 +6,8 @@ import platform from "./platform";
 ['options', 'get', 'head', 'post', 'put', 'delete', 'trace', 'connect', 'postJson'].forEach(function (method) {
     WeFetch.prototype[method] = function (url, config) {
         return this.request(utils.merge(config || {}, {
-            url: url
+            url: url,
+            method: method
         }))
     }
 });

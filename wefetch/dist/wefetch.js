@@ -1,7 +1,7 @@
 /*  
     Promise based wx.request api for  Mini Program
     @Github https://github.com/jonnyshao/wechat-fetch
-    wefetch beta v1.2.5 |(c) 2018-2019 By Jonny Shao
+    wefetch beta v1.2.6 |(c) 2018-2019 By Jonny Shao
 */
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
@@ -280,7 +280,8 @@
     ['options', 'get', 'head', 'post', 'put', 'delete', 'trace', 'connect', 'postJson'].forEach(function (method) {
         WeFetch.prototype[method] = function (url, config) {
             return this.request(utils.merge(config || {}, {
-                url: url
+                url: url,
+                method: method
             }))
         };
     });

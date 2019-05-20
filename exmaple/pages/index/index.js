@@ -1,10 +1,11 @@
 const { get, post, postJson, head, download} = require('../../api/index.js')
-const wf = require('../../api/wf.js')
+const wf = require('wefetch')
 
 wf.defaults.baseUrl = 'http://localhost:3000'
 wf.before.use(req => {
     return req
 })
+wf.postJson('/postJson')
 wf.get('/get', { data: { title: '标题' },header:{title: 'this is a title'} })
 //获取应用实例
 const app = getApp()
