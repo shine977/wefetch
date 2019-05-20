@@ -1,3 +1,5 @@
+import platform from'./platform'
+import promisify from "./promisify";
 export function retry(times,request,timeout) {
   timeout = timeout || 1000;
   if (!times && times !== 0 || !request)throw new Error('request and times params is required');
@@ -16,4 +18,16 @@ export function retry(times,request,timeout) {
   }
   return p;
 }
-
+export function getUserInfo(type) {
+  var p = platform.getPlatform();
+  var get_setting = promisify(p.getSetting);
+  var get_user_info = promisify(p.getUserInfo);
+  if (type){
+    return get_setting().then(function (res) {
+      if (res.authSetting['scope.userInfo']) {
+        return get_user_info()
+      }
+    })
+  }
+  return get_user_info()
+}

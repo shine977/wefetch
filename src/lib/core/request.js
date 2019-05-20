@@ -1,5 +1,4 @@
 import utils from "../utils";
-import platform from './platform.js'
 import {JSON_CONTENT_TYPE} from "../defaults";
 
 import dispatchRequest from "./dispatchRequest";
@@ -21,14 +20,6 @@ function request (config) {
       } else { //(config.baseUrl)
         config.url = config.baseUrl + config.url
       }
-    }
-    if (config.method === 'download') {
-        config.method = 'get';
-        config.createRequest = platform.getDownload()
-    }
-    if (config.method === 'upload'){
-        config.method = 'post';
-        config.createRequest = platform.getUpload()
     }
     var chain = [dispatchRequest, undefined];
     config.config = config.config || {};

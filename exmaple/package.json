@@ -10,6 +10,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "wefetch": "^1.2.5"
+    "wefetch": "^1.2.6"
   }
 }

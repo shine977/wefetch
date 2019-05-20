@@ -1,7 +1,7 @@
 /*  
     Promise based wx.request api for  Mini Program
     @Github https://github.com/jonnyshao/wechat-fetch
-    wefetch beta v1.2.6 |(c) 2018-2019 By Jonny Shao
+    wefetch beta v1.2.7 |(c) 2018-2019 By Jonny Shao
 */
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
@@ -34,6 +34,7 @@
     function promisify (api) {
         return  function (options) {
             options = options || {};
+            options.config = options.config || {};
             for (var len = arguments.length, params = Array(len > 1 ? len - 1 : 0), key = 1; key < len; key++) {
                 params[key - 1] = arguments[key];
             }
@@ -50,14 +51,17 @@
     Platform.prototype.getRequest = function () {
         try {
             if (wx.request) {
-                this.platform = 'wechat';
+                this.platform = 'wx';
                 return promisify(wx.request)
             }
         } catch (e) {
             try {
-                if (my.httpRequest) {
-                    this.platform = 'ali';
-                    return promisify(my.httpRequest)
+                if (my.request) {
+                  this.platform = 'my';
+                  return promisify(my.request)
+                } else if (my.httpRequest){
+                  this.platform = 'my';
+                  return promisify(my.httpRequest)
                 }
             }catch (e) {
                 if (swan.request) {
@@ -68,14 +72,15 @@
         }
     };
     Platform.prototype.getUpload = function () {
-        if (this.platform === 'wechat')return promisify(wx.uploadFile);
-        if (this.platform === 'ali')return promisify(my.uploadFile);
-        if (this.platform === 'swan')return promisify(swan.uploadFile);
+      return promisify(this.getPlatform().uploadFile);
     };
     Platform.prototype.getDownload = function () {
-        if (this.platform === 'wechat')return promisify(wx.downloadFile)
-        if (this.platform === 'ali')return promisify(my.downloadFile)
-        if (this.platform === 'swan')return promisify(swan.downloadFile)
+      return promisify(this.getPlatform().downloadFile);
+    };
+    Platform.prototype.getPlatform = function () {
+      if (this.platform === 'wx')return wx;
+      if (this.platform === 'my')return my;
+      if (this.platform === 'swan')return swan;
     };
     var platform = new Platform();
 
@@ -227,6 +232,18 @@
     };
 
     function dispatchRequest(config) {
+        if (platform.platform === 'my' && config.method !== 'download' && config.method !== 'upload') {
+          config.headers = config.header;
+          delete config.header;
+        }
+        if (config.method === 'download') {
+          config.method = 'get';
+          config.createRequest = platform.getDownload();
+        }
+        if (config.method === 'upload'){
+          config.method = 'post';
+          config.createRequest = platform.getUpload();
+        }
         var request = config.createRequest;
         return request(config).then(function (response) {
             return response;
@@ -254,14 +271,6 @@
             config.url = config.baseUrl + config.url;
           }
         }
-        if (config.method === 'download') {
-            config.method = 'get';
-            config.createRequest = platform.getDownload();
-        }
-        if (config.method === 'upload'){
-            config.method = 'post';
-            config.createRequest = platform.getUpload();
-        }
         var chain = [dispatchRequest, undefined];
         config.config = config.config || {};
         var promise = Promise.resolve(config);
@@ -288,8 +297,6 @@
     WeFetch.prototype.download = function (url, config) {
         // init
         config = config || {};
-        config.createRequest = platform.getDownload();
-
         // check user is input header param
         if (config.header) {
             config.header['Content-Type'] = config.header['Content-Type'] || DOWNLOAD_CONTENT_TYPE;
@@ -299,18 +306,18 @@
 
         // wf.download({}) support
         if (utils.type.isObject(url)) {
-            return this.request(utils.merge(config, url))
+            return this.request(utils.merge(config, url,{ method: 'download' }))
         }
         // default
         return this.request(utils.merge(config,{
-            url: url
+            url: url,
+            method: 'download'
         }))
     };
 
     WeFetch.prototype.upload = function (url, config) {
         // init
         config = config || {};
-        config.createRequest = platform.getUpload();
         // check user is input header param
         if (config.header) {
             config.header['Content-Type'] = config.header['Content-Type'] || UPLOAD_CONTENT_TYPE;
@@ -320,11 +327,15 @@
 
         // upload({}) support
         if (utils.type.isObject(url)) {
-            return this.request(config, url)
+            return this.request(config, url,{ method: 'upload' })
         }
         return this.request(utils.merge(config, {
-            url: url
+            url: url,
+            method: 'upload'
         }))
+    };
+    WeFetch.prototype.login = function () {
+      return promisify(platform.getPlatform().login)();
     };
 
     function WeFetch(instanceConfig) {
@@ -368,6 +379,19 @@
       }
       return p;
     }
+    function getUserInfo(type) {
+      var p = platform.getPlatform();
+      var get_setting = promisify(p.getSetting);
+      var get_user_info = promisify(p.getUserInfo);
+      if (type){
+        return get_setting().then(function (res) {
+          if (res.authSetting['scope.userInfo']) {
+            return get_user_info()
+          }
+        })
+      }
+      return get_user_info()
+    }
 
     Promise.prototype.finally = function (cb) {
         var p = this.constructor;
@@ -394,6 +418,7 @@
     wf.all = function (promises) {
         return Promise.all(promises)
     };
+    wf.getUserInfo = getUserInfo;
     wf.retry = retry;
     wf.create = function (instanceConfig) {
         return createInstance(utils.merge(defaults, instanceConfig))

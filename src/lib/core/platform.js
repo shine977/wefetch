@@ -6,14 +6,17 @@ function Platform() {
 Platform.prototype.getRequest = function () {
     try {
         if (wx.request) {
-            this.platform = 'wechat';
+            this.platform = 'wx';
             return promisify(wx.request)
         }
     } catch (e) {
         try {
-            if (my.httpRequest) {
-                this.platform = 'ali';
-                return promisify(my.httpRequest)
+            if (my.request) {
+              this.platform = 'my';
+              return promisify(my.request)
+            } else if (my.httpRequest){
+              this.platform = 'my';
+              return promisify(my.httpRequest)
             }
         }catch (e) {
             if (swan.request) {
@@ -22,15 +25,16 @@ Platform.prototype.getRequest = function () {
             }
         }
     }
-}
+};
 Platform.prototype.getUpload = function () {
-    if (this.platform === 'wechat')return promisify(wx.uploadFile);
-    if (this.platform === 'ali')return promisify(my.uploadFile);
-    if (this.platform === 'swan')return promisify(swan.uploadFile);
-}
+  return promisify(this.getPlatform().uploadFile);
+};
 Platform.prototype.getDownload = function () {
-    if (this.platform === 'wechat')return promisify(wx.downloadFile)
-    if (this.platform === 'ali')return promisify(my.downloadFile)
-    if (this.platform === 'swan')return promisify(swan.downloadFile)
-}
+  return promisify(this.getPlatform().downloadFile);
+};
+Platform.prototype.getPlatform = function () {
+  if (this.platform === 'wx')return wx;
+  if (this.platform === 'my')return my;
+  if (this.platform === 'swan')return swan;
+};
 export default new Platform();
