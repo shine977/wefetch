@@ -1,4 +1,4 @@
-const wf = require('./wf.js');
+const wf = require('wefetch');
 
 class Request {
     constructor() {

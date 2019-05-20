@@ -52,7 +52,7 @@ class Request {
     // 请求失败可设置再次请求
     // times 为尝试的次数 request为请求方法(必须返回一个Promise对象) timout 可选 默认1秒
     retry(times,request,timeout){
-      this.instance(times,request,timeout)
+      this.instance.retry(times,request,timeout)
     },
     // 取消请求 或使用 wf.abort(event,callback)
     abort(event,callback){

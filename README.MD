@@ -31,7 +31,68 @@ Promise based api for the Mini Program. Supports the `Wechat` 、`Alipay`、`Bai
 ```js
 npm i wefetch
 ```
+## Sample code of Project
+```js
+const wf = require('wefetch');
 
+class Request {
+    constructor() {
+        // queue
+        this.queue = {};
+        // config your domain
+        this.baseUrl = 'http://your-domain.com';
+        // support of alipay mini program  only
+        this.timeout = 3000;
+        // create wefetch instance
+        this.instance = wf.create();
+    }
+    // params merge
+    merge(options) {
+        return { ...options, baseUrl: this.baseUrl }
+    }
+    // Retries a function that returns a promise, leveraging the power of the retry module to the promise 
+    // times && request required
+    retry(times,request,timeout){
+      this.instance.retry(times,request,timeout)
+    },
+    // cancel current request
+    abort(event,callback){
+      this.instance.abort(event,callback)
+    },
+    // get `upload` or `download` processUpdate
+    onProcess(event,cb){
+      this.instance.onProcess(event,cb)
+    }
+    // set interceptors
+    interceptor(instance, url) {
+        instance.before.use(req => {
+            req.header.Authorization = 'type in your token';
+            if (Object.keys(this.queue).length === 0) {
+                wx.showLoading({
+                    title: 'Loading',
+                    mask: true
+                })
+            }
+            this.queue[url] = url;
+            return req;
+        });
+        instance.after.use(res => {
+            delete this.queue[url]
+            if (Object.keys(this.queue).length === 0) {
+                wx.hideLoading()
+            }
+            return res;
+        })
+    }
+    // execute instance
+    request(options) {
+        this.interceptor(this.instance, options.url)
+        return this.instance(this.merge(options));
+    }
+}
+
+module.exports = new Request;
+```
 ## Example
 
 Performing a `GET` request
