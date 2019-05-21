@@ -1,5 +1,4 @@
 const wf = require('wefetch');
-
 class Request {
     constructor() {
         this.queue = {};
@@ -13,7 +12,8 @@ class Request {
     }
     setInterceptor(instance, url) {
         instance.before.use(req => {
-            req.header.Authorization = 'type in your token';
+            console.log('request--parmas', req)
+            req.header.authorization = 'type in your token';
             if (Object.keys(this.queue).length === 0) {
                 const type = req.config.eventType
                 if (type) {
@@ -39,7 +39,7 @@ class Request {
             if (Object.keys(this.queue).length === 0) {
                 wx.hideLoading()
             }
-            console.log('instance res', res)
+            console.log('response', res)
             return res;
         })
     }

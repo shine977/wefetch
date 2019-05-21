@@ -3,10 +3,15 @@ const wf = require('wefetch')
 
 wf.defaults.baseUrl = 'http://localhost:3000'
 wf.before.use(req => {
+    console.log(req)
     return req
 })
+wf.after.use(res => {
+    console.log(res)
+    return res
+})
 wf.postJson('/postJson')
-wf.get('/get', { data: { title: '标题' },header:{title: 'this is a title'} })
+wf.get('/get', { data: { title: '标题' },header:{title: 'this is a title'},config:{eventType: 'user'} })
 //获取应用实例
 const app = getApp()
 
@@ -28,7 +33,9 @@ Page({
     //   get({title: 'this is a get request'},{eventType:'get'}).then(() =>{
     //       console.log('get request')
     //   })
-    wf.get('/get',{data:{title: 'title'},config:{eventTyep: 'get'}})
+    wf.get('/get',{data:{title: 'title'},config:{eventTyep: 'get'},header: {
+        Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAyLCJ1c2VybmFtZSI6IjEzOTE2NzM5OTM4IiwiY29tcGFueSI6MTEsImlhdCI6MTU1Nzg0MTUyOSwiZXhwIjoxNTU4NDQ2MzI5fQ.7JcYLazsriB6PXENOpuVQk-dki7cOIdErPPFYIX6y6U'
+    }})
   },
   // post 请求
   postRequest(){
@@ -63,11 +70,7 @@ Page({
           console.log('download request')
           console.log(res)
       })
-      wf.onProcess('download',res => {
-          console.log('下载进度', res.progress)
-          console.log('已经下载的数据长度', res.totalBytesWritten)
-          console.log('预期需要下载的数据总长度', res.totalBytesExpectedToWrite)
-      })
+      
   },
   // retry 请求
   retryRequest(){

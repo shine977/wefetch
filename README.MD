@@ -1,4 +1,9 @@
 English | [简体中文](https://github.com/jonnyshao/wefetch/blob/master/README-zh_CN.md)
+## mini program platform Support
+
+![WeChat](https://github.com/jonnyshao/wefetch/blob/master/assets/wechat.png) | ![AliPay](https://github.com/jonnyshao/wefetch/blob/master/assets/alipay.png) | ![DingDing](https://github.com/jonnyshao/wefetch/blob/master/assets/dingding.png) | ![Baidu](https://github.com/jonnyshao/wefetch/blob/master/assets/baidu.png) |
+--- | --- | --- | --- |
+Latest ✔ | Latest ✔ | Latest ✔ | Latest ✔ |
 
 # wefetch
 

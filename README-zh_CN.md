@@ -1,5 +1,9 @@
 [English](https://github.com/jonnyshao/wefetch) | 简体中文
+## 支持的小程序平台
 
+![WeChat](https://github.com/jonnyshao/wefetch/blob/master/assets/wechat.png) | ![AliPay](https://github.com/jonnyshao/wefetch/blob/master/assets/alipay.png) | ![DingDing](https://github.com/jonnyshao/wefetch/blob/master/assets/dingding.png) | ![Baidu](https://github.com/jonnyshao/wefetch/blob/master/assets/baidu.png) |
+--- | --- | --- | --- |
+Latest ✔ | Latest ✔ | Latest ✔ | Latest ✔ |
 # wefetch
 [![platform](https://badgen.net/badge/platform/微信,支付宝,百度?list=1&color=green)](https://github.com/jonnyshao/wefetch)
 [![install size](https://packagephobia.now.sh/badge?p=wefetch)](https://packagephobia.now.sh/result?p=wefetch)
