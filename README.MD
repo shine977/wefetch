@@ -1,7 +1,8 @@
 简体中文 | [English](https://github.com/jonnyshao/wefetch/blob/master/README-en.md)
 
+<p align="center"><img width="128" src="https://github.com/jonnyshao/wefetch/blob/master/assets/mini-program.png" alt="wefetch"></p>
+
 # wefetch
-[![platform](https://badgen.net/badge/platform/微信,支付宝,百度?list=1&color=green)](https://github.com/jonnyshao/wefetch)
 [![install size](https://packagephobia.now.sh/badge?p=wefetch)](https://packagephobia.now.sh/result?p=wefetch)
 [![npm version](https://badgen.net/npm/v/wefetch?color=green)](https://www.npmjs.com/package/wefetch)
 [![gzip](https://badgen.net/badgesize/gzip/https://unpkg.com/wefetch@1.2.5/dist/wefetch.min.js)](https://unpkg.com/wefetch@1.2.5/dist/wefetch.min.js)
@@ -37,7 +38,7 @@ Latest ✔ | Latest ✔ | Latest ✔ | Latest ✔ | Latest ✔ |
 ```js
 npm i wefetch
 ```
-## wefetch 封装示例
+## wefetch 封装示例(仅供参考)
 ```js
 const wf = require('wefetch');
 
@@ -299,7 +300,7 @@ chooseImage().then(res => {
 ####  wf.download(url, {,data,config}) or wf.download(config)
 ####  wf.postJson(url, {,data,config}) //application/json;charset=utf-8
 
-<strong>小程序的上传与下载是单独不同的的api，wx.request这个方法不包含上传与下载，请单独调用wf.upload 或 wf.download</strong>
+> 上面方法全部基于`wf.request`,如果对`wf.request`进行包装时 `上传` 需要配置 `method:upload`, `下载` 需要配置 `method:download`
 
 创建一个实例
 > 您可以创建实例，并自定义实例的配置
