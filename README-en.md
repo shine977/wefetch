@@ -1,7 +1,4 @@
 English | [简体中文](https://github.com/jonnyshao/wefetch)
-
-<p align="center"><img width="128" src="https://github.com/jonnyshao/wefetch/blob/master/assets/mini-program.png" alt="wefetch"></p>
-
 # wefetch
 
 [![install size](https://packagephobia.now.sh/badge?p=wefetch)](https://packagephobia.now.sh/result?p=wefetch)

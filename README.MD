@@ -1,7 +1,5 @@
 简体中文 | [English](https://github.com/jonnyshao/wefetch/blob/master/README-en.md)
 
-<p align="center"><img width="128" src="https://github.com/jonnyshao/wefetch/blob/master/assets/mini-program.png" alt="wefetch"></p>
-
 # wefetch
 [![install size](https://packagephobia.now.sh/badge?p=wefetch)](https://packagephobia.now.sh/result?p=wefetch)
 [![npm version](https://badgen.net/npm/v/wefetch?color=green)](https://www.npmjs.com/package/wefetch)
