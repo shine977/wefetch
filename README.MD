@@ -1,9 +1,4 @@
 English | [简体中文](https://github.com/jonnyshao/wefetch/blob/master/README-zh_CN.md)
-## mini program platform Support
-
-![WeChat](https://github.com/jonnyshao/wefetch/blob/master/assets/wechat.png) | ![AliPay](https://github.com/jonnyshao/wefetch/blob/master/assets/alipay.png) | ![DingDing](https://github.com/jonnyshao/wefetch/blob/master/assets/dingding.png) | ![Baidu](https://github.com/jonnyshao/wefetch/blob/master/assets/baidu.png) |
---- | --- | --- | --- |
-Latest ✔ | Latest ✔ | Latest ✔ | Latest ✔ |
 
 # wefetch
 
@@ -13,9 +8,13 @@ Latest ✔ | Latest ✔ | Latest ✔ | Latest ✔ |
 [![gzip](https://badgen.net/badgesize/gzip/https://unpkg.com/wefetch@1.2.5/dist/wefetch.min.js)](https://unpkg.com/wefetch@1.2.5/dist/wefetch.min.js)
 [![downloads](https://badgen.net/npm/dm/wefetch)](https://www.npmtrends.com/wefetch)
 
-
 Promise based api for the Mini Program. Supports the `Wechat` 、`Alipay`、`Baidu`  Mini-program of platform.
 
+## Mini Program Platform Support
+
+![WeChat](https://github.com/jonnyshao/wefetch/blob/master/assets/wechat.png) | ![AliPay](https://github.com/jonnyshao/wefetch/blob/master/assets/alipay.png) | ![DingDing](https://github.com/jonnyshao/wefetch/blob/master/assets/dingding.png) | ![Baidu](https://github.com/jonnyshao/wefetch/blob/master/assets/baidu.png) |
+--- | --- | --- | --- |
+Latest ✔ | Latest ✔ | Latest ✔ | Latest ✔ |
 ## Feature
 
 - Make [wx.request](https://developers.weixin.qq.com/miniprogram/en/dev/api/network-request.html#wxrequestobject) from the Wechat Mini Program
