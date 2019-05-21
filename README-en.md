@@ -1,4 +1,4 @@
-English | [简体中文](https://github.com/jonnyshao/wefetch/blob/master/README.md)
+English | [简体中文](https://github.com/jonnyshao/wefetch)
 
 # wefetch
 

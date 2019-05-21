@@ -1,4 +1,4 @@
-简体中文 | [English](https://github.com/jonnyshao/wefetch)
+简体中文 | [English](https://github.com/jonnyshao/wefetch/blob/master/README-en.md)
 
 # wefetch
 [![platform](https://badgen.net/badge/platform/微信,支付宝,百度?list=1&color=green)](https://github.com/jonnyshao/wefetch)
