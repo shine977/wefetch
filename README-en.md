@@ -1,73 +1,76 @@
-[English](https://github.com/jonnyshao/wefetch) | 简体中文
+English | [简体中文](https://github.com/jonnyshao/wefetch/blob/master/README.md)
 
 # wefetch
-[![platform](https://badgen.net/badge/platform/微信,支付宝,百度?list=1&color=green)](https://github.com/jonnyshao/wefetch)
+
+[![platform](https://badgen.net/badge/platform/wechat,alipay,baidu?list=1&color=green)](https://github.com/jonnyshao/wefetch)
 [![install size](https://packagephobia.now.sh/badge?p=wefetch)](https://packagephobia.now.sh/result?p=wefetch)
 [![npm version](https://badgen.net/npm/v/wefetch?color=green)](https://www.npmjs.com/package/wefetch)
 [![gzip](https://badgen.net/badgesize/gzip/https://unpkg.com/wefetch@1.2.5/dist/wefetch.min.js)](https://unpkg.com/wefetch@1.2.5/dist/wefetch.min.js)
 [![downloads](https://badgen.net/npm/dm/wefetch)](https://www.npmtrends.com/wefetch)
 
-基于Promise，链式编程。支持微信、支付宝、百度小程序
-## 支持的小程序平台
+Promise based api for the Mini Program. Supports the `Wechat` 、`Alipay`、`Baidu`、 `DingDing`、`TouTiao`  Mini-program of platform.
 
-![WeChat](https://github.com/jonnyshao/wefetch/blob/master/assets/wechat.png) | ![AliPay](https://github.com/jonnyshao/wefetch/blob/master/assets/alipay.png) | ![DingDing](https://github.com/jonnyshao/wefetch/blob/master/assets/dingding.png) | ![Baidu](https://github.com/jonnyshao/wefetch/blob/master/assets/baidu.png) |
---- | --- | --- | --- |
-Latest ✔ | Latest ✔ | Latest ✔ | Latest ✔ |
+## Mini Program Platform Support
 
-## 功能&&特点
+![WeChat](https://github.com/jonnyshao/wefetch/blob/master/assets/wechat.png) | ![AliPay](https://github.com/jonnyshao/wefetch/blob/master/assets/alipay.png) | ![DingDing](https://github.com/jonnyshao/wefetch/blob/master/assets/dingding.png) | ![Baidu](https://github.com/jonnyshao/wefetch/blob/master/assets/baidu.png) | ![Toutiao](https://github.com/jonnyshao/wefetch/blob/master/assets/tt.png) |
+--- | --- | --- | --- | --- |
+Latest ✔ | Latest ✔ | Latest ✔ | Latest ✔ | Latest ✔ |
+## Feature
 
-- 微信小程序 [wx.request](https://developers.weixin.qq.com/miniprogram/en/dev/api/network-request.html#wxrequestobject) API 
-- 微信小程序 [wx.downloadFile](https://developers.weixin.qq.com/miniprogram/en/dev/api/network-file.html#wxdownloadfileobject) API 
-- 微信小程序 [wx.uploadFile](https://developers.weixin.qq.com/miniprogram/en/dev/api/network-file.html#wxuploadfileobject) API 
-- 支付宝小程序 [my.httpRequest](https://docs.alipay.com/mini/api/network#a-nameco0fvaamyhttprequest) API 
-- 支付宝小程序 [my.uploadFile](https://docs.alipay.com/mini/api/network#a-namey24rltamyuploadfile) API 
-- 支付宝小程序 [my.downloadFile](https://docs.alipay.com/mini/api/network#a-nameal4taaamydownloadfile) API 
-- 百度小程序 [swan.request](https://smartprogram.baidu.com/docs/develop/api/net_request/#request/) API 
-- 百度小程序 [swan.uploadFile](https://smartprogram.baidu.com/docs/develop/api/net_uploadfile/#uploadFile/) API 
-- 百度小程序 [swan.downloadFile](https://smartprogram.baidu.com/docs/develop/api/net_uploadfile/#downloadFile/) API
-- 支持 [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise) API
-- 请求、响应拦截管理
-- 支持小程序[RequestTask](https://developers.weixin.qq.com/miniprogram/dev/api/wx.request.html) 对象同步管理
+- Make [wx.request](https://developers.weixin.qq.com/miniprogram/en/dev/api/network-request.html#wxrequestobject) from the Wechat Mini Program
+- Make [wx.downloadFile](https://developers.weixin.qq.com/miniprogram/en/dev/api/network-file.html#wxdownloadfileobject) from the Wechat Mini Program
+- Make [wx.uploadFile](https://developers.weixin.qq.com/miniprogram/en/dev/api/network-file.html#wxuploadfileobject) from the Wechat Mini Program
+- Make [my.request](https://docs.alipay.com/mini/api/network#a-nameco0fvaamyhttprequest) from the Alipay Mini Program
+- Make [my.uploadFile](https://docs.alipay.com/mini/api/network#a-namey24rltamyuploadfile) from the Alipay Mini Program
+- Make [my.downloadFile](https://docs.alipay.com/mini/api/network#a-nameal4taaamydownloadfile) from the Alipay Mini Program
+- Make [tt.request](https://developer.toutiao.com/docs/api/request.html) from the TouTiao Mini Program 
+- Make [tt.downloadFile](https://developer.toutiao.com/docs/api/downloadFile.html) from the TouTiao Mini Program 
+- Make [tt.uploadFile](https://developer.toutiao.com/docs/api/uploadFile.html) from the TouTiao Mini Program 
+- Make [swan.request](https://smartprogram.baidu.com/docs/develop/api/net_request/#request/) from the Baidu Mini Program
+- Make [swan.uploadFile](https://smartprogram.baidu.com/docs/develop/api/net_uploadfile/#uploadFile/) from the Baidu Mini Program
+- Make [swan.downloadFile](https://smartprogram.baidu.com/docs/develop/api/net_uploadfile/#downloadFile/) from the Baidu Mini Program
+- Supports the [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise) API
+- Intercept request and response
+- Supports the Mini Program [RequestTask](https://developers.weixin.qq.com/miniprogram/dev/api/wx.request.html) object of config
 
-## 安装
+## installing
 
 ```js
 npm i wefetch
 ```
-## wefetch 封装示例
+## Sample code of Project
 ```js
 const wf = require('wefetch');
 
 class Request {
-    // init
     constructor() {
-        // 请求队列
+        // queue
         this.queue = {};
-        // 配置请求域名
+        // config your domain
         this.baseUrl = 'http://your-domain.com';
-        // 仅支付宝小程序支持
+        // support of alipay mini program  only
         this.timeout = 3000;
-        // 创建 wefetch 实例
+        // create wefetch instance
         this.instance = wf.create();
     }
-    // 参数合并
+    // params merge
     merge(options) {
         return { ...options, baseUrl: this.baseUrl }
     }
-    // 请求失败可设置再次请求
-    // times 为尝试的次数 request为请求方法(必须返回一个Promise对象) timout 可选 默认1秒
+    // Retries a function that returns a promise, leveraging the power of the retry module to the promise 
+    // times && request required
     retry(times,request,timeout){
       this.instance.retry(times,request,timeout)
     },
-    // 取消请求 或使用 wf.abort(event,callback)
+    // cancel current request
     abort(event,callback){
       this.instance.abort(event,callback)
     },
-    // 获取上传或下载进度 或使用wf.onProcess(event,handle)
+    // get `upload` or `download` processUpdate
     onProcess(event,cb){
       this.instance.onProcess(event,cb)
     }
-    // 设置拦截器
+    // set interceptors
     interceptor(instance, url) {
         instance.before.use(req => {
             req.header.Authorization = 'type in your token';
@@ -88,7 +91,7 @@ class Request {
             return res;
         })
     }
-    // 执行 wefetch 实例
+    // execute instance
     request(options) {
         this.interceptor(this.instance, options.url)
         return this.instance(this.merge(options));
@@ -97,13 +100,13 @@ class Request {
 
 module.exports = new Request;
 ```
-## 示例
+## Example
 
-发送一个 `GET` 请求
+Performing a `GET` request
 ```js
 const wf = require('wefetch')
 wx.showLoading({
-  title: '加载中...',
+  title: 'loading',
   mask: true
 })
 wf.get(url).then(res => {
@@ -111,7 +114,7 @@ wf.get(url).then(res => {
 }).catch(err => {
 // ...
 })
-// 请求完成执行
+// request completed
 .finally(() => {
     wx.hideLoading()
 })
@@ -120,7 +123,7 @@ wf.get(url).then(res => {
  { 
      data: {
        title: 'get Test', 
-            content: 'get'
+      content: 'get' 
      },
      header: { demo: 'demo' } 
  })
@@ -134,18 +137,18 @@ wf.get(url).then(res => {
    // always executed
 })
 ```
-发送一个 `POST` 请求
+Performing a `POST` request
 ```js
-wf.post('/post',{data: { title: 'post test', content: 'post' }})
+wf.post('/post',{ data:{ title: 'post test', content: 'post' }})
 .then(res => {
     console.log(res)
 }).catch(err => {
     console.log(err)
 })
 ```
-发送一个 `POSTJSON` 请求
+Performing a `POSTJSON` request
 ```js
-// postJson请求头的 `Content-Type` 是 'application/json;charset=uft-8'
+// the request header `Content-Type` property is a 'application/json;charset=uft-8'
 
 wf.postJson('/postJson')
 .then( res => {
@@ -153,17 +156,17 @@ wf.postJson('/postJson')
 })
 ```
 
-发送多个 `并发` 请求
+Performing multiple `concurrent` requests
 ```js
 const getUserInfo = prams => wf.get('/user/1', params)
 const getUserPermissions = params => wf.get('/user/1/permission', params)
 wf.all([getUserInfo(), getUserPermissions()])
 .then(res => {
-    // 所有请求完成后，将返回一个数组集合的Response
+    // both requests are complete, the res as a Array back
 })
 ```
 
-发送一个 `上传` 请求
+Performing a `upload` request
 ```js
 
 const chooseImage = wf.promisify(wx.chooseImage)
@@ -189,7 +192,7 @@ chooseImage().then(res => {
  })
 ```
 
-发送一个 `下载` 请求
+Performing a `download` request
 ```js
 wf.download('/download')
 .then(res => {
@@ -202,9 +205,10 @@ wf.download({
 .then(res => {
     console.log(res)
 })
+
 ```
-## 使用 async/await 
-> async/await 是ECMAScript 2017规范中的，截止目前(2019.03)微信小程序还未支持, 在我们使用之前需要引入一个Facebook `regeneratorRuntime`的库 ,为了方便使用，已经单独抽离出来
+## To use async/await 
+> async/await is part of ECMAScript 2017 and is not supported in Mini Program, before we can use it, we need introduce a `regeneratorRuntime` 
 
 [wehcat-regenerator-runtime](https://github.com/jonnyshao/wehcat-regenerator-runtime)
 ```js
@@ -217,7 +221,6 @@ async onload () {
     
     // do something....
 }
-
 // Es5 write
 onload: async function () {
   let res = await wf.get('/get')
@@ -226,24 +229,24 @@ onload: async function () {
       // do something....
 }
 ```
-## 获取小程序`requestTask` 对象
-`get` 请求代码示例:
+## Get the `requestTask` Object
+Sample code of get request:
 ```js
-    wf.get('/get',{},{eventType: 'get'})
+    wf.get('/get',{ config: {eventType: 'get'}})
     
-    //  取消请求
+    //  abort the request
     wf.on('get', t => {
         t.abort()
     })
-    // 处理多个请求
-    wf.get('/user/info',{ config: {eventType:'user'}},)
-    wf.get('/user/permission',{ config: {eventType: 'user'}},)
+    // Batch Processing the requestTask Object
+    wf.get('/user/info',{ config: {eventType:'user'}})
+    wf.get('/user/permission',{ config: {eventType:'user'}})
     wf.on('user', t => {
-        // 当前注册的user事件函数会执行两次，依次类推
+        // this current event handle will be execute the two times
         t.abort()
     })
 ```
-`上传` 请求代码示例:
+Sample code of upload request:
 
 ```js
 // promisify
@@ -254,7 +257,7 @@ const chooseImage = wf.promisify(wx.chooseImage)
         name: 'file',
         config: { eventType: 'upload'}
     }).then(res => {
-        console.log(res)
+            console.log(res)
     });
     wf.on('upload', t => {
         t.onProgressUpdate((res) => {
@@ -270,7 +273,9 @@ chooseImage().then(res => {
         url: 'http://your-domain/upload',
         filePath: res.tempFilePaths[0],
         name: 'file',
-        config: {eventType: 'upload'}
+        config: {
+          eventType: 'upload'
+        }
     }).then(res => {
         console.log(res)
     });
@@ -295,78 +300,74 @@ chooseImage().then(res => {
 ####  wf.upload(url, {,data,config}) or wf.upload(config)
 ####  wf.download(url, {,data,config}) or wf.download(config)
 ####  wf.postJson(url, {,data,config}) //application/json;charset=utf-8
-
-<strong>小程序的上传与下载是单独不同的的api，wx.request这个方法不包含上传与下载，请单独调用wf.upload 或 wf.download</strong>
-
-创建一个实例
-> 您可以创建实例，并自定义实例的配置
+Creating an instance
+You can create a new instance of wefetch with a custom config
 ```js
 const instance = wf.create({
     baseUrl: 'http://your-domain.com/api'
     //....
 })
 ```
-实例中的方法
-####  instance.request(config)
-####  instance.get(url, {,data,config}) 
-####  instance.post(url, {,data,config}) 
-####  instance.head(url, {,data,config})
-####  instance.put(url, {,data,config})
-####  instance.get(url, {,data,config})
-####  instance.trace(url, {,data,config})
-####  instance.delete(url, {,data,config})
-####  instance.upload(url, {,data,config}) or instance.upload(config)
-####  instance.download(url, {,data,config}) or instance.download(config)
-####  instance.postJson(url, {,data,config}) //application/json;charset=utf-8
+Instance methods
+####  wf.request(config)
+####  wf.get(url, {,data,config}) 
+####  wf.post(url, {,data,config}) 
+####  wf.head(url, {,data,config})
+####  wf.put(url, {,data,config})
+####  wf.get(url, {,data,config})
+####  wf.trace(url, {,data,config})
+####  wf.delete(url, {,data,config})
+####  wf.upload(url, {,data,config}) or wf.upload(config)
+####  wf.download(url, {,data,config}) or wf.download(config)
+####  wf.postJson(url, {,data,config}) //application/json;charset=utf-8
 
-## 请求参数配置
+## Config Params
 ```js
 {
-    // `url` 服务器请求路径
+    // `url` is the server URL that will be used for the request
     url: '/user',
     
-    // `baseURL` 与 `url` 会合并一个完整的 url, `baseURl` 将会在 `url` 前面
+    // `baseURL` will be prepended to `url`
     baseUrl:'http://your-domain.com/api',
     
-    // 默认请求 `get`
+    // default method `get`
     method: 'get', 
-    /*
-    * 如果您的项目请求路径、上传路径、下载路径都不一样的情况下，可以单独对`uploadUrl` and `downloadUrl`进行设置
-    * */
+    
+    // `uploadUrl` and `downloadUrl` will be prepended to `url`。 if your project have a different request path, you can like this to set it:
     uploadUrl:'http://your-domain.com/upload',
     
     downloadUrl: 'http://your-domain.com/download',
     
-    // 仅支付宝小程序支持
+    // support `alipay` platform only
     timeout: 0,
     
-    // 在wefetch中，可以注册一个自定义事件，用来同步管理小程序的reqeustTask对象，`eventType` 是注册事件时自定义的事件名称
+    // if your want to the Mini Program to return a requestTask Object, you can custom the `eventType`
+    // like this wf.on('your eventType', t => {...})
     eventType: '',
-    // 默认的 `Content-Type`
+    // default `Content-Type`
     header: {
             'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
         }
 }
 ```
-## 配置默认参数
+## Config Defaults
 
-**全局的 wefetch 默认参数**
+**Global wefetch defaults**
 ```js
 wf.defaults.baseUrl = 'http://your-domain.com/api';
 wf.defaults.uploadUrl = 'http://your-domain.com/upload';
 wf.defaults.downloadUrl = 'http://your-domain.com/download';
 ```
-**自定义实例的参数**
+**Custom instance defaults**
 ```js
 const instance = wf.create()
 instance.defaults.baseUrl = 'http://your-domain.com/api';
 instance.defaults.uploadUrl = 'http://your-domain.com/upload';
 instance.defaults.downloadUrl = 'http://your-domain.com/download';
 ```
-## 拦截器
-> 全局拦截器在整个项目中只需注册一次，不同的实例都可以拥有自己的拦截器
+## Interceptors
 ```js
-// 注册一个请求拦截器
+// add a request interceptor
 wf.before.use(request => {
     // Do something before request is sent
     return request;
@@ -375,7 +376,7 @@ wf.before.use(request => {
     return Promise.reject(error);
 })
 
-// 注册一个响应拦截器
+// add a response interceptor
 wf.after.use(response => {
     // Do something with response data
     return response;
@@ -385,7 +386,7 @@ wf.after.use(response => {
 })
 ```
 
-## 使用 wf.promisify提供的api promise化小程序的api
+## Promisify for Mini Program API
 ```js
 const chooseImage = wf.promisify(wx.chooseImage)
 // using in wechat Mini Program

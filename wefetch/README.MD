@@ -1,4 +1,4 @@
-English | [简体中文](https://github.com/jonnyshao/wefetch/blob/master/README-zh_CN.md)
+English | [简体中文](https://github.com/jonnyshao/wefetch/blob/master/README.md)
 
 # wefetch
 
@@ -8,41 +8,120 @@ English | [简体中文](https://github.com/jonnyshao/wefetch/blob/master/README
 [![gzip](https://badgen.net/badgesize/gzip/https://unpkg.com/wefetch@1.2.5/dist/wefetch.min.js)](https://unpkg.com/wefetch@1.2.5/dist/wefetch.min.js)
 [![downloads](https://badgen.net/npm/dm/wefetch)](https://www.npmtrends.com/wefetch)
 
-Promise based api for the Mini Program. Supports the `Wechat` `Alipay` `Baidu` the Mini-program of platform.
+Promise based api for the Mini Program. Supports the `Wechat` 、`Alipay`、`Baidu`、 `DingDing`、`TouTiao`  Mini-program of platform.
 
+## Mini Program Platform Support
+
+![WeChat](https://github.com/jonnyshao/wefetch/blob/master/assets/wechat.png) | ![AliPay](https://github.com/jonnyshao/wefetch/blob/master/assets/alipay.png) | ![DingDing](https://github.com/jonnyshao/wefetch/blob/master/assets/dingding.png) | ![Baidu](https://github.com/jonnyshao/wefetch/blob/master/assets/baidu.png) | ![Toutiao](https://github.com/jonnyshao/wefetch/blob/master/assets/tt.png) |
+--- | --- | --- | --- | --- |
+Latest ✔ | Latest ✔ | Latest ✔ | Latest ✔ | Latest ✔ |
 ## Feature
 
 - Make [wx.request](https://developers.weixin.qq.com/miniprogram/en/dev/api/network-request.html#wxrequestobject) from the Wechat Mini Program
 - Make [wx.downloadFile](https://developers.weixin.qq.com/miniprogram/en/dev/api/network-file.html#wxdownloadfileobject) from the Wechat Mini Program
 - Make [wx.uploadFile](https://developers.weixin.qq.com/miniprogram/en/dev/api/network-file.html#wxuploadfileobject) from the Wechat Mini Program
-- Make [my.httpRequest](https://docs.alipay.com/mini/api/network#a-nameco0fvaamyhttprequest) from the Alipay Mini Program
+- Make [my.request](https://docs.alipay.com/mini/api/network#a-nameco0fvaamyhttprequest) from the Alipay Mini Program
 - Make [my.uploadFile](https://docs.alipay.com/mini/api/network#a-namey24rltamyuploadfile) from the Alipay Mini Program
 - Make [my.downloadFile](https://docs.alipay.com/mini/api/network#a-nameal4taaamydownloadfile) from the Alipay Mini Program
+- Make [tt.request](https://developer.toutiao.com/docs/api/request.html) from the TouTiao Mini Program 
+- Make [tt.downloadFile](https://developer.toutiao.com/docs/api/downloadFile.html) from the TouTiao Mini Program 
+- Make [tt.uploadFile](https://developer.toutiao.com/docs/api/uploadFile.html) from the TouTiao Mini Program 
 - Make [swan.request](https://smartprogram.baidu.com/docs/develop/api/net_request/#request/) from the Baidu Mini Program
 - Make [swan.uploadFile](https://smartprogram.baidu.com/docs/develop/api/net_uploadfile/#uploadFile/) from the Baidu Mini Program
 - Make [swan.downloadFile](https://smartprogram.baidu.com/docs/develop/api/net_uploadfile/#downloadFile/) from the Baidu Mini Program
 - Supports the [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise) API
 - Intercept request and response
-- Supports the Mini Program [RequestTask](https://developers.weixin.qq.com/miniprogram/dev/api/wx.request.html) object for config
+- Supports the Mini Program [RequestTask](https://developers.weixin.qq.com/miniprogram/dev/api/wx.request.html) object of config
 
 ## installing
 
 ```js
 npm i wefetch
 ```
+## Sample code of Project
+```js
+const wf = require('wefetch');
 
+class Request {
+    constructor() {
+        // queue
+        this.queue = {};
+        // config your domain
+        this.baseUrl = 'http://your-domain.com';
+        // support of alipay mini program  only
+        this.timeout = 3000;
+        // create wefetch instance
+        this.instance = wf.create();
+    }
+    // params merge
+    merge(options) {
+        return { ...options, baseUrl: this.baseUrl }
+    }
+    // Retries a function that returns a promise, leveraging the power of the retry module to the promise 
+    // times && request required
+    retry(times,request,timeout){
+      this.instance.retry(times,request,timeout)
+    },
+    // cancel current request
+    abort(event,callback){
+      this.instance.abort(event,callback)
+    },
+    // get `upload` or `download` processUpdate
+    onProcess(event,cb){
+      this.instance.onProcess(event,cb)
+    }
+    // set interceptors
+    interceptor(instance, url) {
+        instance.before.use(req => {
+            req.header.Authorization = 'type in your token';
+            if (Object.keys(this.queue).length === 0) {
+                wx.showLoading({
+                    title: 'Loading',
+                    mask: true
+                })
+            }
+            this.queue[url] = url;
+            return req;
+        });
+        instance.after.use(res => {
+            delete this.queue[url]
+            if (Object.keys(this.queue).length === 0) {
+                wx.hideLoading()
+            }
+            return res;
+        })
+    }
+    // execute instance
+    request(options) {
+        this.interceptor(this.instance, options.url)
+        return this.instance(this.merge(options));
+    }
+}
+
+module.exports = new Request;
+```
 ## Example
 
 Performing a `GET` request
 ```js
 const wf = require('wefetch')
+wx.showLoading({
+  title: 'loading',
+  mask: true
+})
 wf.get(url).then(res => {
 // ....
+}).catch(err => {
+// ...
+})
+// request completed
+.finally(() => {
+    wx.hideLoading()
 })
     
  wf.get('/get', 
  { 
-     data:{
+     data: {
        title: 'get Test', 
       content: 'get' 
      },
@@ -60,7 +139,7 @@ wf.get(url).then(res => {
 ```
 Performing a `POST` request
 ```js
-wf.post('/post',{data: {title: 'post test', content: 'post'}})
+wf.post('/post',{ data:{ title: 'post test', content: 'post' }})
 .then(res => {
     console.log(res)
 }).catch(err => {
@@ -129,10 +208,9 @@ wf.download({
 
 ```
 ## To use async/await 
-> async/await is part of ECMAScript 2017 and is not supported in Mini Program, before we can use it, we need introduce a `regeneratorRuntime` library
+> async/await is part of ECMAScript 2017 and is not supported in Mini Program, before we can use it, we need introduce a `regeneratorRuntime` 
 
 [wehcat-regenerator-runtime](https://github.com/jonnyshao/wehcat-regenerator-runtime)
-
 ```js
 const regeneratorRuntime = require('wehcat-regenerator-runtime');
 
@@ -154,15 +232,15 @@ onload: async function () {
 ## Get the `requestTask` Object
 Sample code of get request:
 ```js
-    wf.get('/get',{config: {eventType: 'get'}})
+    wf.get('/get',{ config: {eventType: 'get'}})
     
     //  abort the request
     wf.on('get', t => {
         t.abort()
     })
     // Batch Processing the requestTask Object
-    wf.get('/user/info',{ config: { eventType:'user' }})
-    wf.get('/user/permission',{ config: { eventType: 'user' }})
+    wf.get('/user/info',{ config: {eventType:'user'}})
+    wf.get('/user/permission',{ config: {eventType:'user'}})
     wf.on('user', t => {
         // this current event handle will be execute the two times
         t.abort()
@@ -177,9 +255,7 @@ const chooseImage = wf.promisify(wx.chooseImage)
     wf.upload('http://your-domain/upload', {
         filePath: res.tempFilePaths[0],
         name: 'file',
-        config: {
-          eventType: 'upload'
-        }
+        config: { eventType: 'upload'}
     }).then(res => {
             console.log(res)
     });
@@ -233,19 +309,19 @@ const instance = wf.create({
 })
 ```
 Instance methods
-####  instance.request(config)
-####  instance.get(url, {,data,config}) 
-####  instance.post(url, {,data,config}) 
-####  instance.head(url, {,data,config})
-####  instance.put(url, {,data,config})
-####  instance.get(url, {,data,config})
-####  instance.trace(url, {,data,config})
-####  instance.delete(url, {,data,config})
-####  instance.upload(url, {,data,config}) or instance.upload(config)
-####  instance.download(url, {,data,config}) or instance.download(config)
-####  instance.postJson(url, {,data,config}) //application/json;charset=utf-8
+####  wf.request(config)
+####  wf.get(url, {,data,config}) 
+####  wf.post(url, {,data,config}) 
+####  wf.head(url, {,data,config})
+####  wf.put(url, {,data,config})
+####  wf.get(url, {,data,config})
+####  wf.trace(url, {,data,config})
+####  wf.delete(url, {,data,config})
+####  wf.upload(url, {,data,config}) or wf.upload(config)
+####  wf.download(url, {,data,config}) or wf.download(config)
+####  wf.postJson(url, {,data,config}) //application/json;charset=utf-8
 
-## Default Config
+## Config Params
 ```js
 {
     // `url` is the server URL that will be used for the request
@@ -265,7 +341,7 @@ Instance methods
     // support `alipay` platform only
     timeout: 0,
     
-    // if your want to the Mini Program to back the requestTask Object, you can custom the `eventType`
+    // if your want to the Mini Program to return a requestTask Object, you can custom the `eventType`
     // like this wf.on('your eventType', t => {...})
     eventType: '',
     // default `Content-Type`

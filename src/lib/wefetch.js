@@ -3,7 +3,7 @@ import {defaults} from './defaults'
 import utils from './utils'
 import WeFetch from './core/Wefetch'
 import bind from './core/bind'
-import {retry, getUserInfo} from './core/functional'
+import {retry} from './core/functional'
 Promise.prototype.finally = function (cb) {
     var p = this.constructor;
     return this.then(function (value) {
@@ -29,7 +29,6 @@ var wf = createInstance(defaults);
 wf.all = function (promises) {
     return Promise.all(promises)
 };
-wf.getUserInfo = getUserInfo;
 wf.retry = retry;
 wf.create = function (instanceConfig) {
     return createInstance(utils.merge(defaults, instanceConfig))

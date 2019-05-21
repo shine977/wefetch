@@ -51,6 +51,3 @@ WeFetch.prototype.upload = function (url, config) {
         method: 'upload'
     }))
 };
-WeFetch.prototype.login = function () {
-  return promisify(platform.getPlatform().login)();
-};

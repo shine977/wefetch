@@ -51,10 +51,12 @@
     }
     Platform.prototype.getRequest = function () {
         try {
+            console.log('getRequest')
             if (wx.request) {
                 this.platform = 'wx';
                 return promisify(wx.request)
             }
+            
         } catch (e) {
             try {
                 if (my.request) {
@@ -65,9 +67,16 @@
                     return promisify(my.httpRequest)
                 }
             } catch (e) {
-                if (swan.request) {
-                    this.platform = 'swan';
-                    return promisify(swan.request)
+                try {
+                    if (tt.request) {
+                        this.platform = 'tt';
+                        return promisify(tt.request)
+                    }
+                } catch (e) {
+                    if (swan.request) {
+                        this.platform = 'swan';
+                        return promisify(swan.request)
+                    }
                 }
             }
         }
@@ -82,6 +91,7 @@
         if (this.platform === 'wx') return wx;
         if (this.platform === 'my') return my;
         if (this.platform === 'swan') return swan;
+        if (this.platform === 'tt') return tt;
     };
     var platform = new Platform();
 
@@ -335,9 +345,6 @@
             method: 'upload'
         }))
     };
-    WeFetch.prototype.login = function () {
-        return promisify(platform.getPlatform().login)();
-    };
 
     function WeFetch(instanceConfig) {
         this.defaults = instanceConfig;
@@ -380,19 +387,6 @@
         }
         return p;
     }
-    function getUserInfo(type) {
-        var p = platform.getPlatform();
-        var get_setting = promisify(p.getSetting);
-        var get_user_info = promisify(p.getUserInfo);
-        if (type) {
-            return get_setting().then(function (res) {
-                if (res.authSetting['scope.userInfo']) {
-                    return get_user_info()
-                }
-            })
-        }
-        return get_user_info()
-    }
 
     Promise.prototype.finally = function (cb) {
         var p = this.constructor;
@@ -419,7 +413,6 @@
     wf.all = function (promises) {
         return Promise.all(promises)
     };
-    wf.getUserInfo = getUserInfo;
     wf.retry = retry;
     wf.create = function (instanceConfig) {
         return createInstance(utils.merge(defaults, instanceConfig))

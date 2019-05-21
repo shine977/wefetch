@@ -1,4 +1,4 @@
-const wf = require('wefetch');
+const wf = require('./wf.js');
 class Request {
     constructor() {
         this.queue = {};

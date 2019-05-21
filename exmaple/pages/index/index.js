@@ -1,5 +1,5 @@
 const { get, post, postJson, head, download} = require('../../api/index.js')
-const wf = require('wefetch')
+const wf = require('../../api/wf.js')
 
 wf.defaults.baseUrl = 'http://localhost:3000'
 wf.before.use(req => {

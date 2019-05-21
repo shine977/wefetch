@@ -19,9 +19,16 @@ Platform.prototype.getRequest = function () {
               return promisify(my.httpRequest)
             }
         }catch (e) {
-            if (swan.request) {
+            try{
+              if (tt.request) {
+                this.platform = 'tt';
+                return promisify(tt.request)
+              }
+            }catch (e) {
+              if (swan.request) {
                 this.platform = 'swan';
                 return promisify(swan.request)
+              }
             }
         }
     }
@@ -36,5 +43,6 @@ Platform.prototype.getPlatform = function () {
   if (this.platform === 'wx')return wx;
   if (this.platform === 'my')return my;
   if (this.platform === 'swan')return swan;
+  if (this.platform === 'tt')return tt;
 };
 export default new Platform();
