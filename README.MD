@@ -305,6 +305,8 @@ on | [eventType,callback]| [String,Function] | 获取小程序RequestTask对象 
 abort | [eventType,callback]| [String,Function] | 终端当前请求 | 所有|
 onProcess | [eventType,callback]| [String,Function] | 获取当前上传或下载时Process | 所有|
 retry | [times,request,timeout]| [Number,Function,Number] | 请求失败重试，times为次数，request必须返回Promise对象，timeout为间隔时间，默认为1秒 | 所有|
+finally | callback| Function | 当前请求完成后执行的方法| 所有|
+all | [request,request,...]| Array | 调用Promise.all方法,请求全部成功后返回一个集合| 所有|
 
 > 默认所有平台下的小程序HTTP请求 `Content-type` 是 `application/x-www-form-urlencoded;charset=utf-8`
 
@@ -343,6 +345,8 @@ on | [eventType,callback]| [String,Function] | 获取小程序RequestTask对象 
 abort | [eventType,callback]| [String,Function] | 终端当前请求 | 所有|
 onProcess | [eventType,callback]| [String,Function] | 获取当前上传或下载时Process | 所有|
 retry | [times,request,timeout]| [Number,Function,Number] | 同上 | 所有|
+finally | callback| Function | 当前请求完成后执行的方法| 所有|
+all | [request,request,...]| Array | 调用Promise.all方法,请求全部成功后返回一个集合| 所有|
 
 
 ## 请求参数配置
