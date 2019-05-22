@@ -69,7 +69,7 @@ var utils = {
                 c[prop] = target[prop]
             }
         });
-        ['header'].forEach(function (prop) {
+        ['header','headers'].forEach(function (prop) {
             if (utils.type.isObject(target[prop])){
                 c[prop] = utils.deepMerge(source[prop],target[prop])
             } else if(target[prop]){

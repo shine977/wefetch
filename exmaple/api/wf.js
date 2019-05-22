@@ -1,13 +1,14 @@
 /*  
     Promise based wx.request api for  Mini Program
     @Github https://github.com/jonnyshao/wechat-fetch
-    wefetch beta v1.2.10 |(c) 2018-2019 By Jonny Shao
+    wefetch beta v1.3.01 |(c) 2018-2019 By Jonny Shao
 */
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
-    typeof define === 'function' && define.amd ? define(factory) :
-    (global = global || self, global.wefetch = factory());
-}(this, function () { 'use strict';
+        typeof define === 'function' && define.amd ? define(factory) :
+            (global = global || self, global.wefetch = factory());
+}(this, function () {
+    'use strict';
 
     function Events() {
         this.listeners = {};
@@ -31,16 +32,16 @@
 
     var e = new Events();
 
-    function promisify (api) {
-        return  function (options) {
+    function promisify(api) {
+        return function (options) {
             options = options || {};
             options.config = options.config || {};
             for (var len = arguments.length, params = Array(len > 1 ? len - 1 : 0), key = 1; key < len; key++) {
                 params[key - 1] = arguments[key];
             }
             return new Promise(function (resolve, reject) {
-                options.config.eventType ? e.emit(options.config.eventType, api.apply(undefined, [Object.assign({}, options, {success: resolve, fail: reject})].concat(params)))
-                    : api.apply(undefined, [Object.assign({}, options, {success: resolve, fail: reject})].concat(params));
+                options.config.eventType ? e.emit(options.config.eventType, api.apply(undefined, [Object.assign({}, options, { success: resolve, fail: reject })].concat(params)))
+                    : api.apply(undefined, [Object.assign({}, options, { success: resolve, fail: reject })].concat(params));
             })
         };
     }
@@ -57,38 +58,38 @@
         } catch (e) {
             try {
                 if (my.request) {
-                  this.platform = 'my';
-                  return promisify(my.request)
-                } else if (my.httpRequest){
-                  this.platform = 'my';
-                  return promisify(my.httpRequest)
+                    this.platform = 'my';
+                    return promisify(my.request)
+                } else if (my.httpRequest) {
+                    this.platform = 'my';
+                    return promisify(my.httpRequest)
                 }
-            }catch (e) {
-                try{
-                  if (tt.request) {
-                    this.platform = 'tt';
-                    return promisify(tt.request)
-                  }
-                }catch (e) {
-                  if (swan.request) {
-                    this.platform = 'swan';
-                    return promisify(swan.request)
-                  }
+            } catch (e) {
+                try {
+                    if (tt.request) {
+                        this.platform = 'tt';
+                        return promisify(tt.request)
+                    }
+                } catch (e) {
+                    if (swan.request) {
+                        this.platform = 'swan';
+                        return promisify(swan.request)
+                    }
                 }
             }
         }
     };
     Platform.prototype.getUpload = function () {
-      return promisify(this.getPlatform().uploadFile);
+        return promisify(this.getPlatform().uploadFile);
     };
     Platform.prototype.getDownload = function () {
-      return promisify(this.getPlatform().downloadFile);
+        return promisify(this.getPlatform().downloadFile);
     };
     Platform.prototype.getPlatform = function () {
-      if (this.platform === 'wx')return wx;
-      if (this.platform === 'my')return my;
-      if (this.platform === 'swan')return swan;
-      if (this.platform === 'tt')return tt;
+        if (this.platform === 'wx') return wx;
+        if (this.platform === 'my') return my;
+        if (this.platform === 'swan') return swan;
+        if (this.platform === 'tt') return tt;
     };
     var platform = new Platform();
 
@@ -101,7 +102,7 @@
     };
 
     function bind(fn, context) {
-        return function wf (){
+        return function wf() {
             var args = new Array(arguments.length);
             for (var i = 0, l = args.length; i < l; i++) {
                 args[i] = arguments[i];
@@ -118,7 +119,7 @@
             for (var i = 0, len = typeAry.length; i < len; i++) {
                 (function (name) {
                     type['is' + name] = function (obj) {
-                        return tostring.call(obj) === '[object' +' '+ name + ']';
+                        return tostring.call(obj) === '[object' + ' ' + name + ']';
                     };
                 })(typeAry[i]);
             }
@@ -157,48 +158,48 @@
             }
             return result;
         },
-        deepMerge: function() {
+        deepMerge: function () {
             var result = {};
-                function assignValue(val, key) {
-                    if (typeof result[key] === 'object' && typeof val === 'object') {
-                        result[key] = utils.deepMerge(result[key], val);
-                    } else if (typeof val === 'object'){
-                        result[key] = utils.deepMerge({},val);
-                    } else {
-                        result[key] = val;
-                    }
+            function assignValue(val, key) {
+                if (typeof result[key] === 'object' && typeof val === 'object') {
+                    result[key] = utils.deepMerge(result[key], val);
+                } else if (typeof val === 'object') {
+                    result[key] = utils.deepMerge({}, val);
+                } else {
+                    result[key] = val;
                 }
-                for (var i = 0, l = arguments.length; i < l; i++) {
-                    this.forEach(arguments[i], assignValue);
-                }
-                return result;
+            }
+            for (var i = 0, l = arguments.length; i < l; i++) {
+                this.forEach(arguments[i], assignValue);
+            }
+            return result;
         },
-        mergeConfig: function(source,target){
-          var c = {}; target = target || {};
-            ['url','method', 'data','config'].forEach(function (prop) {
-                if (target[prop]){
+        mergeConfig: function (source, target) {
+            var c = {}; target = target || {};
+            ['url', 'method', 'data', 'config'].forEach(function (prop) {
+                if (target[prop]) {
                     c[prop] = target[prop];
                 }
             });
-            ['header'].forEach(function (prop) {
-                if (utils.type.isObject(target[prop])){
-                    c[prop] = utils.deepMerge(source[prop],target[prop]);
-                } else if(target[prop]){
+            ['header', 'headers'].forEach(function (prop) {
+                if (utils.type.isObject(target[prop])) {
+                    c[prop] = utils.deepMerge(source[prop], target[prop]);
+                } else if (target[prop]) {
                     c[prop] = target[prop];
-                } else if(utils.type.isObject(source[prop])){
+                } else if (utils.type.isObject(source[prop])) {
                     c[prop] = utils.deepMerge(source[prop]);
-                } else if (source[prop]){
+                } else if (source[prop]) {
                     c[prop] = source[prop];
                 }
             });
-            ['baseUrl','timeout','eventType','createRequest'].forEach(function (prop) {
-                if (target[prop] !== undefined){
+            ['baseUrl', 'timeout', 'eventType', 'createRequest'].forEach(function (prop) {
+                if (target[prop] !== undefined) {
                     c[prop] = target[prop];
-                } else if (source[prop] !== undefined){
+                } else if (source[prop] !== undefined) {
                     c[prop] = source[prop];
                 }
             });
-          return c
+            return c
         },
         extends: function (extendObj, copyObj, thisArg) {
             this.forEach(copyObj, function (val, key) {
@@ -235,17 +236,13 @@
     };
 
     function dispatchRequest(config) {
-        if (platform.platform === 'my' && config.method !== 'download' && config.method !== 'upload') {
-          config.headers = config.header;
-          delete config.header;
-        }
         if (config.method === 'download') {
-          config.method = 'get';
-          config.createRequest = platform.getDownload();
+            config.method = 'get';
+            config.createRequest = platform.getDownload();
         }
-        if (config.method === 'upload'){
-          config.method = 'post';
-          config.createRequest = platform.getUpload();
+        if (config.method === 'upload') {
+            config.method = 'post';
+            config.createRequest = platform.getUpload();
         }
         var request = config.createRequest;
         return request(config).then(function (response) {
@@ -255,20 +252,26 @@
         })
     }
 
-    function request (config) {
+    function request(config) {
         if (typeof config === 'string') {
-          config = arguments[1] || {};
-          config.url = arguments[0];
+            config = arguments[1] || {};
+            config.url = arguments[0];
         }
         config = utils.mergeConfig(this.defaults, config);
         if (config.url.indexOf('http') === -1) {
-          if (config.downloadUrl && config.method === 'download') {
-            config.url = config.downloadUrl + config.url;
-          } else if (config.uploadUrl && config.method === 'upload') {
-            config.url = config.uploadUrl + config.url;
-          } else { //(config.baseUrl)
-            config.url = config.baseUrl + config.url;
-          }
+            if (config.downloadUrl && config.method === 'download') {
+                config.url = config.downloadUrl + config.url;
+            } else if (config.uploadUrl && config.method === 'upload') {
+                config.url = config.uploadUrl + config.url;
+            } else { //(config.baseUrl)
+                config.url = config.baseUrl + config.url;
+            }
+        }
+        if (platform.platform === 'my') {
+            if (config.method !== 'download' && config.method !== 'upload') {
+                config.headers = Object.assign({}, config.header);
+                delete config.header;
+            }
         }
         var chain = [dispatchRequest, undefined];
         var promise = Promise.resolve(config);
@@ -295,10 +298,10 @@
     WeFetch.prototype.download = function (url, config) {
         // wf.download({}) support
         if (utils.type.isObject(url)) {
-            return this.request(utils.merge(url,{ method: 'download' }))
+            return this.request(utils.merge(url, { method: 'download' }))
         }
         // default
-        return this.request(utils.merge(config || {},{
+        return this.request(utils.merge(config || {}, {
             url: url,
             method: 'download'
         }))
@@ -307,7 +310,7 @@
     WeFetch.prototype.upload = function (url, config) {
         // upload({}) support
         if (utils.type.isObject(url)) {
-            return this.request(url,{ method: 'upload' })
+            return this.request(url, { method: 'upload' })
         }
         return this.request(utils.merge(config || {}, {
             url: url,
@@ -316,44 +319,44 @@
     };
 
     function WeFetch(instanceConfig) {
-      this.defaults = instanceConfig;
-      this.before = new InterceptorManager();
-      this.after = new InterceptorManager();
+        this.defaults = instanceConfig;
+        this.before = new InterceptorManager();
+        this.after = new InterceptorManager();
     }
 
     WeFetch.prototype.on = function (event, cb) {
-      e.on(event, cb);
+        e.on(event, cb);
     };
     WeFetch.prototype.abort = function (event, cb) {
-      this.on(event, function (t) {
-        t.abort();
-        cb && cb();
-      });
+        this.on(event, function (t) {
+            t.abort();
+            cb && cb();
+        });
     };
     WeFetch.prototype.onProcess = function (event, cb) {
-      this.on(event, function (t) {
-        t.onProgressUpdate(cb);
-      });
+        this.on(event, function (t) {
+            t.onProgressUpdate(cb);
+        });
     };
     WeFetch.prototype.promisify = promisify;
     WeFetch.prototype.request = request;
 
-    function retry(times,request,timeout) {
-      timeout = timeout || 1000;
-      if (!times && times !== 0 || !request)throw new Error('request and times params is required');
-      if (typeof request !== 'function') throw new Error('request must be a function, but got a\n'+ typeof request);
-      var p = request();
-      if (times > 1) {
-        times --;
-        return new Promise(function(resolve, reject) {
-          p.then(resolve).catch(function () {
-            setTimeout(function() {
-              resolve(retry(times, request, timeout));
-            }, timeout);
-          });
-        })
-      }
-      return p;
+    function retry(times, request, timeout) {
+        timeout = timeout || 1000;
+        if (!times && times !== 0 || !request) throw new Error('request and times params is required');
+        if (typeof request !== 'function') throw new Error('request must be a function, but got a\n' + typeof request);
+        var p = request();
+        if (times > 1) {
+            times--;
+            return new Promise(function (resolve, reject) {
+                p.then(resolve).catch(function () {
+                    setTimeout(function () {
+                        resolve(retry(times, request, timeout));
+                    }, timeout);
+                });
+            })
+        }
+        return p;
     }
 
     Promise.prototype.finally = function (cb) {
@@ -369,7 +372,7 @@
         })
     };
 
-    function createInstance (defaultConfig){
+    function createInstance(defaultConfig) {
         var context = new WeFetch(defaultConfig);
         var instance = bind(WeFetch.prototype.request, context);
         utils.extends(instance, WeFetch.prototype, context);

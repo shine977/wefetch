@@ -1,6 +1,6 @@
 import utils from "../utils";
-
 import dispatchRequest from "./dispatchRequest";
+import platform from "./platform";
 function request (config) {
     if (typeof config === 'string') {
       config = arguments[1] || {};
@@ -14,6 +14,13 @@ function request (config) {
         config.url = config.uploadUrl + config.url
       } else { //(config.baseUrl)
         config.url = config.baseUrl + config.url
+      }
+    }
+    // 阿里系的header是复数
+    if (platform.platform === 'my' ) {
+      if (config.method !== 'download' && config.method !== 'upload') {
+        config.headers = Object.assign({}, config.header);
+        delete config.header
       }
     }
     var chain = [dispatchRequest, undefined];
