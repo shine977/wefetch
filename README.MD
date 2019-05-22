@@ -357,7 +357,7 @@ retry | [times,request,timeout]| [Number,Function,Number] | 同上 | 所有|
     // 默认请求 `get`
     method: 'get', 
     /*
-    * 如果您的项目请求路径、上传路径、下载路径都不一样的情况下，可以单独对`uploadUrl` and `downloadUrl`进行设置
+    * 如果您的项目请求路径、上传路径、下载路径都不一样的情况下，可以单独对`uploadUrl` and `downloadUrl`进行全局设置
     * */
     uploadUrl:'http://your-domain.com/upload',
     
@@ -365,13 +365,16 @@ retry | [times,request,timeout]| [Number,Function,Number] | 同上 | 所有|
     
     // 仅支付宝小程序支持
     timeout: 0,
-    
-    // 在wefetch中，可以注册一个自定义事件，用来同步管理小程序的reqeustTask对象，`eventType` 是注册事件时自定义的事件名称
-    eventType: '',
+    // 后台需要的参数 
+    data: {},
+    // 在wefetch中，可以注册一个自定义事件，用来同步管理小程序的requestTask对象，`eventType` 是注册事件时自定义的事件名称
+    config:{ 
+      eventType: ''
+    }
     // 默认的 `Content-Type`
     header: {
-            'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
-        }
+        'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
+    }
 }
 ```
 ## 配置默认参数
