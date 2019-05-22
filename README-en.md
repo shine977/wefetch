@@ -144,15 +144,6 @@ wf.post('/post',{ data:{ title: 'post test', content: 'post' }})
     console.log(err)
 })
 ```
-Performing a `POSTJSON` request
-```js
-// the request header `Content-Type` property is a 'application/json;charset=uft-8'
-
-wf.postJson('/postJson')
-.then( res => {
-    console.log(res);
-})
-```
 
 Performing multiple `concurrent` requests
 ```js
@@ -297,7 +288,6 @@ chooseImage().then(res => {
 ####  wf.delete(url, {,data,config})
 ####  wf.upload(url, {,data,config}) or wf.upload(config)
 ####  wf.download(url, {,data,config}) or wf.download(config)
-####  wf.postJson(url, {,data,config}) //application/json;charset=utf-8
 Creating an instance
 You can create a new instance of wefetch with a custom config
 ```js
@@ -317,7 +307,6 @@ Instance methods
 ####  wf.delete(url, {,data,config})
 ####  wf.upload(url, {,data,config}) or wf.upload(config)
 ####  wf.download(url, {,data,config}) or wf.download(config)
-####  wf.postJson(url, {,data,config}) //application/json;charset=utf-8
 
 ## Config Params
 ```js

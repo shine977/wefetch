@@ -1,5 +1,4 @@
-English | [简体中文](https://github.com/jonnyshao/wefetch/blob/master/README.md)
-
+English | [简体中文](https://github.com/jonnyshao/wefetch)
 # wefetch
 
 [![install size](https://packagephobia.now.sh/badge?p=wefetch)](https://packagephobia.now.sh/result?p=wefetch)
@@ -143,15 +142,6 @@ wf.post('/post',{ data:{ title: 'post test', content: 'post' }})
     console.log(res)
 }).catch(err => {
     console.log(err)
-})
-```
-Performing a `POSTJSON` request
-```js
-// the request header `Content-Type` property is a 'application/json;charset=uft-8'
-
-wf.postJson('/postJson')
-.then( res => {
-    console.log(res);
 })
 ```
 
@@ -298,7 +288,6 @@ chooseImage().then(res => {
 ####  wf.delete(url, {,data,config})
 ####  wf.upload(url, {,data,config}) or wf.upload(config)
 ####  wf.download(url, {,data,config}) or wf.download(config)
-####  wf.postJson(url, {,data,config}) //application/json;charset=utf-8
 Creating an instance
 You can create a new instance of wefetch with a custom config
 ```js
@@ -318,7 +307,6 @@ Instance methods
 ####  wf.delete(url, {,data,config})
 ####  wf.upload(url, {,data,config}) or wf.upload(config)
 ####  wf.download(url, {,data,config}) or wf.download(config)
-####  wf.postJson(url, {,data,config}) //application/json;charset=utf-8
 
 ## Config Params
 ```js
@@ -339,10 +327,15 @@ Instance methods
     
     // support `alipay` platform only
     timeout: 0,
-    
+    // send to back-end
+    data:{
+      
+    },
     // if your want to the Mini Program to return a requestTask Object, you can custom the `eventType`
     // like this wf.on('your eventType', t => {...})
-    eventType: '',
+    config:{
+      eventType: ''
+    }
     // default `Content-Type`
     header: {
             'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'

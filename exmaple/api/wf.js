@@ -1,7 +1,7 @@
 /*  
     Promise based wx.request api for  Mini Program
     @Github https://github.com/jonnyshao/wechat-fetch
-    wefetch beta v1.2.9 |(c) 2018-2019 By Jonny Shao
+    wefetch beta v1.2.10 |(c) 2018-2019 By Jonny Shao
 */
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
@@ -92,15 +92,10 @@
     };
     var platform = new Platform();
 
-    var DEFAULT_CONTENT_TYPE = 'application/x-www-form-urlencoded;charset=utf-8';
-    var UPLOAD_CONTENT_TYPE = 'multipart/form-data';
-    var DOWNLOAD_CONTENT_TYPE = 'image/jpeg';
-    var JSON_CONTENT_TYPE = 'application/json;charset=utf-8';
     var defaults = {
         createRequest: platform.getRequest(),
-        header: {
-            'Content-Type': DEFAULT_CONTENT_TYPE
-        },
+        header: {},
+        config: {},
         method: 'get',
         timeout: 0
     };
@@ -266,10 +261,6 @@
           config.url = arguments[0];
         }
         config = utils.mergeConfig(this.defaults, config);
-        if (config.method === 'postJson') {
-            config.method = 'post';
-            config.header['Content-Type'] = JSON_CONTENT_TYPE;
-        }
         if (config.url.indexOf('http') === -1) {
           if (config.downloadUrl && config.method === 'download') {
             config.url = config.downloadUrl + config.url;
@@ -280,7 +271,6 @@
           }
         }
         var chain = [dispatchRequest, undefined];
-        config.config = config.config || {};
         var promise = Promise.resolve(config);
         this.before.forEach(function (interceptor) {
             chain.unshift(interceptor.fulfilled, interceptor.rejected);
@@ -294,7 +284,7 @@
         return promise;
     }
 
-    ['options', 'get', 'head', 'post', 'put', 'delete', 'trace', 'connect', 'postJson'].forEach(function (method) {
+    ['options', 'get', 'head', 'post', 'put', 'delete', 'trace', 'connect'].forEach(function (method) {
         WeFetch.prototype[method] = function (url, config) {
             return this.request(utils.merge(config || {}, {
                 url: url,
@@ -303,41 +293,23 @@
         };
     });
     WeFetch.prototype.download = function (url, config) {
-        // init
-        config = config || {};
-        // check user is input header param
-        if (config.header) {
-            config.header['Content-Type'] = config.header['Content-Type'] || DOWNLOAD_CONTENT_TYPE;
-        } else {
-            config.header = {'Content-Type': DOWNLOAD_CONTENT_TYPE};
-        }
-
         // wf.download({}) support
         if (utils.type.isObject(url)) {
-            return this.request(utils.merge(config, url,{ method: 'download' }))
+            return this.request(utils.merge(url,{ method: 'download' }))
         }
         // default
-        return this.request(utils.merge(config,{
+        return this.request(utils.merge(config || {},{
             url: url,
             method: 'download'
         }))
     };
 
     WeFetch.prototype.upload = function (url, config) {
-        // init
-        config = config || {};
-        // check user is input header param
-        if (config.header) {
-            config.header['Content-Type'] = config.header['Content-Type'] || UPLOAD_CONTENT_TYPE;
-        } else {
-            config.header = {'Content-Type': UPLOAD_CONTENT_TYPE};
-        }
-
         // upload({}) support
         if (utils.type.isObject(url)) {
-            return this.request(config, url,{ method: 'upload' })
+            return this.request(url,{ method: 'upload' })
         }
-        return this.request(utils.merge(config, {
+        return this.request(utils.merge(config || {}, {
             url: url,
             method: 'upload'
         }))
@@ -369,8 +341,7 @@
     function retry(times,request,timeout) {
       timeout = timeout || 1000;
       if (!times && times !== 0 || !request)throw new Error('request and times params is required');
-      if (typeof request !== 'function') throw new Error('request must be a function, but got a\n'+ typeof request)
-      if (!timeout) timeout = 0;
+      if (typeof request !== 'function') throw new Error('request must be a function, but got a\n'+ typeof request);
       var p = request();
       if (times > 1) {
         times --;
@@ -414,7 +385,7 @@
     wf.create = function (instanceConfig) {
         return createInstance(utils.merge(defaults, instanceConfig))
     };
-    Page.wf = wf
+
     return wf;
 
 }));

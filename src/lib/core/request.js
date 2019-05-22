@@ -1,5 +1,4 @@
 import utils from "../utils";
-import {JSON_CONTENT_TYPE} from "../defaults";
 
 import dispatchRequest from "./dispatchRequest";
 function request (config) {
@@ -8,10 +7,6 @@ function request (config) {
       config.url = arguments[0]
     }
     config = utils.mergeConfig(this.defaults, config);
-    if (config.method === 'postJson') {
-        config.method = 'post';
-        config.header['Content-Type'] = JSON_CONTENT_TYPE;
-    }
     if (config.url.indexOf('http') === -1) {
       if (config.downloadUrl && config.method === 'download') {
         config.url = config.downloadUrl + config.url
@@ -22,7 +17,6 @@ function request (config) {
       }
     }
     var chain = [dispatchRequest, undefined];
-    config.config = config.config || {};
     var promise = Promise.resolve(config);
     this.before.forEach(function (interceptor) {
         chain.unshift(interceptor.fulfilled, interceptor.rejected)

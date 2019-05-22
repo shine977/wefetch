@@ -145,15 +145,6 @@ wf.post('/post',{data: { title: 'post test', content: 'post' }})
     console.log(err)
 })
 ```
-发送一个 `POSTJSON` 请求
-```js
-// postJson请求头的 `Content-Type` 是 'application/json;charset=uft-8'
-
-wf.postJson('/postJson')
-.then( res => {
-    console.log(res);
-})
-```
 
 发送多个 `并发` 请求
 ```js
@@ -293,7 +284,6 @@ before.use | [resolveCallback,rejectCallback] | [Function,Function] | wefetch中
 after.use | [resolveCallback,rejectCallback] | [Function,Function] | wefetch中间件,HTTP响应拦截 ,可以统一处理数据格式...| 所有| 
 get | [url,config]| [String,Object] | HTTP 请求 GET | 所有|
 post | [url,config]| [String,Object] | HTTP 请求 POST | 所有|
-postJson | [url,config]| [String,Object] | HTTP 请求 POST | 所有|
 head | [url,config]| [String,Object] | HTTP 请求 HEAD | 微信|
 connect | [url,config]| [String,Object] | HTTP 请求 CONNECT | 微信|
 put | [url,config]| [String,Object] | HTTP 请求 PUT | 微信|
@@ -312,7 +302,7 @@ all | [request,request,...]| Array | 调用Promise.all方法,请求全部成功�
 
 > 如果需要对`wf.request`进行包装时 `上传` 需要配置 `method:upload`, `下载` 需要配置 `method:download`
 
-> 钉钉小程序 调用postJson或设置`Content-Type`为 `application/json` 时，需要对 data JSON.stringify()处理一下
+> 钉钉小程序 设置`Content-Type`为 `application/json` 时，需要对 data JSON.stringify()处理一下
 
 [钉钉官方文档说明](https://open-doc.dingtalk.com/microapp/dev/httprequest)
 
@@ -333,7 +323,6 @@ before.use | [resolveCallback,rejectCallback] | [Function,Function] | 不同的�
 after.use | [resolveCallback,rejectCallback] | [Function,Function] | 不同的实例都可以拥有自己的拦截器 | 所有| 
 get | [url,config]| [String,Object] | HTTP 请求 GET | 所有|
 post | [url,config]| [String,Object] | HTTP 请求 POST | 所有|
-postJson | [url,config]| [String,Object] | HTTP 请求 POST | 所有|
 head | [url,config]| [String,Object] | HTTP 请求 HEAD | 微信|
 connect | [url,config]| [String,Object] | HTTP 请求 CONNECT | 微信|
 put | [url,config]| [String,Object] | HTTP 请求 PUT | 微信|

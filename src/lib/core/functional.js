@@ -1,10 +1,8 @@
-import platform from'./platform'
-import promisify from "./promisify";
+
 export function retry(times,request,timeout) {
   timeout = timeout || 1000;
   if (!times && times !== 0 || !request)throw new Error('request and times params is required');
-  if (typeof request !== 'function') throw new Error('request must be a function, but got a\n'+ typeof request)
-  if (!timeout) timeout = 0;
+  if (typeof request !== 'function') throw new Error('request must be a function, but got a\n'+ typeof request);
   var p = request();
   if (times > 1) {
     times --;
