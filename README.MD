@@ -231,7 +231,7 @@ onload: async function () {
 ## 获取小程序`requestTask` 对象
 `get` 请求代码示例:
 ```js
-    wf.get('/get',{},{eventType: 'get'})
+    wf.get('/get',{config: {eventType: 'get'}})
     
     //  取消请求
     wf.on('get', t => {
@@ -286,19 +286,33 @@ chooseImage().then(res => {
 })
 ```
 ##  wefetch API
-####  wf.request(config)
-####  wf.get(url, {,data,config}) 
-####  wf.post(url, {,data,config}) 
-####  wf.head(url, {,data,config})
-####  wf.put(url, {,data,config})
-####  wf.get(url, {,data,config})
-####  wf.trace(url, {,data,config})
-####  wf.delete(url, {,data,config})
-####  wf.upload(url, {,data,config}) or wf.upload(config)
-####  wf.download(url, {,data,config}) or wf.download(config)
-####  wf.postJson(url, {,data,config}) //application/json;charset=utf-8
+API | 参数 | 类型 | 描述 | 支持的小程序 |
+:-: | :-: | :-: | :-: | :-:
+request | url/config | String/Object | 所有请求方法的基础方法 | 所有| 
+before.use | callback | Function | wefetch中间件,HTTP请求拦截，可以统一配置Authorization... | 所有| 
+after.use | callback | Function | wefetch中间件,HTTP响应拦截 ,可以统一处理数据格式...| 所有| 
+get | [url,config]| [String,Object] | HTTP 请求 GET | 所有|
+post | [url,config]| [String,Object] | HTTP 请求 POST | 所有|
+postJson | [url,config]| [String,Object] | HTTP 请求 POST | 所有|
+head | [url,config]| [String,Object] | HTTP 请求 HEAD | 微信|
+connect | [url,config]| [String,Object] | HTTP 请求 CONNECT | 微信|
+put | [url,config]| [String,Object] | HTTP 请求 PUT | 微信|
+delete | [url,config]| [String,Object] | HTTP 请求 DELETE | 微信|
+trace | [url,config]| [String,Object] | HTTP 请求 TRACE | 微信|
+download | [url,config]/config| [String,Object]/Object | HTTP 请求 GET 小程序下载 | 所有|
+upload | [url,config]/config| [String,Object] /Object| HTTP 请求 POST 小程序上传 | 所有|
+on | [eventType,callback]| [String,Function] | 获取小程序RequestTask对象 | 所有|
+abort | [eventType,callback]| [String,Function] | 终端当前请求 | 所有|
+onProcess | [eventType,callback]| [String,Function] | 获取当前上传或下载时Process | 所有|
+retry | [times,request,timeout]| [Number,Function,Number] | 当前请求失败重试请求，times为次数，request必须返回一个Promise对象，timeout为间隔时间，默认为1秒 | 所有|
 
-> 上面方法全部基于`wf.request`,如果对`wf.request`进行包装时 `上传` 需要配置 `method:upload`, `下载` 需要配置 `method:download`
+> 默认所有平台下的小程序HTTP请求 `Content-type` 是 `application/x-www-form-urlencoded;charset=utf-8`
+
+> 如果需要对`wf.request`进行包装时 `上传` 需要配置 `method:upload`, `下载` 需要配置 `method:download`
+
+> 钉钉小程序 调用postJson或设置`Content-Type`为 `application/json` 时，需要对 data JSON.stringify()处理一下
+
+[钉钉官方文档说明](https://open-doc.dingtalk.com/microapp/dev/httprequest)
 
 创建一个实例
 > 您可以创建实例，并自定义实例的配置
@@ -309,17 +323,25 @@ const instance = wf.create({
 })
 ```
 实例中的方法
-####  instance.request(config)
-####  instance.get(url, {,data,config}) 
-####  instance.post(url, {,data,config}) 
-####  instance.head(url, {,data,config})
-####  instance.put(url, {,data,config})
-####  instance.get(url, {,data,config})
-####  instance.trace(url, {,data,config})
-####  instance.delete(url, {,data,config})
-####  instance.upload(url, {,data,config}) or instance.upload(config)
-####  instance.download(url, {,data,config}) or instance.download(config)
-####  instance.postJson(url, {,data,config}) //application/json;charset=utf-8
+API | 参数 | 类型 | 描述 | 支持的小程序 |
+:-: | :-: | :-: | :-: | :-:
+request | url/config | String/Object | 所有请求方法的基础方法 | 所有| 
+before.use | callback | Function | 不同的实例都可以拥有自己的请求拦截器 | 所有| 
+after.use | callback | Function | 不同的实例都可以拥有自己的响应拦截器 | 所有| 
+get | [url,config]| [String,Object] | HTTP 请求 GET | 所有|
+post | [url,config]| [String,Object] | HTTP 请求 POST | 所有|
+postJson | [url,config]| [String,Object] | HTTP 请求 POST | 所有|
+head | [url,config]| [String,Object] | HTTP 请求 HEAD | 微信|
+connect | [url,config]| [String,Object] | HTTP 请求 CONNECT | 微信|
+put | [url,config]| [String,Object] | HTTP 请求 PUT | 微信|
+delete | [url,config]| [String,Object] | HTTP 请求 DELETE | 微信|
+trace | [url,config]| [String,Object] | HTTP 请求 TRACE | 微信|
+download | [url,config]/config| [String,Object]/Object | HTTP 请求 GET 小程序下载 | 所有|
+upload | [url,config]/config| [String,Object] /Object| HTTP 请求 POST 小程序上传 | 所有|
+on | [eventType,callback]| [String,Function] | 获取小程序RequestTask对象 | 所有|
+abort | [eventType,callback]| [String,Function] | 终端当前请求 | 所有|
+onProcess | [eventType,callback]| [String,Function] | 获取当前上传或下载时Process | 所有|
+retry | [times,request,timeout]| [Number,Function,Number] | 当前请求失败重试请求，times为次数，request必须返回一个Promise对象，timeout为间隔时间，默认为1秒 | 所有|
 
 ## 请求参数配置
 ```js
@@ -366,7 +388,7 @@ instance.defaults.uploadUrl = 'http://your-domain.com/upload';
 instance.defaults.downloadUrl = 'http://your-domain.com/download';
 ```
 ## 拦截器
-> 全局拦截器在整个项目中只需注册一次，不同的实例都可以拥有自己的拦截器
+> 不同的实例都可以拥有自己的拦截器
 ```js
 // 注册一个请求拦截器
 wf.before.use(request => {

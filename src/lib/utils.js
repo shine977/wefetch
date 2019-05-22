@@ -81,9 +81,9 @@ var utils = {
             }
         });
         ['baseUrl','timeout','eventType','createRequest'].forEach(function (prop) {
-            if (target[prop]){
+            if (target[prop] !== undefined){
                 c[prop] = target[prop]
-            } else if (source[prop]){
+            } else if (source[prop] !== undefined){
                 c[prop] = source[prop]
             }
         });

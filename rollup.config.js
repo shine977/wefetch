@@ -11,7 +11,7 @@ module.exports = [
     {
         input: './src/lib/wefetch.js',
         output: {
-            file: './wefetch/dist/wefetch.js',
+            file: './exmaple/api/wf.js',
             format: 'umd',
             name: 'wefetch',
             sourcemap: false,
