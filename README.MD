@@ -304,7 +304,7 @@ upload | [url,config]/config| [String,Object] /Object| HTTP 请求 POST 小程�
 on | [eventType,callback]| [String,Function] | 获取小程序RequestTask对象 | 所有|
 abort | [eventType,callback]| [String,Function] | 终端当前请求 | 所有|
 onProcess | [eventType,callback]| [String,Function] | 获取当前上传或下载时Process | 所有|
-retry | [times,request,timeout]| [Number,Function,Number] | 当前请求失败重试请求，times为次数，request必须返回一个Promise对象，timeout为间隔时间，默认为1秒 | 所有|
+retry | [times,request,timeout]| [Number,Function,Number] | 请求失败重试，times为次数，request必须返回Promise对象，timeout为间隔时间，默认为1秒 | 所有|
 
 > 默认所有平台下的小程序HTTP请求 `Content-type` 是 `application/x-www-form-urlencoded;charset=utf-8`
 
@@ -323,11 +323,12 @@ const instance = wf.create({
 })
 ```
 实例中的方法
+
 API | 参数 | 类型 | 描述 | 支持的小程序 |
 :-: | :-: | :-: | :-: | :-:
 request | url/config | String/Object | 所有请求方法的基础方法 | 所有| 
-before.use | callback | Function | 不同的实例都可以拥有自己的请求拦截器 | 所有| 
-after.use | callback | Function | 不同的实例都可以拥有自己的响应拦截器 | 所有| 
+before.use | callback | Function | 不同的实例都可以拥有自己的拦截器| 所有| 
+after.use | callback | Function | 不同的实例都可以拥有自己的拦截器 | 所有| 
 get | [url,config]| [String,Object] | HTTP 请求 GET | 所有|
 post | [url,config]| [String,Object] | HTTP 请求 POST | 所有|
 postJson | [url,config]| [String,Object] | HTTP 请求 POST | 所有|
@@ -341,7 +342,8 @@ upload | [url,config]/config| [String,Object] /Object| HTTP 请求 POST 小程�
 on | [eventType,callback]| [String,Function] | 获取小程序RequestTask对象 | 所有|
 abort | [eventType,callback]| [String,Function] | 终端当前请求 | 所有|
 onProcess | [eventType,callback]| [String,Function] | 获取当前上传或下载时Process | 所有|
-retry | [times,request,timeout]| [Number,Function,Number] | 当前请求失败重试请求，times为次数，request必须返回一个Promise对象，timeout为间隔时间，默认为1秒 | 所有|
+retry | [times,request,timeout]| [Number,Function,Number] | 同上 | 所有|
+
 
 ## 请求参数配置
 ```js
