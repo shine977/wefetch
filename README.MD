@@ -3,7 +3,7 @@
 # wefetch
 [![install size](https://packagephobia.now.sh/badge?p=wefetch)](https://packagephobia.now.sh/result?p=wefetch)
 [![npm version](https://badgen.net/npm/v/wefetch?color=green)](https://www.npmjs.com/package/wefetch)
-[![gzip](https://badgen.net/badgesize/gzip/https://unpkg.com/wefetch@1.2.5/dist/wefetch.min.js)](https://unpkg.com/wefetch@1.2.5/dist/wefetch.min.js)
+[![gzip](https://badgen.net/badgesize/gzip/https://unpkg.com/wefetch@1.2.9/dist/wefetch.min.js)](https://unpkg.com/wefetch@1.2.9/dist/wefetch.min.js)
 [![downloads](https://badgen.net/npm/dm/wefetch)](https://www.npmtrends.com/wefetch)
 
 基于Promise，链式编程。支持微信、支付宝、钉钉、头条、百度小程序
@@ -289,8 +289,8 @@ chooseImage().then(res => {
 API | 参数 | 类型 | 描述 | 支持的小程序 |
 :-: | :-: | :-: | :-: | :-:
 request | url/config | String/Object | 所有请求方法的基础方法 | 所有| 
-before.use | callback | Function | wefetch中间件,HTTP请求拦截，可以统一配置Authorization... | 所有| 
-after.use | callback | Function | wefetch中间件,HTTP响应拦截 ,可以统一处理数据格式...| 所有| 
+before.use | [resolveCallback,rejectCallback] | [Function,Function] | wefetch中间件,HTTP请求拦截，可以统一配置Authorization... | 所有| 
+after.use | [resolveCallback,rejectCallback] | [Function,Function] | wefetch中间件,HTTP响应拦截 ,可以统一处理数据格式...| 所有| 
 get | [url,config]| [String,Object] | HTTP 请求 GET | 所有|
 post | [url,config]| [String,Object] | HTTP 请求 POST | 所有|
 postJson | [url,config]| [String,Object] | HTTP 请求 POST | 所有|
@@ -302,9 +302,9 @@ trace | [url,config]| [String,Object] | HTTP 请求 TRACE | 微信|
 download | [url,config]/config| [String,Object]/Object | HTTP 请求 GET 小程序下载 | 所有|
 upload | [url,config]/config| [String,Object] /Object| HTTP 请求 POST 小程序上传 | 所有|
 on | [eventType,callback]| [String,Function] | 获取小程序RequestTask对象 | 所有|
-abort | [eventType,callback]| [String,Function] | 终端当前请求 | 所有|
+abort | [eventType,callback]| [String,Function] | 终断当前请求 | 所有|
 onProcess | [eventType,callback]| [String,Function] | 获取当前上传或下载时Process | 所有|
-retry | [times,request,timeout]| [Number,Function,Number] | 请求失败重试，times为次数，request必须返回Promise对象，timeout为间隔时间，默认为1秒 | 所有|
+retry | [times,request,timeout]| [Number,Function,Number] | times为次数，request必须返回Promise对象，timeout为间隔时间，默认为1秒 | 所有|
 finally | callback| Function | 当前请求完成后执行的方法| 所有|
 all | [request,request,...]| Array | 调用Promise.all方法,请求全部成功后返回一个集合| 所有|
 
@@ -329,8 +329,8 @@ const instance = wf.create({
 API | 参数 | 类型 | 描述 | 支持的小程序 |
 :-: | :-: | :-: | :-: | :-:
 request | url/config | String/Object | 所有请求方法的基础方法 | 所有| 
-before.use | callback | Function | 不同的实例都可以拥有自己的拦截器| 所有| 
-after.use | callback | Function | 不同的实例都可以拥有自己的拦截器 | 所有| 
+before.use | [resolveCallback,rejectCallback] | [Function,Function] | 不同的实例都可以拥有自己的拦截器| 所有| 
+after.use | [resolveCallback,rejectCallback] | [Function,Function] | 不同的实例都可以拥有自己的拦截器 | 所有| 
 get | [url,config]| [String,Object] | HTTP 请求 GET | 所有|
 post | [url,config]| [String,Object] | HTTP 请求 POST | 所有|
 postJson | [url,config]| [String,Object] | HTTP 请求 POST | 所有|
@@ -342,7 +342,7 @@ trace | [url,config]| [String,Object] | HTTP 请求 TRACE | 微信|
 download | [url,config]/config| [String,Object]/Object | HTTP 请求 GET 小程序下载 | 所有|
 upload | [url,config]/config| [String,Object] /Object| HTTP 请求 POST 小程序上传 | 所有|
 on | [eventType,callback]| [String,Function] | 获取小程序RequestTask对象 | 所有|
-abort | [eventType,callback]| [String,Function] | 终端当前请求 | 所有|
+abort | [eventType,callback]| [String,Function] | 终断当前请求 | 所有|
 onProcess | [eventType,callback]| [String,Function] | 获取当前上传或下载时Process | 所有|
 retry | [times,request,timeout]| [Number,Function,Number] | 同上 | 所有|
 finally | callback| Function | 当前请求完成后执行的方法| 所有|
@@ -418,7 +418,7 @@ wf.after.use(response => {
 })
 ```
 
-## 使用 wf.promisify提供的api promise化小程序的api
+## promise化小程序的api
 ```js
 const chooseImage = wf.promisify(wx.chooseImage)
 // using in wechat Mini Program

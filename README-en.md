@@ -338,10 +338,15 @@ Instance methods
     
     // support `alipay` platform only
     timeout: 0,
-    
+    // send to back-end
+    data:{
+      
+    },
     // if your want to the Mini Program to return a requestTask Object, you can custom the `eventType`
     // like this wf.on('your eventType', t => {...})
-    eventType: '',
+    config:{
+      eventType: ''
+    }
     // default `Content-Type`
     header: {
             'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
