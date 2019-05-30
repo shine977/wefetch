@@ -63,11 +63,11 @@ interface wefetch {
     create(options: createOption): wefetch;
 
     before: {
-        use(interceptors: (resolveCallback: () => void, rejectCallback: () => void) => void): void
+        use(interceptor: (resolveCallback: (request:httpOption & { url: string }) => void, rejectCallback: (reason:any) => void) => void): void
     };
 
     after: {
-        use(interceptors: (resolveCallback: () => void, rejectCallback: () => void) => void): void
+        use(interceptor: (resolveCallback: (response:any) => void, rejectCallback: (reason:any) => void) => void): void
     };
 
     request: requestType;
