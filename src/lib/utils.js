@@ -1,4 +1,5 @@
 var tostring = Object.prototype.toString;
+
 import bind from './core/bind'
 var utils = {
     type: (function () {
@@ -13,6 +14,14 @@ var utils = {
         }
         return type;
     })(),
+    normalizeHeaderName: function (header) {
+      for (var key in header) {
+        if (/Content-Type/ig.test(key)){
+          header['Content-Type'] = header[key]
+          delete header[key]
+        }
+      }
+    },
     forEach: function (obj, fn) {
         if (!obj) {
             return;

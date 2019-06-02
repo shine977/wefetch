@@ -1,7 +1,8 @@
 import platform from "./platform";
-
+import utils from "../utils";
 function dispatchRequest(config) {
-    if (config.method === 'download') {
+  utils.normalizeHeaderName(config.header || config.headers);
+  if (config.method === 'download') {
       config.method = 'get';
       config.createRequest = platform.getDownload()
     }
