@@ -108,7 +108,7 @@ wx.showLoading({
   title: '加载中...',
   mask: true
 })
-wf.get(url).then(res => {
+wf.get('http://you-domain/api').then(res => {
 // ....
 }).catch(err => {
 // ...
@@ -124,7 +124,7 @@ wf.get(url).then(res => {
        title: 'get Test', 
             content: 'get'
      },
-     header: { demo: 'demo' } 
+     header: { Authorization: 'xxx' } 
  })
 .then(res => {
     // handle success
