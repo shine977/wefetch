@@ -3,7 +3,7 @@
 # wefetch
 [![install size](https://packagephobia.now.sh/badge?p=wefetch)](https://packagephobia.now.sh/result?p=wefetch)
 [![npm version](https://badgen.net/npm/v/wefetch?color=green)](https://www.npmjs.com/package/wefetch)
-[![gzip](https://badgen.net/badgesize/gzip/https://unpkg.com/wefetch@1.3.2/dist/wefetch.min.js)](https://unpkg.com/wefetch@1.3.2/dist/wefetch.min.js)
+[![gzip](https://badgen.net/badgesize/gzip/https://unpkg.com/wefetch@1.3.3/dist/wefetch.min.js)](https://unpkg.com/wefetch@1.3.2/dist/wefetch.min.js)
 [![downloads](https://badgen.net/npm/dm/wefetch)](https://www.npmtrends.com/wefetch)
 
 基于Promise，链式编程。支持微信、支付宝、钉钉、头条、百度小程序
