@@ -1,48 +1,32 @@
 import promisify from './promisify'
 
 function Platform() {
-    this.platform = null;
+  this.platform = null;
+  this.api = null;
 }
 Platform.prototype.getRequest = function () {
-    try {
-        if (wx.request) {
-            this.platform = 'wx';
-            return promisify(wx.request)
-        }
-    } catch (e) {
-        try {
-            if (my.request) {
-              this.platform = 'my';
-              return promisify(my.request)
-            } else if (my.httpRequest){
-              this.platform = 'my';
-              return promisify(my.httpRequest)
-            }
-        }catch (e) {
-            try{
-              if (tt.request) {
-                this.platform = 'tt';
-                return promisify(tt.request)
-              }
-            }catch (e) {
-              if (swan.request) {
-                this.platform = 'swan';
-                return promisify(swan.request)
-              }
-            }
-        }
-    }
+  if (typeof wx !== 'undefined') {
+    this.platform = 'wx';
+    this.api = wx
+    return promisify(wx.request)
+  } else if (typeof my !== 'undefined') {
+    this.platform = 'my';
+    this.api = my
+    return my.request ? promisify(my.request) : promisify(my.httpRequest)
+  } else if (typeof tt !== 'undefined') {
+    this.api = tt;
+    this.platform = 'tt';
+    return promisify(tt.request)
+  } else if (typeof swan !== 'undefined') {
+    this.api = swan
+    this.platform = 'swan';
+    return promisify(swan.request)
+  }
 };
 Platform.prototype.getUpload = function () {
-  return promisify(this.getPlatform().uploadFile);
+  return promisify(this.api.uploadFile);
 };
 Platform.prototype.getDownload = function () {
-  return promisify(this.getPlatform().downloadFile);
-};
-Platform.prototype.getPlatform = function () {
-  if (this.platform === 'wx')return wx;
-  if (this.platform === 'my')return my;
-  if (this.platform === 'swan')return swan;
-  if (this.platform === 'tt')return tt;
+  return promisify(this.api.downloadFile);
 };
 export default new Platform();
