@@ -12,7 +12,7 @@
 		"autoAudits": false
 	},
 	"compileType": "miniprogram",
-	"libVersion": "2.6.1",
+	"libVersion": "2.11.0",
 	"appid": "wx5bc84faf20ed0930",
 	"projectname": "wefetch-example",
 	"debugOptions": {

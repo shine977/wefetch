@@ -1,13 +1,13 @@
 /*  
     Promise based wx.request api for  Mini Program
     @Github https://github.com/jonnyshao/wechat-fetch
-    wefetch beta v1.3.2 |(c) 2018-2019 By Jonny Shao
+    wefetch beta v1.3.3 |(c) 2018-2019 By Jonny Shao
 */
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
     typeof define === 'function' && define.amd ? define(factory) :
     (global = global || self, global.wefetch = factory());
-}(this, function () { 'use strict';
+}(this, (function () { 'use strict';
 
     function Events() {
         this.listeners = {};
@@ -352,7 +352,7 @@
       return p;
     }
 
-    Promise.prototype.finally = function (cb) {
+    Promise.prototype.finally = Promise.prototype.finally || function (cb) {
         var p = this.constructor;
         return this.then(function (value) {
             p.resolve(cb(value)).then(function () {
@@ -365,7 +365,7 @@
         })
     };
 
-    function createInstance (defaultConfig){
+    function createInstance(defaultConfig) {
         var context = new WeFetch(defaultConfig);
         var instance = bind(WeFetch.prototype.request, context);
         utils.extends(instance, WeFetch.prototype, context);
@@ -384,4 +384,4 @@
 
     return wf;
 
-}));
+})));

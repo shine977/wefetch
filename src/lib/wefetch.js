@@ -1,10 +1,10 @@
 'use strict';
-import {defaults} from './defaults'
+import { defaults } from './defaults'
 import utils from './utils'
 import WeFetch from './core/Wefetch'
 import bind from './core/bind'
-import {retry} from './core/functional'
-Promise.prototype.finally = function (cb) {
+import { retry } from './core/functional'
+Promise.prototype.finally = Promise.prototype.finally || function (cb) {
     var p = this.constructor;
     return this.then(function (value) {
         p.resolve(cb(value)).then(function () {
@@ -17,7 +17,7 @@ Promise.prototype.finally = function (cb) {
     })
 };
 
-function createInstance (defaultConfig){
+function createInstance(defaultConfig) {
     var context = new WeFetch(defaultConfig);
     var instance = bind(WeFetch.prototype.request, context);
     utils.extends(instance, WeFetch.prototype, context);

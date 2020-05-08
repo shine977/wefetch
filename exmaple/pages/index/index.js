@@ -10,7 +10,6 @@ wf.after.use(res => {
     console.log(res)
     return res
 })
-wf.postJson('/postJson')
 wf.get('/get', { data: { title: '标题' },header:{title: 'this is a title'},config:{eventType: 'user'} })
 //获取应用实例
 const app = getApp()
