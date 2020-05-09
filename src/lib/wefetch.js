@@ -11,7 +11,7 @@ Promise.prototype.finally = Promise.prototype.finally || function (cb) {
             return value
         })
     }, function (reason) {
-        p.resolve(cb(value)).then(function () {
+        p.resolve(cb(reason)).then(function () {
             return Promise.reject(reason)
         })
     })
