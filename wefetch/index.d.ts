@@ -6,6 +6,7 @@ interface httpHeader {
 }
 
 interface httpOption {
+    method?:string;
     header?: httpHeader
     data?: any;
     timeout?: number;
