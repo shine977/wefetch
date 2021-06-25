@@ -1,0 +1,27 @@
+{
+  "version": "1.3.01",
+  "author": {
+    "name": "Jonny.Shao"
+  },
+  "bugs": {
+    "url": "https://github.com/jonnyshao/wefetch/issues"
+  },
+  "bundleDependencies": [],
+  "deprecated": false,
+  "description": "Promise based wx.request api for  Mini Program,小程序请求库,基于promise设计",
+  "homepage": "https://github.com/jonnyshao/wefetch#readme",
+  "keywords": [
+    "mini-program-request",
+    "weChat-request",
+    "wefecth",
+    "wechatfetch"
+  ],
+  "license": "MIT",
+  "main": "index.js",
+  "name": "wefetch",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jonnyshao/wefetch.git"
+  },
+  "scripts": {}
+}
