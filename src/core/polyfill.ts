@@ -1,8 +1,8 @@
-type callBack = (value: any) => void
+type CallBack = (value: any) => void
 
 Promise.prototype.finally =
   Promise.prototype.finally ||
-  function(this: Promise<any>, cb: callBack) {
+  function(this: Promise<any>, cb: CallBack) {
     const ctor = this.constructor as PromiseConstructor
     return this.then(
       value => {
