@@ -13,3 +13,20 @@ Promise.prototype.finally =
       }
     )
   }
+
+export class TaskPromise<T> extends Promise<T> {
+  public _task!: any
+  constructor(
+    executor: (resolve: (value: T | PromiseLike<T>) => void, reject: (reason?: any) => void) => void
+  ) {
+    super(executor)
+  }
+  public task<T>(this: TaskPromise<T>, cb: (task: any) => void): TaskPromise<T> | PromiseLike<T> {
+    try {
+      cb(this._task)
+    } catch (error) {
+      return Promise.reject(error)
+    }
+    return this
+  }
+}
