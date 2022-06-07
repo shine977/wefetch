@@ -1,5 +1,5 @@
 {
-  "version": "1.3.01",
+  "version": "2.0.0-alpha.1",
   "author": {
     "name": "Jonny.Shao"
   },
@@ -7,6 +7,7 @@
     "url": "https://github.com/jonnyshao/wefetch/issues"
   },
   "bundleDependencies": [],
+  "miniprogram": "dist",
   "deprecated": false,
   "description": "Promise based wx.request api for  Mini Program,小程序请求库,基于promise设计",
   "homepage": "https://github.com/jonnyshao/wefetch#readme",

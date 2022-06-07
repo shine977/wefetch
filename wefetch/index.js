@@ -1,1 +1,1 @@
-module.exports = require('./dist/wefetch.min.js')2
+export * from './dist/lib/wefetch.js'

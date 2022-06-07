@@ -1,10 +1,15 @@
-import { TaskPromise } from './polyfill'
-import { MiniProgramApi } from './types'
+import { WechatRequestOption, AlipayRequestOption } from '../request-option'
+import { WrapperPromise, RequestTask } from './WrapperPromise'
 
-export const promisify = (api: MiniProgramApi) => {
-  return (options: Record<string, any>) => {
-    const promise = new TaskPromise((resolve, reject) => {
-      promise._task = api({
+interface ApiParams {
+  success(response: any): void
+  fail(error: object): void
+  [props: string]: any
+}
+export function promisify<R>(api: (options: ApiParams) => R extends RequestTask ? R : never) {
+  return function <T>(options: WechatRequestOption | AlipayRequestOption): WrapperPromise<T> {
+    const promise = new WrapperPromise<T>((resolve, reject) => {
+      promise.task = api({
         success: resolve,
         fail: reject,
         ...options
